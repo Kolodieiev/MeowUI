@@ -1,0 +1,2 @@
+1. Налаштуй enum IScreen::ScreenID у файлі ./ui/screen/IScreen.h
+2. Налаштуй ./Meow.cpp

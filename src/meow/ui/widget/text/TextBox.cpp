@@ -1,0 +1,154 @@
+#include "TextBox.h"
+
+namespace meow
+{
+
+    TextBox::TextBox(uint16_t widget_ID, GraphicsDriver &display) : Label(widget_ID, display)
+    {
+        _text_gravity = GRAVITY_CENTER;
+    }
+
+    TextBox *TextBox::clone(uint16_t id) const
+    {
+        TextBox *clone = new TextBox(*this);
+
+        if (!clone)
+        {
+            log_e("Помилка клонування");
+            esp_restart();
+        }
+
+        clone->_id = id;
+        return clone;
+    }
+
+    bool TextBox::removeLastChar()
+    {
+        if (!_is_dynamic)
+        {
+            if (_text == nullptr)
+                return false;
+
+            _is_dynamic = true;
+            _dynamic_text = _text;
+            _text = NULL;
+        }
+        else if (_dynamic_text == "")
+            return false;
+
+        _dynamic_text = getSubStr(_dynamic_text, 0, getRealStrLen(_dynamic_text) - 1);
+
+        _is_changed = true;
+        return true;
+    }
+
+    uint16_t TextBox::getFitStr(String &ret_str) const
+    {
+        uint16_t first_char_pos{1};
+
+        uint16_t len;
+
+        if (!_is_dynamic)
+        {
+            if (_text == nullptr)
+                len = 0;
+            else
+                len = strlen(_text);
+        }
+        else
+            len = _dynamic_text.length();
+
+        const char *ch_str = _is_dynamic ? _dynamic_text.c_str() : _text;
+
+        while (first_char_pos < len - 1)
+        {
+            uint16_t pix_num = calcTextPixels(first_char_pos);
+
+            if (pix_num < _width)
+            {
+                ret_str = getSubStr(ch_str, first_char_pos, getRealStrLen(ch_str) - 1);
+                return pix_num;
+            }
+
+            first_char_pos++;
+        }
+
+        return 0;
+    }
+
+    void TextBox::onDraw()
+    {
+        if (!_is_changed)
+            return;
+
+        _is_changed = false;
+
+        clear();
+
+        _display.setTextFont(_font_ID);
+        _display.setTextSize(_text_size);
+        _display.setTextColor(_text_color);
+
+        uint16_t txtYPos = calcYStrOffset();
+        uint16_t str_pix_num = calcTextPixels();
+
+        uint16_t x_offset{0};
+        uint16_t y_offset{0};
+
+        if (_parent != nullptr)
+        {
+            x_offset = _parent->getXPos();
+            y_offset = _parent->getYPos();
+        }
+
+        if (str_pix_num + _text_offset < _width)
+        {
+            uint16_t txt_x_pos = calcXStrOffset(str_pix_num);
+
+            if (_type == TYPE_TEXT)
+            {
+                if (!_is_dynamic)
+                {
+                    if (_text != nullptr)
+                        _display.drawString(_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+                }
+                else
+                    _display.drawString(_dynamic_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+            }
+            else // pwd
+            {
+                uint16_t txtLen = _is_dynamic ? getRealStrLen(_dynamic_text) : getRealStrLen(_text);
+
+                String pwdStr = "";
+
+                for (uint16_t i; i < txtLen; ++i)
+                    pwdStr += "*";
+
+                _display.drawString(pwdStr, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+            }
+        }
+        else
+        {
+            String sub_str;
+            uint16_t sub_str_pix_num = getFitStr(sub_str);
+            uint16_t txt_x_pos = calcXStrOffset(sub_str_pix_num);
+
+            if (_type == TYPE_TEXT)
+            {
+                _display.drawString(sub_str, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+            }
+            else // pwd
+            {
+                uint16_t txtLen = getRealStrLen(sub_str);
+
+                String pwdStr = "";
+
+                for (uint16_t i; i < txtLen; ++i)
+                    pwdStr += "*";
+
+                _display.drawString(pwdStr, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,49 @@
+#pragma once
+#include <Arduino.h>
+#include "../IWidget.h"
+#include "Label.h"
+
+namespace meow
+{
+
+    class TextBox : public Label
+    {
+
+    public:
+        enum FieldType : uint8_t
+        {
+            TYPE_TEXT = 0,
+            TYPE_PASSWORD
+        };
+
+        TextBox(uint16_t widget_ID, GraphicsDriver &display);
+        virtual ~TextBox() {}
+        virtual TextBox *clone(uint16_t id) const override;
+        virtual void onDraw() override;
+
+        /*!
+         * @brief Встановити тип текстового поля.
+         *
+         * @param  type
+         *      Тип поля. Може бути TYPE_TEXT, TYPE_PASSWORD.
+         */
+        inline void setType(FieldType type) { _type = type; }
+        inline FieldType getType() const { return _type; }
+
+        /*!
+         * @brief Видалити останній символ із рядка, що зберігається в цьому віджеті.
+         */
+        bool removeLastChar();
+
+    private:
+        using Label::isTicker;
+        using Label::setGravity;
+        using Label::setTicker;
+        using Label::setWidthToFit;
+
+        FieldType _type = TYPE_TEXT;
+
+        uint16_t getFitStr(String &ret_str) const;
+    };
+
+}
