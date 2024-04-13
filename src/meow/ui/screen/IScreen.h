@@ -32,7 +32,6 @@ namespace meow
 
     protected:
         //
-        // TODO nonstatic
         static Input _input;
         //
         GraphicsDriver &_display;
