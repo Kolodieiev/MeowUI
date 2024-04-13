@@ -1,6 +1,6 @@
 #pragma once
 #include <Arduino.h>
-#include "../../input/Input.h"
+#include "../../driver/input/Input.h"
 #include "../../driver/graphics/GraphicsDriver.h"
 #include "../widget/layout/IWidgetContainer.h"
 

@@ -5,7 +5,7 @@
 //
 #include "../driver/graphics/GraphicsDriver.h"
 #include "../driver/audio/wav/WavManager.h"
-#include "../input/Input.h"
+#include "../driver/input/Input.h"
 //
 #include "./IGameUI.h"
 #include "./IGameMenu.h"
