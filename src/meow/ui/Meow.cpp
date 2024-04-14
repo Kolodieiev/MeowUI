@@ -31,7 +31,7 @@ namespace meow
                 delete screen;
                 switch (screen->getNextScreenID())
                 {
-                // ---------------------------------------
+                // --------------------------------------- Відредагуй switch під свої екрани
                 case ScreenID::ID_SCREEN_HOME:
                     screen = new HomeScreen(_display);
                     break;
