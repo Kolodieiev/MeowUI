@@ -28,7 +28,7 @@ namespace meow
 
         void setText(const char *text);
         void setText(String text);
-        const char *getText() const;
+        String getText() const;
 
         /*!
          * @brief

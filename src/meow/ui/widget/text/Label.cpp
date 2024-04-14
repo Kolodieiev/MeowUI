@@ -26,7 +26,8 @@ namespace meow
         _width = calcTextPixels();
         _width += 2 + add_width_value + _text_offset;
 
-        _is_changed = true;;
+        _is_changed = true;
+        ;
     }
 
     void Label::setText(const char *text)
@@ -51,17 +52,21 @@ namespace meow
         _is_changed = true;
     }
 
-    const char *Label::getText() const
+    String Label::getText() const
     {
         if (!_is_dynamic)
         {
+            String ret;
+
             if (_text == nullptr)
-                return "";
+                ret = "";
             else
-                return _text;
+                ret = _text;
+
+            return ret;
         }
         else
-            return _dynamic_text.c_str();
+            return _dynamic_text;
     }
 
     uint8_t Label::getCharHgt() const
