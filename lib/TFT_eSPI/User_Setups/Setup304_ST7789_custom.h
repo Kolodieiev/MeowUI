@@ -6,7 +6,7 @@
 #define SPI_FREQUENCY 80000000
 //---------------------------------------------------
 #define TFT_WIDTH 240
-#define TFT_HEIGHT 320
+#define TFT_HEIGHT 280
 
 // #define TFT_WIDTH 128
 // #define TFT_HEIGHT 128

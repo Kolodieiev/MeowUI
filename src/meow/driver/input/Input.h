@@ -23,8 +23,8 @@ namespace meow
             PIN_D = 9,
             PIN_A = 5,
             PIN_SELECT = 0,
-            // PIN_C = 10,
-            // PIN_B = 6,
+            PIN_C = 10,
+            PIN_B = 6,
             PIN_START = 4
         };
 
@@ -50,8 +50,8 @@ namespace meow
 
             {PIN_A, new Pin(PIN_A, TACT)},
             {PIN_D, new Pin(PIN_D, TACT)},
-            // {PIN_B, new Pin(PIN_B, TACT)},
-            // {PIN_C, new Pin(PIN_C, TACT)},
+            {PIN_B, new Pin(PIN_B, TACT)},
+            {PIN_C, new Pin(PIN_C, TACT)},
             {PIN_START, new Pin(PIN_START, TACT)},
             {PIN_SELECT, new Pin(PIN_SELECT, TACT)}};
     };
