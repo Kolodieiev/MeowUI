@@ -1,5 +1,6 @@
 #include "Meow.h"
-#include "./ui/screen/IScreen.h"
+#include "./screen/IScreen.h"
+#include "./ScreenID.h"
 
 // ------------------------------------------------------ Підключи тут екрани
 #include "screen/home/HomeScreen.h"
@@ -7,7 +8,6 @@
 
 namespace meow
 {
-
     Meow MEOW;
 
 #define DISPLAY_ROTATION 3 // --------------------------- Стартова орієнтація екрану
@@ -32,10 +32,10 @@ namespace meow
                 switch (screen->getNextScreenID())
                 {
                 // ---------------------------------------
-                case IScreen::ID_SCREEN_HOME:
+                case ScreenID::ID_SCREEN_HOME:
                     screen = new HomeScreen(_display);
                     break;
-                // case IScreen::ID_SCREEN_GAME:
+                // case ScreenID::ID_SCREEN_GAME:
                 //     screen = new GameScreen(_display);
                 //     break;
                 default:

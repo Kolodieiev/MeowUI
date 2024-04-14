@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "SD.h"
-#include "meow/Meow.h"
+#include "meow/ui/Meow.h"
 
 #define SCK_PIN 18
 #define MISO_PIN 8
