@@ -3,7 +3,6 @@
 
 namespace meow
 {
-
     Input IScreen::_input;
 
     void IScreen::tick()
@@ -73,7 +72,7 @@ namespace meow
         _layout = layout;
     }
 
-    void IScreen::openScreenByID(uint8_t screen_ID)
+    void IScreen::openScreenByID(ScreenID screen_ID)
     {
         _next_screen_ID = screen_ID;
         _is_released = true;
