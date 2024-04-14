@@ -6,8 +6,8 @@
 namespace meow
 {
 
-#define TOUCH true
-#define TACT false
+#define TOUCH true // Сенсорний пін
+#define TACT false // Кнопка
 
     class Input
     {
