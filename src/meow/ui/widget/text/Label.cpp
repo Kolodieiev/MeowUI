@@ -21,20 +21,12 @@ namespace meow
         return clone;
     }
 
-    void Label::initWidth(uint16_t add_width_value)
+    void Label::setWidthToFit(uint16_t add_width_value)
     {
         _width = calcTextPixels();
         _width += 2 + add_width_value + _text_offset;
 
-        _is_changed = true;
-    }
-
-    void Label::setWidthToFit(uint16_t add_width_value)
-    {
-        _temp_width = calcTextPixels();
-        _temp_width += 2 + add_width_value + _text_offset;
-
-        _is_changed = true;
+        _is_changed = true;;
     }
 
     void Label::setText(const char *text)
@@ -386,6 +378,7 @@ namespace meow
             else
                 _last_time_ticker_update = millis();
         }
+
         _is_changed = false;
 
         if (_visibility == INVISIBLE)
@@ -398,12 +391,6 @@ namespace meow
             _first_draw_char_pos = 0;
 
         clear();
-
-        if (_temp_width != 0)
-        {
-            _width = _temp_width;
-            _temp_width = 0;
-        }
 
         _display.setTextFont(_font_ID);
         _display.setTextSize(_text_size);
