@@ -5,7 +5,6 @@
 #include "../resources/const.h"
 #include "../WidgetCreator.h"
 #include "meow/ui/widget/layout/EmptyLayout.h"
-#include "meow/ui/widget/text/Label.h"
 #include "meow/ui/widget/navbar/NavBar.h"
 
 HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
@@ -43,15 +42,15 @@ HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
     item_game->setTextColor(TFT_WHITE);
     item_game->setBackColor(TFT_BLACK);
 
-    Label *item_test1 = item_game->clone(2);
+    Label *item_test1 = item_game->clone(3);
     _menu->addWidget(item_test1);
     item_test1->setText("Test 1");
 
-    Label *item_test2 = item_game->clone(3);
+    Label *item_test2 = item_game->clone(4);
     _menu->addWidget(item_test2);
     item_test2->setText("Test 2");
 
-    Label *item_test3 = item_game->clone(4);
+    Label *item_test3 = item_game->clone(5);
     _menu->addWidget(item_test3);
     item_test3->setText("Test 3");
 
