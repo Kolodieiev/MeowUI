@@ -11,7 +11,7 @@ HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
 {
     WidgetCreator creator{_display};
     //
-    EmptyLayout *layout = creator.getEmptyLayout(1);
+    EmptyLayout *layout = creator.getEmptyLayout();
     setLayout(layout);
 
     // Опис екрану

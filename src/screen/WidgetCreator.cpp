@@ -4,7 +4,7 @@
 
 WidgetCreator::WidgetCreator(GraphicsDriver &display) : _display{display} {}
 
-EmptyLayout *WidgetCreator::getEmptyLayout(uint16_t id)
+EmptyLayout *WidgetCreator::getEmptyLayout()
 {
     EmptyLayout *layout = new EmptyLayout(1, _display);
     layout->setBackColor(COLOR_MAIN_BACK);

@@ -19,7 +19,7 @@ class WidgetCreator
 public:
     WidgetCreator(GraphicsDriver &display);
 
-    EmptyLayout *getEmptyLayout(uint16_t id);
+    EmptyLayout *getEmptyLayout();
     Label *getDisplayDescription(uint16_t id, const char *text);
     Label *getMenuItem(uint16_t id, const char *text, uint8_t font_id = 2);
     NavBar *getNavbar(uint16_t id, const char *left, const char *middle, const char *right);
