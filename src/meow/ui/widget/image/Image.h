@@ -32,6 +32,8 @@ namespace meow
         void setSrc(const uint16_t *image);
 
 #ifdef ENABLE_FRAMEBUFFER
+        // Якщо увімкнено подвійну беферизацію, необхідно викликати до встановлення зображення.
+        // Інакше викликати не потрібно.
         void init(uint16_t width, uint16_t height);
 #endif
 
