@@ -4,6 +4,7 @@
 
 // ------------------------------------------------------ Підключи тут екрани
 #include "screen/home/HomeScreen.h"
+#include "screen/splash/SplashScreen.h"
 // #include "screen/game/GameScreen.h"
 
 namespace meow
@@ -18,7 +19,7 @@ namespace meow
         _display.init();
 
         // -------------------------------------------------- Встанови стартовий екран
-        IScreen *screen = new HomeScreen(_display);
+        IScreen *screen = new SplashScreen(_display);
         screen->show();
 
         // Основний цикл GUI.
@@ -34,6 +35,9 @@ namespace meow
                 // --------------------------------------- Відредагуй switch під свої екрани
                 case ScreenID::ID_SCREEN_HOME:
                     screen = new HomeScreen(_display);
+                    break;
+                case ScreenID::ID_SCREEN_SPLASH:
+                    screen = new SplashScreen(_display);
                     break;
                 // case ScreenID::ID_SCREEN_GAME:
                 //     screen = new GameScreen(_display);
