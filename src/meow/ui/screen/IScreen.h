@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "../../driver/input/Input.h"
 #include "../../driver/graphics/GraphicsDriver.h"
+#include "../../driver/spi/SpiHelper.h"
 #include "../widget/layout/IWidgetContainer.h"
 #include "../ScreenID.h"
 
