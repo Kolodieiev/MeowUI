@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "SD.h"
 #include "meow/ui/Meow.h"
 
 #define SCK_PIN 18
@@ -23,9 +22,6 @@ void setup()
     digitalWrite(SD_CS_PIN, HIGH);
 
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN);
-
-    if (!SD.begin(SD_CS_PIN, SPI, 80000000))
-        log_e("Помилка ініціалізації SD");
 
     xTaskCreatePinnedToCore(guiTask, "guiTask", (1024 / 2) * 100, NULL, 10, NULL, 1);
 }
