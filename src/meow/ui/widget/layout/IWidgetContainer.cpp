@@ -84,6 +84,8 @@ namespace meow
             delete _widgets[i];
 
         _widgets.clear();
+
+        _is_changed = true;
     }
 
 }
