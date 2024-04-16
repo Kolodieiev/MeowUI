@@ -36,15 +36,7 @@ namespace meow
             return;
         }
 
-        if (!psramFound())
-        {
-            wav_file.close();
-            _has_init_err = true;
-            log_e("Помилка. PSRAM не знайдено");
-            return;
-        }
-
-        if (!psramInit())
+        if (!psramFound() || !psramInit())
         {
             wav_file.close();
             _has_init_err = true;
