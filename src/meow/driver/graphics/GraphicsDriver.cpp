@@ -1,5 +1,6 @@
 #include "GraphicsDriver.h"
 #include "../spi/SpiHelper.h"
+#include "../../util/bmp/BmpUtil.h"
 
 namespace meow
 {
@@ -124,27 +125,34 @@ namespace meow
             if (_has_frame)
             {
                 xSemaphoreTake(_sync_mutex, portMAX_DELAY);
-#ifdef ENABLE_SCREENSHOTER
-                if (!_take_screenshot)
-                {
-#endif
-                    _has_frame = false;
-                    _temp_buf_ptr = _display_buf_ptr;
-                    _display_buf_ptr = _rend_buf_ptr;
-                    _rend_buf_ptr = _temp_buf_ptr;
 
-                    xSemaphoreTake(SpiHelper::_mutex, portMAX_DELAY);
-                    _rend_buf_ptr->pushSprite(0, 0);
-                    xSemaphoreGive(SpiHelper::_mutex);
+                _has_frame = false;
+                _temp_buf_ptr = _display_buf_ptr;
+                _display_buf_ptr = _rend_buf_ptr;
+                _rend_buf_ptr = _temp_buf_ptr;
+
+                xSemaphoreTake(SpiHelper::_mutex, portMAX_DELAY);
+                _rend_buf_ptr->pushSprite(0, 0);
+                xSemaphoreGive(SpiHelper::_mutex);
 
 #ifdef ENABLE_SCREENSHOTER
-                }
-                else
+                if (_take_screenshot)
                 {
-                    // TODO save buffer
                     _take_screenshot = false;
+
+                    uint16_t *sprite_memory = (uint16_t *)_rend_buf_ptr->getPointer();
+                    BmpUtil util;
+                    BmpHeader header;
+                    header.width = _rend_buf_ptr->width();
+                    header.height = _rend_buf_ptr->height();
+
+                    String path_to_bmp = "/screenshot_";
+                    path_to_bmp += millis();
+
+                    util.saveBmp(header, sprite_memory, path_to_bmp.c_str());
                 }
 #endif
+
                 xSemaphoreGive(_sync_mutex);
             }
 
