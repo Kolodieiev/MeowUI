@@ -47,28 +47,28 @@ namespace meow
         _data_size = header.data_size;
         _data_buf = (uint8_t *)ps_malloc(_data_size);
 
-        if (_data_buf != NULL && _data_buf != nullptr)
-        {
-            size_t bytes_readed{0};
-            wav_file.seek(HEADER_SIZE);
-            bytes_readed += wav_file.read(_data_buf, _data_size);
-
-            // log_d("DATA_SIZE: %lu", _data_size);
-            // log_d("bytes_readed: %lu", bytes_readed);
-            // log_d("Free PSRAM: %lu", ESP.getFreePsram());
-
-            if (bytes_readed != _data_size)
-            {
-                _has_init_err = true;
-                log_e("Помилка читання звуковго файлу");
-                free(_data_buf);
-                _data_buf = nullptr;
-            }
-        }
-        else
+        if (!_data_buf)
         {
             _has_init_err = true;
             log_e("Помилка виділення памяті PSRAM");
+            wav_file.close();
+            return;
+        }
+
+        size_t bytes_readed{0};
+        wav_file.seek(HEADER_SIZE);
+        bytes_readed = wav_file.read(_data_buf, _data_size);
+
+        // log_d("DATA_SIZE: %lu", _data_size);
+        // log_d("bytes_readed: %lu", bytes_readed);
+        // log_d("Free PSRAM: %lu", ESP.getFreePsram());
+
+        if (bytes_readed != _data_size)
+        {
+            _has_init_err = true;
+            log_e("Помилка читання звуковго файлу");
+            free(_data_buf);
+            _data_buf = nullptr;
         }
 
         wav_file.close();
