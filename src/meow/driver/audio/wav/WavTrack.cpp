@@ -1,10 +1,11 @@
 #include "WavTrack.h"
 #include "math.h"
+#include <SD.h>
 
 namespace meow
 {
 
-    WavTrack::WavTrack(const char *path, fs::FS &fs)
+    WavTrack::WavTrack(const char *path)
     {
         File wav_file = SD.open(path, "r");
 

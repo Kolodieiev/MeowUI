@@ -1,6 +1,5 @@
 #pragma once
 #include <Arduino.h>
-#include <SD.h>
 #include "WavHeader.h"
 
 namespace meow
@@ -9,7 +8,7 @@ namespace meow
     class WavTrack
     {
     public:
-        WavTrack(const char *path, fs::FS &fs);
+        WavTrack(const char *path);
 
         bool play();
         int16_t getNextSample();
