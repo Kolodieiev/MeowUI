@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "meow/ui/Meow.h"
 
+#define LILKA_V2_1
+
 #define SCK_PIN 18
 #define MISO_PIN 8
 #define MOSI_PIN 17
@@ -18,6 +20,13 @@ void guiTask(void *params)
 
 void setup()
 {
+
+#ifdef LILKA_V2_1
+    const uint8_t SLEEP_PIN{46};
+    pinMode(SLEEP_PIN, OUTPUT);
+    digitalWrite(SLEEP_PIN, HIGH);
+#endif
+
     pinMode(SD_CS_PIN, OUTPUT);
     digitalWrite(SD_CS_PIN, HIGH);
 
