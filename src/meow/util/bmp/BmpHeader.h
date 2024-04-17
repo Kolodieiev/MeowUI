@@ -10,15 +10,14 @@ namespace meow
     {
         uint16_t file_type{0x4D42};
         uint32_t file_size{0};
-        uint16_t reserved1{0};
-        uint16_t reserved2{0};
+        uint32_t reserved{0};
         uint32_t data_offset{0};
 
-        uint32_t size{0};
+        uint32_t info_size{40};
         int32_t width{0};
         int32_t height{0};
         uint16_t planes{1};
-        uint16_t bit_count{0};
+        uint16_t bit_pp{0};
         uint32_t compression{0};
         uint32_t image_size{0};
         int32_t x_pixels_per_meter{0};
