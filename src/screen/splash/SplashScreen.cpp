@@ -40,9 +40,8 @@ void SplashScreen::update()
         uint16_t y_pos{5};
 
         // check sd
-        xSemaphoreTake(SpiHelper::_mutex, portMAX_DELAY);
         bool sd_ok = SD.begin(SD_CS_PIN, SPI, 80000000);
-        xSemaphoreGive(SpiHelper::_mutex);
+
         if (sd_ok)
             addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
         else
