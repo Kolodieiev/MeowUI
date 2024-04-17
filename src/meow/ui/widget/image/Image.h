@@ -5,7 +5,6 @@
 
 namespace meow
 {
-
     class Image : public IWidget
     {
 
@@ -22,29 +21,30 @@ namespace meow
             _is_changed = true;
         }
 
-        inline void clearTransparentColor()
+        inline void clearTransparency()
         {
             _is_transparent = false;
             _is_changed = true;
         }
 
-        // Встановити зображення
+        // Встановити зображення із FLASH-пам'яті
+        // src не буде видалено разом з віджетом!
         void setSrc(const uint16_t *image);
 
-#ifdef ENABLE_FRAMEBUFFER
-        // Якщо увімкнено подвійну беферизацію, необхідно викликати до встановлення зображення.
-        // Інакше викликати не потрібно.
+#ifdef DOUBLE_BUFFERRING
+        // Якщо зображення встановлюється з FLASH. Необхідно викликати до його встановлення.
+        // При завантаженні зображення з SD, викликати не потрібно.
         void init(uint16_t width, uint16_t height);
 #endif
 
     private:
         bool _is_transparent{false};
-        uint16_t _transparent_color{0xFFFF};
+        uint16_t _transparent_color{0xF81F};
 
         const uint16_t *_img_ptr{nullptr};
         uint16_t *_psram_img_ptr{nullptr};
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
         TFT_eSprite _img_buf = TFT_eSprite(_display.getTFT());
 #endif
     };

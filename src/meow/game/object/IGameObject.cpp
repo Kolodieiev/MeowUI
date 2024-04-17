@@ -19,7 +19,7 @@ namespace meow
     _obj_sprite.setAttribute(PSRAM_ENABLE, true);
   }
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
 
   void IGameObject::initSprite()
   {

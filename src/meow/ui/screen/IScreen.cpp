@@ -20,7 +20,7 @@ namespace meow
 
             _layout->onDraw();
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
             _display.pushBuffer();
 #endif
         }
@@ -33,7 +33,7 @@ namespace meow
         if (_layout != nullptr)
         {
             _layout->onDraw();
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
             _display.pushBuffer();
 #endif
         }

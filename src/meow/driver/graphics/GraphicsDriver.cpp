@@ -4,7 +4,7 @@
 namespace meow
 {
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
 
     volatile xSemaphoreHandle GraphicsDriver::_sync_mutex;
     volatile bool GraphicsDriver::_has_frame{false};
@@ -157,7 +157,7 @@ namespace meow
         }
     }
 
-#else // not ENABLE_FRAMEBUFFER
+#else // not DOUBLE_BUFFERRING
     GraphicsDriver::GraphicsDriver()
     {
     }

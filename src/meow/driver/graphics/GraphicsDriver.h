@@ -8,10 +8,10 @@
 namespace meow
 {
 
-#define ENABLE_FRAMEBUFFER // Значні витрати PS_RAM (w * h * 2 * 3). Ефективніша відрисовка
-#define SHOW_FPS           // Відображати значення FPS
-#define COLOR_16BIT        // Глибина кольору
-                           // #define COLOR_8BIT
+#define DOUBLE_BUFFERRING //  Подвійна буферизація. Працює тільки з наявністю PSRAM
+#define SHOW_FPS          // Відображати значення FPS
+#define COLOR_16BIT       // Глибина кольору
+                          // #define COLOR_8BIT
 // #define ENABLE_SCREENSHOTER // Увімкнути підтримку створення скриншотів.
 //---------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace meow
                 // ---------------------------------------------------------------------
                 inline void fillRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.fillRect(x, y, w, h, color);
 #else
@@ -41,7 +41,7 @@ namespace meow
 
                 inline void fillRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.fillRoundRect(x, y, w, h, radius, color);
 #else
@@ -51,7 +51,7 @@ namespace meow
 
                 inline void drawRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.drawRect(x, y, w, h, color);
 #else
@@ -61,7 +61,7 @@ namespace meow
 
                 inline void drawRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.drawRoundRect(x, y, w, h, radius, color);
 #else
@@ -72,7 +72,7 @@ namespace meow
                 //
                 inline void fillTriangle(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.fillTriangle(x0, y0, x1, y1, x2, y2, color);
 #else
@@ -83,7 +83,7 @@ namespace meow
                 //
                 inline void setTextFont(uint8_t font_ID)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.setTextFont(font_ID);
 #else
@@ -93,7 +93,7 @@ namespace meow
 
                 inline void setTextSize(uint8_t size)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.setTextSize(size);
 #else
@@ -103,7 +103,7 @@ namespace meow
 
                 inline void setTextColor(uint16_t color)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         _flick_buf.setTextColor(color);
 #else
@@ -113,7 +113,7 @@ namespace meow
 
                 inline int16_t drawString(const char *string, int32_t x, int32_t y)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         return _flick_buf.drawString(string, x, y);
 #else
@@ -123,7 +123,7 @@ namespace meow
 
                 inline int16_t drawString(const String &string, int32_t x, int32_t y)
                 {
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
                         return _flick_buf.drawString(string, x, y);
 #else
@@ -135,7 +135,7 @@ namespace meow
 
                 void pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data);
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
                 inline void pushSprite(TFT_eSprite &sprite, int32_t x, int32_t y)
                 {
                         _is_buffer_changed = true;
@@ -169,7 +169,7 @@ namespace meow
         private:
                 TFT_eSPI _tft;
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
 #ifdef SHOW_FPS
                 uint16_t _frame_counter{0};
                 uint16_t _temp_frame_counter{0};

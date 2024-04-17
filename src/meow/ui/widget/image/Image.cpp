@@ -1,11 +1,12 @@
 #include "Image.h"
+#include "meow/util/bmp/BmpUtil.h"
 
 namespace meow
 {
 
     Image::Image(uint16_t wiget_ID, GraphicsDriver &display) : IWidget(wiget_ID, display) {}
 
-#ifdef ENABLE_FRAMEBUFFER
+#ifdef DOUBLE_BUFFERRING
 
     Image *Image::clone(uint16_t id) const
     {
