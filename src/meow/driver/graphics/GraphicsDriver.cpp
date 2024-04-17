@@ -78,7 +78,7 @@ namespace meow
     }
 
 #ifdef ENABLE_SCREENSHOTER
-    void GraphicsDriver::takeScreenshot(const char *img_name)
+    void GraphicsDriver::takeScreenshot()
     {
         _take_screenshot = true;
     }
@@ -137,7 +137,6 @@ namespace meow
                 {
                     _take_screenshot = false;
 
-                    uint16_t *sprite_memory = (uint16_t *)_rend_buf_ptr->getPointer();
                     BmpUtil util;
                     BmpHeader header;
                     header.width = _rend_buf_ptr->width();
@@ -145,8 +144,14 @@ namespace meow
 
                     String path_to_bmp = "/screenshot_";
                     path_to_bmp += millis();
+                    path_to_bmp += ".bmp";
 
-                    util.saveBmp(header, sprite_memory, path_to_bmp.c_str());
+                    bool res = util.saveBmp(header, (uint16_t *)_rend_buf_ptr->getPointer(), path_to_bmp.c_str());
+
+                    if (res)
+                        log_i("Скріншот успішно збережено");
+                    else
+                        log_i("Помилка створення скріншоту");
                 }
 #endif
 
