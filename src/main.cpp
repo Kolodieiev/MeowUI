@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include "meow/ui/Meow.h"
 
-#define LILKA_V2_1
-
 #define SCK_PIN 18
 #define MISO_PIN 8
 #define MOSI_PIN 17
@@ -20,16 +18,19 @@ void guiTask(void *params)
 
 void setup()
 {
+#pragma message("Для коректної роботи бібліотек, необхідно застосувати цей патч ")
 
-#ifdef LILKA_V2_1
+    // Посилання на сторінку з патчем https://github.com/espressif/arduino-esp32/commit/629ffc55ed97b561f5bd1412a40cc83d00b2f825
+    // C:\.platformio\packages\framework-arduinoespressif32\cores\esp32\esp32-hal-spi.c
+
+
     const uint8_t SLEEP_PIN{46};
     pinMode(SLEEP_PIN, OUTPUT);
     digitalWrite(SLEEP_PIN, HIGH);
-#endif
-
+    //
     pinMode(SD_CS_PIN, OUTPUT);
     digitalWrite(SD_CS_PIN, HIGH);
-
+    //
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN);
 
     xTaskCreatePinnedToCore(guiTask, "guiTask", (1024 / 2) * 100, NULL, 10, NULL, 1);
