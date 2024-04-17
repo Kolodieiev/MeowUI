@@ -6,6 +6,8 @@
 #define MOSI_PIN 17
 #define SD_CS_PIN 16
 
+#define SLEEP_PIN 46
+
 // Апаратний SPI
 // #define SCK 12
 // #define MISO 13
@@ -18,13 +20,11 @@ void guiTask(void *params)
 
 void setup()
 {
-#pragma message("Для коректної роботи бібліотек, необхідно застосувати цей патч ")
+#pragma message("Для коректної роботи бібліотеки, необхідно застосувати цей патч ")
 
     // Посилання на сторінку з патчем https://github.com/espressif/arduino-esp32/commit/629ffc55ed97b561f5bd1412a40cc83d00b2f825
     // C:\.platformio\packages\framework-arduinoespressif32\cores\esp32\esp32-hal-spi.c
 
-
-    const uint8_t SLEEP_PIN{46};
     pinMode(SLEEP_PIN, OUTPUT);
     digitalWrite(SLEEP_PIN, HIGH);
     //
