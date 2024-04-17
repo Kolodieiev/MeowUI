@@ -1,10 +1,10 @@
 #include "BmpUtil.h"
+#include <byteswap.h>
 #include <SD.h>
 #include "./src_not_found.h"
 
 namespace meow
 {
-
     const uint16_t *BmpUtil::loadBmp(const char *path_to_bmp, BmpHeader &out_header)
     {
         File bmp_file = SD.open(path_to_bmp, "r");
@@ -21,7 +21,7 @@ namespace meow
             return srcNotFound(out_header);
         }
 
-        bmp_file.read((uint8_t *)&out_header, BMP_HEADER_SIZE + BMP_INFO_SIZE);
+        bmp_file.read((uint8_t *)&out_header, 54);
 
         if (!validateHeader(out_header))
         {
@@ -91,7 +91,7 @@ namespace meow
             return false;
         }
 
-        if ((bmp_header.bit_count != 16))
+        if ((bmp_header.bit_pp != 16))
         {
             log_e("Зображення повинне мати 16bpp");
             return false;
@@ -99,7 +99,7 @@ namespace meow
 
         if ((bmp_header.width == 0 || bmp_header.height == 0))
         {
-            log_e("Зображення не містить дані розміру");
+            log_e("Зображення містить некоректний заголовок");
             return false;
         }
 
@@ -114,11 +114,54 @@ namespace meow
         return SRC_NOT_FOUND;
     }
 
-    bool BmpUtil::saveBmp(BmpHeader &header, const uint16_t *data, const char *path_to_bmp)
+    bool BmpUtil::saveBmp(BmpHeader &header, const uint16_t *buff, const char *path_to_bmp)
     {
-        // TODO Реалізувати
-        log_e("Не реалізовано");
-        esp_restart();
-        return false;
+        File bmp_file = SD.open(path_to_bmp, "w", true);
+        if (!bmp_file)
+        {
+            log_e("Помилка відкриття файлу: %s", path_to_bmp);
+            return false;
+        }
+
+        if (bmp_file.isDirectory())
+        {
+            bmp_file.close();
+            log_e("Помилка. Файл не може бути каталогом: %s", path_to_bmp);
+            return false;
+        }
+
+        header.image_size = header.width * header.height * 2;
+        header.file_size = header.data_offset + header.image_size;
+        uint32_t buf_size = header.width * header.height;
+        header.height *= -1;
+
+        uint8_t *data = (uint8_t *)ps_malloc(header.file_size);
+        if (!data)
+        {
+            bmp_file.close();
+            log_e("Помилка виділення %lu байт PSRAM памяті", header.file_size);
+            return false;
+        }
+
+        uint8_t *header_ptr = (uint8_t *)&header;
+        for (uint8_t i = 0; i < header.data_offset; ++i)
+            data[i] = header_ptr[i];
+
+        uint16_t *data_p16 = reinterpret_cast<uint16_t *>(data + header.data_offset);
+        for (int i = 0; i < buf_size; ++i)
+            data_p16[i] = __bswap16(buff[i]);
+
+        size_t written_bytes = bmp_file.write(data, header.file_size);
+
+        bmp_file.close();
+        free(data);
+
+        if (written_bytes != header.file_size)
+        {
+            log_e("Помилка запису файлу: %s", path_to_bmp);
+            return false;
+        }
+        else
+            return true;
     }
 }
