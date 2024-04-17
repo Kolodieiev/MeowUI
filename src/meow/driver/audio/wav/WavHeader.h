@@ -3,6 +3,7 @@
 
 namespace meow
 {
+    // #pragma pack(push, 1)
 
     struct WavHeader
     {
@@ -26,4 +27,5 @@ namespace meow
         uint32_t data_size;      // Size of the data that follows
     };
 
+    // #pragma pack(pop)
 }
