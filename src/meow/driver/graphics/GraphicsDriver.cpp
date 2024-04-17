@@ -1,5 +1,4 @@
 #include "GraphicsDriver.h"
-#include "../spi/SpiHelper.h"
 #include "../../util/bmp/BmpUtil.h"
 
 namespace meow
@@ -131,9 +130,7 @@ namespace meow
                 _display_buf_ptr = _rend_buf_ptr;
                 _rend_buf_ptr = _temp_buf_ptr;
 
-                xSemaphoreTake(SpiHelper::_mutex, portMAX_DELAY);
                 _rend_buf_ptr->pushSprite(0, 0);
-                xSemaphoreGive(SpiHelper::_mutex);
 
 #ifdef ENABLE_SCREENSHOTER
                 if (_take_screenshot)

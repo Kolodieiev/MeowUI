@@ -1,5 +1,4 @@
 #include "Preferences.h"
-#include "../driver/spi/SpiHelper.h"
 
 namespace meow
 {
@@ -37,8 +36,6 @@ namespace meow
 
     File *Preferences::loadPrefFile(const char *file_name, const char *mode)
     {
-        xSemaphoreTake(SpiHelper::_mutex, portMAX_DELAY);
-
         if (!SD.exists(ROOT))
             if (!SD.mkdir(ROOT))
             {
@@ -52,8 +49,6 @@ namespace meow
                 log_e("Помилка створення PREF_DIR каталогу");
                 return nullptr;
             }
-
-        xSemaphoreGive(SpiHelper::_mutex);
 
         String path = ROOT;
         path += "/";
