@@ -150,7 +150,7 @@ namespace meow
 
                 void pushRotated(TFT_eSprite &sprite, uint16_t x_pivot, uint16_t y_pivot, int16_t angle, uint32_t transparent_color);
 #ifdef ENABLE_SCREENSHOTER
-                void takeScreenshot(const char *img_name);
+                void takeScreenshot();
 #endif
                 // Не викликай цей метод самостійно
                 void pushBuffer();
