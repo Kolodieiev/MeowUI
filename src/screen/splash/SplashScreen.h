@@ -16,13 +16,12 @@ protected:
     virtual void update() override;
     //
 private:
-    const uint16_t SHOWING_INIT_TIME{3000};
-    const uint16_t SHOWING_LOGO_TIME{6000};
+    const uint16_t SHOWING_INIT_TIME{500};
+    const uint16_t SHOWING_LOGO_TIME{1000};
 
     unsigned long _start_time;
 
     bool _logo_showed{false};
-    bool _perif_check_started{false};
 
     void addLabel(uint16_t x_pos, uint16_t y_pos, const char *res_str, uint16_t color);
 

@@ -25,6 +25,42 @@ SplashScreen::SplashScreen(GraphicsDriver &display) : IScreen(display)
     //
     EmptyLayout *layout = creator.getEmptyLayout();
     setLayout(layout);
+
+    //
+    uint16_t y_pos{5};
+
+    // check sd
+    bool sd_ok = SD.begin(SD_CS_PIN, SPI, 80000000);
+
+    if (sd_ok)
+        addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
+    else
+        addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
+
+    addLabel(LBL_X_OFFSET, y_pos, STR_SD_LBL, TFT_WHITE);
+
+    y_pos += chr_hgt_font2 + 3;
+
+    // check audio
+    WavManager audio;
+    bool audio_ok = audio.init();
+    if (audio_ok)
+        addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
+    else
+        addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
+
+    addLabel(LBL_X_OFFSET, y_pos, STR_AUDIO_LBL, TFT_WHITE);
+
+    y_pos += chr_hgt_font2 + 3;
+
+    // check psram
+    bool psram_ok = psramInit();
+    if (psram_ok)
+        addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
+    else
+        addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
+
+    addLabel(LBL_X_OFFSET, y_pos, STR_PSRAM_LBL, TFT_WHITE);
 }
 
 void SplashScreen::loop()
@@ -33,46 +69,6 @@ void SplashScreen::loop()
 
 void SplashScreen::update()
 {
-    if (!_perif_check_started)
-    {
-        _perif_check_started = true;
-        //
-        uint16_t y_pos{5};
-
-        // check sd
-        bool sd_ok = SD.begin(SD_CS_PIN, SPI, 80000000);
-
-        if (sd_ok)
-            addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
-        else
-            addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
-
-        addLabel(LBL_X_OFFSET, y_pos, STR_SD_LBL, TFT_WHITE);
-
-        y_pos += chr_hgt_font2 + 3;
-
-        // check audio
-        WavManager audio;
-        bool audio_ok = audio.init();
-        if (audio_ok)
-            addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
-        else
-            addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
-
-        addLabel(LBL_X_OFFSET, y_pos, STR_AUDIO_LBL, TFT_WHITE);
-
-        y_pos += chr_hgt_font2 + 3;
-
-        // check psram
-        bool psram_ok = psramInit();
-        if (psram_ok)
-            addLabel(RES_X_OFFSET, y_pos, STR_SUCCSESS, TFT_GREEN);
-        else
-            addLabel(RES_X_OFFSET, y_pos, STR_FAIL, TFT_RED);
-
-        addLabel(LBL_X_OFFSET, y_pos, STR_PSRAM_LBL, TFT_WHITE);
-    }
-
     if (!_logo_showed)
         if (millis() - _start_time > SHOWING_INIT_TIME)
         {
