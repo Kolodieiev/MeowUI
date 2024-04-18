@@ -53,15 +53,15 @@ NavBar *WidgetCreator::getNavbar(uint16_t id, const char *left, const char *midd
     sel_txt->setGravity(IWidget::GRAVITY_CENTER);
     sel_txt->setTextColor(TFT_WHITE);
     sel_txt->setTextOffset(1);
-    sel_txt->setWidthToFit();
+    sel_txt->initWidthToFit();
 
     Label *mid_txt = sel_txt->clone(2);
     mid_txt->setText(middle);
-    mid_txt->setWidthToFit();
+    mid_txt->initWidthToFit();
 
     Label *back_txt = sel_txt->clone(3);
     back_txt->setText(right);
-    back_txt->setWidthToFit();
+    back_txt->initWidthToFit();
 
     NavBar *navbar = new NavBar(id, _display);
     navbar->setBackColor(COLOR_NAV_PANEL_BACK);
