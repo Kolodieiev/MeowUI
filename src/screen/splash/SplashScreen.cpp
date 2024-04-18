@@ -107,7 +107,7 @@ void SplashScreen::addLabel(uint16_t x_pos, uint16_t y_pos, const char *res_str,
     lbl->setBackColor(COLOR_MAIN_BACK);
     lbl->setTextColor(color);
     lbl->setPos(x_pos, y_pos);
-    lbl->setWidthToFit();
+    lbl->initWidthToFit();
 
     ++_widget_id;
 }
