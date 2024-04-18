@@ -3,6 +3,7 @@
 #include <pgmspace.h>
 
 const char STR_AUTHOR[] = "Автор: Kolodieiev";
+const char STR_MENU[] = "Меню";
 const char STR_SELECT[] = "Вибір";
 const char STR_BACK[] = "Назад";
 const char STR_START[] = "Розпочати";
