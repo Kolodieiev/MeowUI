@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "./BmpHeader.h"
+#include "./src_not_found.h"
 
 namespace meow
 {
