@@ -70,9 +70,9 @@ namespace meow
         {
             uint16_t temp;
             uint16_t *data_temp = (uint16_t *)data;
-            uint16_t d_size = width * height;
+            uint32_t d_size = width * height;
 
-            for (int32_t i = 0; i < d_size * 0.5; ++i)
+            for (uint32_t i = 0; i < d_size * 0.5; ++i)
             {
                 temp = data_temp[i];
                 data_temp[i] = data_temp[d_size - i - 1];
