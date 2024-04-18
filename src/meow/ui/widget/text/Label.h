@@ -36,9 +36,11 @@ namespace meow
          */
         void updateWidthToFit(uint16_t add_width_value = 0);
 
-        void setText(const char *text);
         void setText(String text);
-        String getText() const;
+        inline String getText() const
+        {
+            return _text;
+        }
 
         /*!
          * @brief
@@ -154,11 +156,9 @@ namespace meow
         inline bool isMultiline() const { return _is_multiline; }
 
     protected:
-        bool _is_dynamic{false};
         bool _is_multiline{false};
-        const char *_text{nullptr};
         uint16_t _text_len{0};
-        String _dynamic_text{""};
+        String _text{""};
         uint8_t _text_size{1};
         uint16_t _text_color{0xFFFF};
         uint8_t _font_ID{2};
@@ -182,7 +182,7 @@ namespace meow
         //
         uint16_t calcXStrOffset(uint16_t str_pix_num) const;
         uint16_t calcYStrOffset() const;
-        uint16_t getRealStrLen(const String &str) const;
+        uint16_t calcRealStrLen(const String &str) const;
         uint16_t getFitStr(String &ret_str, uint16_t start_pos = 0) const;
         String getSubStr(const String &str, uint16_t from, uint16_t length) const;
         uint16_t calcTextPixels(uint16_t char_pos = 0) const;

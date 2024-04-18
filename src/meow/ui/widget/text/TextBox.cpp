@@ -19,24 +19,20 @@ namespace meow
         }
 
         clone->_id = id;
+        clone->setText(_text);
         return clone;
     }
 
     bool TextBox::removeLastChar()
     {
-        if (!_is_dynamic)
-        {
-            if (_text == nullptr)
-                return false;
-
-            _is_dynamic = true;
-            _dynamic_text = _text;
-            _text = NULL;
-        }
-        else if (_dynamic_text == "")
+        if (_text == "")
             return false;
 
-        _dynamic_text = getSubStr(_dynamic_text, 0, getRealStrLen(_dynamic_text) - 1);
+        if (_text_len == 0)
+            return false;
+
+        _text = getSubStr(_text, 0, _text_len - 1);
+        _text_len = calcRealStrLen(_text);
 
         _is_changed = true;
         return true;
@@ -46,27 +42,15 @@ namespace meow
     {
         uint16_t first_char_pos{1};
 
-        uint16_t len;
+        const char *ch_str = _text.c_str();
 
-        if (!_is_dynamic)
-        {
-            if (_text == nullptr)
-                len = 0;
-            else
-                len = strlen(_text);
-        }
-        else
-            len = _dynamic_text.length();
-
-        const char *ch_str = _is_dynamic ? _dynamic_text.c_str() : _text;
-
-        while (first_char_pos < len - 1)
+        while (first_char_pos < _text_len - 1)
         {
             uint16_t pix_num = calcTextPixels(first_char_pos);
 
             if (pix_num < _width)
             {
-                ret_str = getSubStr(ch_str, first_char_pos, getRealStrLen(ch_str) - 1);
+                ret_str = getSubStr(ch_str, first_char_pos, calcRealStrLen(ch_str) - 1);
                 return pix_num;
             }
 
@@ -107,17 +91,11 @@ namespace meow
 
             if (_type == TYPE_TEXT)
             {
-                if (!_is_dynamic)
-                {
-                    if (_text != nullptr)
-                        _display.drawString(_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
-                }
-                else
-                    _display.drawString(_dynamic_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+                _display.drawString(_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
             }
             else // pwd
             {
-                uint16_t txtLen = _is_dynamic ? getRealStrLen(_dynamic_text) : getRealStrLen(_text);
+                uint16_t txtLen = calcRealStrLen(_text);
 
                 String pwdStr = "";
 
@@ -139,7 +117,7 @@ namespace meow
             }
             else // pwd
             {
-                uint16_t txtLen = getRealStrLen(sub_str);
+                uint16_t txtLen = calcRealStrLen(sub_str);
 
                 String pwdStr = "";
 

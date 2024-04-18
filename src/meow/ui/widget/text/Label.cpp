@@ -18,6 +18,7 @@ namespace meow
         }
 
         clone->_id = id;
+        clone->setText(_text);
         return clone;
     }
 
@@ -37,43 +38,13 @@ namespace meow
         _is_changed = true;
     }
 
-    void Label::setText(const char *text)
-    {
-        _text = text;
-        _text_len = getRealStrLen(_text);
-        _first_draw_char_pos = 0;
-
-        _dynamic_text.clear();
-        _is_dynamic = false;
-        _is_changed = true;
-    }
-
     void Label::setText(String text)
     {
-        _dynamic_text = text;
-        _text_len = getRealStrLen(_dynamic_text);
+        _text = text;
+        _text_len = calcRealStrLen(_text);
         _first_draw_char_pos = 0;
 
-        _is_dynamic = true;
-        _text = NULL;
         _is_changed = true;
-    }
-
-    String Label::getText() const
-    {
-        if (!_is_dynamic)
-        {
-            String ret;
-
-            if (_text == nullptr)
-                ret = "";
-            else
-                ret = _text;
-
-            return ret;
-        }
-        else
-            return _dynamic_text;
     }
 
     uint8_t Label::getCharHgt() const
@@ -174,7 +145,7 @@ namespace meow
         return 0;
     }
 
-    uint16_t Label::getRealStrLen(const String &str) const
+    uint16_t Label::calcRealStrLen(const String &str) const
     {
         if (str == nullptr || str == "")
             return 0;
@@ -193,28 +164,28 @@ namespace meow
 
     uint16_t Label::calcTextPixels(uint16_t char_pos) const
     {
-        const char *ch_str = _is_dynamic ? _dynamic_text.c_str() : _text;
-
-        if (ch_str == nullptr || strcmp(ch_str, "") == 0)
+        if (_text.isEmpty())
             return 0;
 
-        uint16_t len = strlen(ch_str);
+        uint16_t len = _text.length();
         uint16_t n = char_pos;
 
         uint16_t unicode;
         uint16_t pix_sum{0};
 
+        uint8_t *ch_str_p8 = (uint8_t *)_text.c_str();
+
         if (_font_ID == 2)
             while (n < len)
             {
-                unicode = _display.decodeUTF8((uint8_t *)ch_str, &n, len - n);
+                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
                 unicode = getCharPos(unicode);
                 pix_sum += pgm_read_byte(widtbl_f2 + unicode);
             }
         else
             while (n < len)
             {
-                unicode = _display.decodeUTF8((uint8_t *)ch_str, &n, len - n);
+                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
                 unicode = getCharPos(unicode);
                 pix_sum += pgm_read_byte(widtbl_f4 + unicode);
             }
@@ -224,14 +195,13 @@ namespace meow
 
     uint16_t Label::getFitStr(String &ret_str, uint16_t start_pos) const
     {
-        uint16_t chars_counter{0};
-
-        const char *ch_str = _is_dynamic ? _dynamic_text.c_str() : _text;
-
-        if (ch_str == nullptr || strcmp(ch_str, "") == 0)
+        if (_text.isEmpty())
+        {
+            ret_str = "";
             return 0;
+        }
 
-        uint16_t len = strlen(ch_str);
+        uint16_t len = _text.length();
 
         if (start_pos >= len)
         {
@@ -244,11 +214,15 @@ namespace meow
         uint16_t unicode;
         uint16_t pix_sum{0};
 
+        uint16_t chars_counter{0};
+
+        uint8_t *ch_str_p8 = (uint8_t *)_text.c_str();
+
         if (_font_ID == 2)
         {
             while (n < len)
             {
-                unicode = _display.decodeUTF8((uint8_t *)ch_str, &n, len - n);
+                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
                 unicode = getCharPos(unicode);
 
                 uint16_t char_w = pgm_read_byte(widtbl_f2 + unicode) * _text_size;
@@ -266,7 +240,7 @@ namespace meow
         {
             while (n < len)
             {
-                unicode = _display.decodeUTF8((uint8_t *)ch_str, &n, len - n);
+                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
                 unicode = getCharPos(unicode);
 
                 uint16_t char_w = pgm_read_byte(widtbl_f4 + unicode) * _text_size;
@@ -281,7 +255,7 @@ namespace meow
             }
         }
 
-        ret_str = getSubStr(ch_str, start_pos, chars_counter);
+        ret_str = getSubStr(_text, start_pos, chars_counter);
 
         return pix_sum;
     }
@@ -440,13 +414,7 @@ namespace meow
 
             uint16_t txt_x_pos = calcXStrOffset(str_pix_num);
 
-            if (!_is_dynamic)
-            {
-                if (_text != nullptr)
-                    _display.drawString(_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
-            }
-            else
-                _display.drawString(_dynamic_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
+            _display.drawString(_text, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
         }
         else
         {
@@ -493,7 +461,7 @@ namespace meow
                             _display.drawString(sub_str, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + y_pos);
 
                             y_pos += font_height + line_spacing;
-                            _first_draw_char_pos += getRealStrLen(sub_str);
+                            _first_draw_char_pos += calcRealStrLen(sub_str);
                         }
                         else
                             break;
