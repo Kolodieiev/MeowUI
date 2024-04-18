@@ -16,8 +16,8 @@ protected:
     virtual void update() override;
     //
 private:
-    const uint16_t SHOWING_INIT_TIME{500};
-    const uint16_t SHOWING_LOGO_TIME{1000};
+    const uint16_t SHOWING_INIT_TIME{2000};
+    const uint16_t SHOWING_LOGO_TIME{3000};
 
     unsigned long _start_time;
 
