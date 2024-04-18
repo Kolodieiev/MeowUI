@@ -9,6 +9,8 @@ namespace meow
     {
 
     public:
+        const uint16_t TRANSPARENT_COLOR{0xF81F}; // Колір rgb(255, 0, 255)
+
         Image(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Image();
         virtual void onDraw();
@@ -39,7 +41,7 @@ namespace meow
 
     private:
         bool _is_transparent{false};
-        uint16_t _transparent_color{0xF81F};
+        uint16_t _transparent_color{TRANSPARENT_COLOR};
 
         const uint16_t *_img_ptr{nullptr};
         uint16_t *_psram_img_ptr{nullptr};
