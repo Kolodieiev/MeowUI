@@ -36,10 +36,11 @@ namespace meow
         bool removeLastChar();
 
     private:
+        using Label::initWidthToFit;
         using Label::isTicker;
         using Label::setGravity;
         using Label::setTicker;
-        using Label::setWidthToFit;
+        using Label::updateWidthToFit;
 
         FieldType _type = TYPE_TEXT;
 
