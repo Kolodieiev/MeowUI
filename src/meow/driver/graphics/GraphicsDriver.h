@@ -8,10 +8,10 @@
 namespace meow
 {
 
-#define DOUBLE_BUFFERRING //  Подвійна буферизація. Працює тільки з наявністю PSRAM
-#define SHOW_FPS          // Відображати значення FPS
-#define COLOR_16BIT       // Глибина кольору
-                          // #define COLOR_8BIT
+#define DOUBLE_BUFFERRING   //  Подвійна буферизація. Працює тільки з наявністю PSRAM
+// #define SHOW_FPS            // Відображати значення FPS
+#define COLOR_16BIT         // Глибина кольору
+                            // #define COLOR_8BIT
 // #define ENABLE_SCREENSHOTER // Увімкнути підтримку створення скриншотів.
 //---------------------------------------------------------------------------------------------------
 
