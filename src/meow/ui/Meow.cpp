@@ -3,9 +3,17 @@
 #include "./ScreenID.h"
 
 // ------------------------------------------------------ Підключи тут екрани
-#include "screen/home/HomeScreen.h"
+
 #include "screen/splash/SplashScreen.h"
-// #include "screen/game/GameScreen.h"
+#include "screen/home/HomeScreen.h"
+#include "screen/menu/MenuScreen.h"
+#include "screen/games/GamesScreen.h"
+#include "screen/mp3/Mp3Screen.h"
+#include "screen/files/FilesScreen.h"
+#include "screen/preferences/PrefScreen.h"
+#include "screen/firmware/FirmwareScreen.h"
+
+// ------------------------------------------------------
 
 namespace meow
 {
@@ -36,14 +44,26 @@ namespace meow
                 case ScreenID::ID_SCREEN_HOME:
                     screen = new HomeScreen(_display);
                     break;
-                case ScreenID::ID_SCREEN_SPLASH:
-                    screen = new SplashScreen(_display);
+                case ScreenID::ID_SCREEN_MENU:
+                    screen = new MenuScreen(_display);
                     break;
-                // case ScreenID::ID_SCREEN_GAME:
-                //     screen = new GameScreen(_display);
-                //     break;
+                case ScreenID::ID_SCREEN_GAMES:
+                    screen = new GamesScreen(_display);
+                    break;
+                case ScreenID::ID_SCREEN_MP3:
+                    screen = new Mp3Screen(_display);
+                    break;
+                case ScreenID::ID_SCREEN_FILES:
+                    screen = new FilesScreen(_display);
+                    break;
+                case ScreenID::ID_SCREEN_PREF:
+                    screen = new PrefScreen(_display);
+                    break;
+                case ScreenID::ID_SCREEN_FIRMWARE:
+                    screen = new FirmwareScreen(_display);
+                    break;
                 default:
-                    log_e("Невідомий screen_id: %i", screen->getNextScreenID());
+                    log_e("Некоректний screen_id: %i", screen->getNextScreenID());
                     esp_restart();
                 }
                 screen->show();
