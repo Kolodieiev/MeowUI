@@ -8,11 +8,11 @@ namespace meow
     NavBar::~NavBar()
     {
         if (_first != nullptr)
+        {
             delete _first;
-        if (_middle != nullptr)
             delete _middle;
-        if (_last != nullptr)
             delete _last;
+        }
     }
 
     void NavBar::setWidgets(IWidget *first, IWidget *middle, IWidget *last)
@@ -23,16 +23,20 @@ namespace meow
             esp_restart();
         }
 
-        if (_first != nullptr)
+        if (_first)
+        {
             delete _first;
-        if (_middle != nullptr)
             delete _middle;
-        if (_last != nullptr)
             delete _last;
+        }
 
         _first = first;
         _middle = middle;
         _last = last;
+
+        _first->setParent(this);
+        _middle->setParent(this);
+        _last->setParent(this);
 
         _is_changed = true;
     }
@@ -51,7 +55,7 @@ namespace meow
 
             clear();
 
-            if (_first == nullptr || _middle == nullptr || _last == nullptr)
+            if (_first == nullptr)
                 return;
 
             uint16_t x_offset{0};
@@ -63,7 +67,7 @@ namespace meow
                 y_offset = _parent->getYPos();
             }
 
-            _first->setPos(_x_pos + x_offset, _y_pos + y_offset);
+            _first->setPos(_x_pos, _y_pos);
             _first->setBackColor(_back_color);
             _first->setHeight(_height);
             _first->onDraw();
@@ -82,7 +86,7 @@ namespace meow
 
     NavBar *NavBar::clone(uint16_t id) const
     {
-        if (_first == nullptr || _middle == nullptr || _last == nullptr)
+        if (_first == nullptr)
         {
             log_e("*IWidget вказує на nullptr");
             esp_restart();
