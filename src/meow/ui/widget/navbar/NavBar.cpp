@@ -86,12 +86,6 @@ namespace meow
 
     NavBar *NavBar::clone(uint16_t id) const
     {
-        if (_first == nullptr)
-        {
-            log_e("*IWidget вказує на nullptr");
-            esp_restart();
-        }
-
         NavBar *clone = new NavBar(*this);
 
         if (!clone)
@@ -102,10 +96,13 @@ namespace meow
 
         clone->_id = id;
 
-        clone->setWidgets(
-            _first->clone(_first->getID()),
-            _middle->clone(_middle->getID()),
-            _last->clone(_last->getID()));
+        if (_first)
+        {
+            clone->setWidgets(
+                _first->clone(_first->getID()),
+                _middle->clone(_middle->getID()),
+                _last->clone(_last->getID()));
+        }
 
         return clone;
     }
