@@ -11,7 +11,7 @@ namespace meow
     public:
         ProgressBar(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~ProgressBar();
-        virtual void onDraw();
+        virtual void onDraw() override;
         virtual ProgressBar *clone(uint16_t id) const override;
 
         /*!

@@ -12,8 +12,8 @@ namespace meow
         KeyboardRow(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~KeyboardRow() {}
 
-        virtual void onDraw();
-        virtual KeyboardRow *clone(uint16_t id) const;
+        virtual void onDraw() override;
+        virtual KeyboardRow *clone(uint16_t id) const override;
 
         /*!
          * @return

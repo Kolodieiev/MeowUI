@@ -10,7 +10,7 @@ namespace meow
     public:
         ScrollBar(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~ScrollBar() {}
-        virtual void onDraw();
+        virtual void onDraw() override;
         virtual ScrollBar *clone(uint16_t id) const override;
 
         /*!

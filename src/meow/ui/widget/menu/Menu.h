@@ -12,7 +12,7 @@ namespace meow
     public:
         Menu(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Menu() {}
-        virtual void onDraw();
+        virtual void onDraw() override;
 
         virtual bool focusUp() = 0;
         virtual bool focusDown() = 0;

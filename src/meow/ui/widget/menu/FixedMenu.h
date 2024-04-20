@@ -10,7 +10,7 @@ namespace meow
     public:
         FixedMenu(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~FixedMenu() {}
-        virtual FixedMenu *clone(uint16_t id) const;
+        virtual FixedMenu *clone(uint16_t id) const override;
 
         /*!
          * @brief

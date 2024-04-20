@@ -12,7 +12,7 @@ namespace meow
     public:
         Notification(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Notification();
-        virtual void onDraw();
+        virtual void onDraw() override;
         // STUB! Не викликай!
         Notification *clone(uint16_t id) const override
         {

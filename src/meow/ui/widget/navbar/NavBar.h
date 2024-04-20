@@ -10,7 +10,7 @@ namespace meow
     public:
         NavBar(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~NavBar();
-        virtual void onDraw();
+        virtual void onDraw() override;
         NavBar *clone(uint16_t id) const override;
 
         /*!

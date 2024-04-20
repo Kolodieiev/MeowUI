@@ -10,8 +10,8 @@ namespace meow
     public:
         Keyboard(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Keyboard() {}
-        virtual void onDraw();
-        virtual Keyboard *clone(uint16_t id) const;
+        virtual void onDraw() override;
+        virtual Keyboard *clone(uint16_t id) const override;
 
         /*!
          * @return Ідентифікатор кнопки, на якій встановлено фокус.

@@ -13,7 +13,7 @@ namespace meow
     public:
         Label(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Label(){};
-        virtual void onDraw();
+        virtual void onDraw() override;
         virtual Label *clone(uint16_t id) const override;
 
         /*!

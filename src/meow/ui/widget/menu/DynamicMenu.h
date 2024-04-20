@@ -11,7 +11,7 @@ namespace meow
     public:
         DynamicMenu(IItemsLoader *loader, uint16_t widget_ID, GraphicsDriver &display);
         virtual ~DynamicMenu() {}
-        virtual DynamicMenu *clone(uint16_t id) const;
+        virtual DynamicMenu *clone(uint16_t id) const override;
 
         /*!
          * @brief

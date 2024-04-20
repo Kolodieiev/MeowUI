@@ -10,7 +10,7 @@ namespace meow
     public:
         ToggleSwitch(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
         virtual ~ToggleSwitch(){};
-        virtual void onDraw();
+        virtual void onDraw() override;
         virtual ToggleSwitch *clone(uint16_t id) const override;
 
         /*!

@@ -13,8 +13,8 @@ namespace meow
 
         Image(uint16_t widget_ID, GraphicsDriver &display);
         virtual ~Image();
-        virtual void onDraw();
-        virtual Image *clone(uint16_t id) const;
+        virtual void onDraw() override;
+        virtual Image *clone(uint16_t id) const override;
 
         inline void setTransparentColor(uint16_t color)
         {

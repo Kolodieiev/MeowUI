@@ -10,8 +10,8 @@ namespace meow
   public:
     EmptyLayout(uint16_t widget_ID, GraphicsDriver &display);
     virtual ~EmptyLayout();
-    virtual void onDraw();
-    EmptyLayout *clone(uint16_t id) const;
+    virtual void onDraw() override;
+    EmptyLayout *clone(uint16_t id) const override;
   };
 
 }
