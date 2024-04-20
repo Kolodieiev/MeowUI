@@ -55,6 +55,13 @@ namespace meow
             return chr_hgt_font4 * _text_size;
     }
 
+    void Label::setBackImg(Image *back_img)
+    {
+        _back_img = back_img;
+        _back_img->setParent(this);
+        _is_changed = true;
+    }
+
     void Label::setMultiline(bool state)
     {
         _is_multiline = state;
@@ -394,17 +401,14 @@ namespace meow
         uint16_t x_offset{0};
         uint16_t y_offset{0};
 
-        if (_parent != nullptr)
+        if (_parent)
         {
             x_offset = _parent->getXPos();
             y_offset = _parent->getYPos();
         }
 
-        if (_back_img != nullptr)
-        {
-            _back_img->setPos(_x_pos + x_offset, _y_pos + y_offset);
-            _back_img->onDraw();
-        }
+        if (_back_img)
+            _back_img->forcedDraw();
 
         if (str_pix_num + _text_offset < _width)
         {

@@ -100,8 +100,8 @@ namespace meow
             y_offset = _parent->getYPos();
         }
 
-        uint16_t itemXPos = x_offset + 2;
-        uint16_t itemYPos = y_offset + 2;
+        uint16_t itemXPos = 2;
+        uint16_t itemYPos = 2;
 
         for (uint16_t i{start}; i < start + count; ++i)
         {

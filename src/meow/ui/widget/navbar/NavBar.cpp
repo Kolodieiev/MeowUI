@@ -43,45 +43,36 @@ namespace meow
 
     void NavBar::onDraw()
     {
-        if (_is_changed)
+        if (!_is_changed)
+            return;
+
+        _is_changed = false;
+
+        if (_visibility == INVISIBLE)
         {
-            _is_changed = false;
-
-            if (_visibility == INVISIBLE)
-            {
-                hide();
-                return;
-            }
-
-            clear();
-
-            if (_first == nullptr)
-                return;
-
-            uint16_t x_offset{0};
-            uint16_t y_offset{0};
-
-            if (_parent != nullptr)
-            {
-                x_offset = _parent->getXPos();
-                y_offset = _parent->getYPos();
-            }
-
-            _first->setPos(_x_pos, _y_pos);
-            _first->setBackColor(_back_color);
-            _first->setHeight(_height);
-            _first->onDraw();
-
-            _middle->setPos(_x_pos + x_offset + (_width - _middle->getWidth()) / 2, _y_pos + y_offset);
-            _middle->setBackColor(_back_color);
-            _middle->setHeight(_height);
-            _middle->onDraw();
-
-            _last->setPos(_x_pos + x_offset + _width - _last->getWidth(), _y_pos + y_offset);
-            _last->setBackColor(_back_color);
-            _last->setHeight(_height);
-            _last->onDraw();
+            hide();
+            return;
         }
+
+        clear();
+
+        if (_first == nullptr)
+            return;
+
+        _first->setPos(0, 0);
+        _first->setBackColor(_back_color);
+        _first->setHeight(_height);
+        _first->onDraw();
+
+        _middle->setPos((_width - _middle->getWidth()) * 0.5, 0);
+        _middle->setBackColor(_back_color);
+        _middle->setHeight(_height);
+        _middle->onDraw();
+
+        _last->setPos(_width - _last->getWidth(), 0);
+        _last->setBackColor(_back_color);
+        _last->setHeight(_height);
+        _last->onDraw();
     }
 
     NavBar *NavBar::clone(uint16_t id) const

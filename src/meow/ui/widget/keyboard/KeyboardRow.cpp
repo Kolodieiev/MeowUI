@@ -210,8 +210,8 @@ namespace meow
 
             uint16_t step = (_width - _btn_width * _widgets.size()) / (_widgets.size() + 1);
 
-            uint16_t x = _x_pos + step;
-            uint16_t y = _y_pos;
+            uint16_t x = step;
+            uint16_t y = 0;
 
             for (uint16_t i{0}; i < _widgets.size(); ++i)
             {

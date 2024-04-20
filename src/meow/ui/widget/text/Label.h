@@ -143,7 +143,7 @@ namespace meow
          * @param  back_img
          *       Вказівник на повністю ініціалізоване зображення.
          */
-        inline void setBackImg(Image *back_img) { _back_img = back_img; }
+        void setBackImg(Image *back_img);
 
         /*!
          * @brief

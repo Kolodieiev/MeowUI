@@ -210,13 +210,13 @@ namespace meow
                 }
             }
 
-            uint16_t x = 0;
-            uint16_t y = 0;
+            uint16_t x = 1;
+            uint16_t y = 1;
 
             for (uint16_t i{0}; i < _widgets.size(); ++i)
             {
                 _widgets[i]->setPos(x, y);
-                _widgets[i]->setWidth(_width);
+                _widgets[i]->setWidth(_width - 1);
                 _widgets[i]->onDraw();
                 y += _widgets[i]->getHeight();
             }
