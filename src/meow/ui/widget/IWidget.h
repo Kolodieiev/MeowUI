@@ -111,10 +111,22 @@ namespace meow
             _is_changed = true;
         }
 
+        /*!
+         * @return
+         *        Глобальну X координату віджета.
+         *
+         */
+        uint16_t getXPos() const;
+
+        /*!
+         * @return
+         *        Глобальну Y координату віджета.
+         *
+         */
+        uint16_t getYPos() const;
+
         inline uint8_t getCornerRadius() const { return _corner_radius; }
         inline uint16_t getID() const { return _id; }
-        inline uint16_t getXPos() const { return _x_pos; }
-        inline uint16_t getYPos() const { return _y_pos; }
         inline uint16_t getHeight() const { return _height; }
         inline uint16_t getWidth() const { return _width; }
         inline uint16_t getBackColor() const { return _back_color; }

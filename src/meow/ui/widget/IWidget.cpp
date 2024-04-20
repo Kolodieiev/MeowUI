@@ -52,6 +52,22 @@ namespace meow
             _display.fillRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, _parent->getBackColor());
     }
 
+    uint16_t IWidget::getXPos() const
+    {
+        if (_parent)
+            return _parent->getXPos() + _x_pos;
+        else
+            return _x_pos;
+    }
+
+    uint16_t IWidget::getYPos() const
+    {
+        if (_parent)
+            return _parent->getYPos() + _y_pos;
+        else
+            return _y_pos;
+    }
+
     void IWidget::setFocus()
     {
         if (_has_focus)
