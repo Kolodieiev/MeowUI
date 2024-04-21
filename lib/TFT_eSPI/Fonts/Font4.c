@@ -1,6 +1,6 @@
 // Font 4
 
-PROGMEM const unsigned char chr_f4_20[] =
+const unsigned char chr_f4_20[] =
     {
         0x00,
         0x00,
@@ -12,7 +12,7 @@ PROGMEM const unsigned char chr_f4_20[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_21[] =
+const unsigned char chr_f4_21[] =
     {
         0x00,
         0x40,
@@ -24,7 +24,7 @@ PROGMEM const unsigned char chr_f4_21[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_22[] =
+const unsigned char chr_f4_22[] =
     {
         0x00,
         0x50,
@@ -36,7 +36,7 @@ PROGMEM const unsigned char chr_f4_22[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_23[] =
+const unsigned char chr_f4_23[] =
     {
         0x00,
         0x28,
@@ -48,7 +48,7 @@ PROGMEM const unsigned char chr_f4_23[] =
         0x28,
         0x00};
 
-PROGMEM const unsigned char chr_f4_24[] =
+const unsigned char chr_f4_24[] =
     {
         0x00,
         0x10,
@@ -60,7 +60,7 @@ PROGMEM const unsigned char chr_f4_24[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_25[] =
+const unsigned char chr_f4_25[] =
     {
         0x20,
         0x52,
@@ -72,7 +72,7 @@ PROGMEM const unsigned char chr_f4_25[] =
         0x04,
         0x00};
 
-PROGMEM const unsigned char chr_f4_26[] =
+const unsigned char chr_f4_26[] =
     {
         0x00,
         0x20,
@@ -84,7 +84,7 @@ PROGMEM const unsigned char chr_f4_26[] =
         0x34,
         0x00};
 
-PROGMEM const unsigned char chr_f4_27[] =
+const unsigned char chr_f4_27[] =
     {
         0x00,
         0x40,
@@ -96,7 +96,7 @@ PROGMEM const unsigned char chr_f4_27[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_28[] =
+const unsigned char chr_f4_28[] =
     {
         0x00,
         0x20,
@@ -108,7 +108,7 @@ PROGMEM const unsigned char chr_f4_28[] =
         0x20,
         0x00};
 
-PROGMEM const unsigned char chr_f4_29[] =
+const unsigned char chr_f4_29[] =
     {
         0x00,
         0x40,
@@ -120,7 +120,7 @@ PROGMEM const unsigned char chr_f4_29[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_2A[] =
+const unsigned char chr_f4_2A[] =
     {
         0x00,
         0x00,
@@ -132,7 +132,7 @@ PROGMEM const unsigned char chr_f4_2A[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_2B[] =
+const unsigned char chr_f4_2B[] =
     {
         0x00,
         0x00,
@@ -144,7 +144,7 @@ PROGMEM const unsigned char chr_f4_2B[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_2C[] =
+const unsigned char chr_f4_2C[] =
     {
         0x00,
         0x00,
@@ -156,7 +156,7 @@ PROGMEM const unsigned char chr_f4_2C[] =
         0x20,
         0x40};
 
-PROGMEM const unsigned char chr_f4_2D[] =
+const unsigned char chr_f4_2D[] =
     {
         0x00,
         0x00,
@@ -168,7 +168,7 @@ PROGMEM const unsigned char chr_f4_2D[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_2E[] =
+const unsigned char chr_f4_2E[] =
     {
         0x00,
         0x00,
@@ -180,7 +180,7 @@ PROGMEM const unsigned char chr_f4_2E[] =
         0x60,
         0x00};
 
-PROGMEM const unsigned char chr_f4_2F[] =
+const unsigned char chr_f4_2F[] =
     {
         0x00,
         0x10,
@@ -192,7 +192,7 @@ PROGMEM const unsigned char chr_f4_2F[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_30[] =
+const unsigned char chr_f4_30[] =
     {
         0x00,
         0x38,
@@ -204,7 +204,7 @@ PROGMEM const unsigned char chr_f4_30[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_31[] =
+const unsigned char chr_f4_31[] =
     {
         0x00,
         0x10,
@@ -216,7 +216,7 @@ PROGMEM const unsigned char chr_f4_31[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_32[] =
+const unsigned char chr_f4_32[] =
     {
         0x00,
         0x38,
@@ -228,7 +228,7 @@ PROGMEM const unsigned char chr_f4_32[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_33[] =
+const unsigned char chr_f4_33[] =
     {
         0x00,
         0x38,
@@ -240,7 +240,7 @@ PROGMEM const unsigned char chr_f4_33[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_34[] =
+const unsigned char chr_f4_34[] =
     {
         0x00,
         0x08,
@@ -252,7 +252,7 @@ PROGMEM const unsigned char chr_f4_34[] =
         0x08,
         0x00};
 
-PROGMEM const unsigned char chr_f4_35[] =
+const unsigned char chr_f4_35[] =
     {
         0x00,
         0x7c,
@@ -264,7 +264,7 @@ PROGMEM const unsigned char chr_f4_35[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_36[] =
+const unsigned char chr_f4_36[] =
     {
         0x00,
         0x38,
@@ -276,7 +276,7 @@ PROGMEM const unsigned char chr_f4_36[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_37[] =
+const unsigned char chr_f4_37[] =
     {
         0x00,
         0x7c,
@@ -288,7 +288,7 @@ PROGMEM const unsigned char chr_f4_37[] =
         0x20,
         0x00};
 
-PROGMEM const unsigned char chr_f4_38[] =
+const unsigned char chr_f4_38[] =
     {
         0x00,
         0x38,
@@ -300,7 +300,7 @@ PROGMEM const unsigned char chr_f4_38[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_39[] =
+const unsigned char chr_f4_39[] =
     {
         0x00,
         0x38,
@@ -312,7 +312,7 @@ PROGMEM const unsigned char chr_f4_39[] =
         0x30,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3A[] =
+const unsigned char chr_f4_3A[] =
     {
         0x00,
         0x00,
@@ -324,7 +324,7 @@ PROGMEM const unsigned char chr_f4_3A[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3B[] =
+const unsigned char chr_f4_3B[] =
     {
         0x00,
         0x00,
@@ -336,7 +336,7 @@ PROGMEM const unsigned char chr_f4_3B[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3C[] =
+const unsigned char chr_f4_3C[] =
     {
         0x00,
         0x08,
@@ -348,7 +348,7 @@ PROGMEM const unsigned char chr_f4_3C[] =
         0x08,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3D[] =
+const unsigned char chr_f4_3D[] =
     {
         0x00,
         0x00,
@@ -360,7 +360,7 @@ PROGMEM const unsigned char chr_f4_3D[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3E[] =
+const unsigned char chr_f4_3E[] =
     {
         0x00,
         0x40,
@@ -372,7 +372,7 @@ PROGMEM const unsigned char chr_f4_3E[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_3F[] =
+const unsigned char chr_f4_3F[] =
     {
         0x00,
         0x70,
@@ -384,7 +384,7 @@ PROGMEM const unsigned char chr_f4_3F[] =
         0x20,
         0x00};
 
-PROGMEM const unsigned char chr_f4_40[] =
+const unsigned char chr_f4_40[] =
     {
         0x00,
         0x3e,
@@ -396,7 +396,7 @@ PROGMEM const unsigned char chr_f4_40[] =
         0x3e,
         0x00};
 
-PROGMEM const unsigned char chr_f4_41[] =
+const unsigned char chr_f4_41[] =
     {
         0x00,
         0x10,
@@ -408,7 +408,7 @@ PROGMEM const unsigned char chr_f4_41[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42[] =
+const unsigned char chr_f4_42[] =
     {
         0x00,
         0x70,
@@ -420,7 +420,7 @@ PROGMEM const unsigned char chr_f4_42[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43[] =
+const unsigned char chr_f4_43[] =
     {
         0x00,
         0x1c,
@@ -431,7 +431,7 @@ PROGMEM const unsigned char chr_f4_43[] =
         0x20,
         0x1c,
         0x00};
-PROGMEM const unsigned char chr_f4_44[] =
+const unsigned char chr_f4_44[] =
     {
         0x00,
         0x70,
@@ -443,7 +443,7 @@ PROGMEM const unsigned char chr_f4_44[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_45[] =
+const unsigned char chr_f4_45[] =
     {
         0x00,
         0x7c,
@@ -455,7 +455,7 @@ PROGMEM const unsigned char chr_f4_45[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_46[] =
+const unsigned char chr_f4_46[] =
     {
         0x00,
         0x7c,
@@ -467,7 +467,7 @@ PROGMEM const unsigned char chr_f4_46[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_47[] =
+const unsigned char chr_f4_47[] =
     {
         0x00,
         0x3c,
@@ -479,7 +479,7 @@ PROGMEM const unsigned char chr_f4_47[] =
         0x3c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_48[] =
+const unsigned char chr_f4_48[] =
     {
         0x00,
         0x44,
@@ -491,7 +491,7 @@ PROGMEM const unsigned char chr_f4_48[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_49[] =
+const unsigned char chr_f4_49[] =
     {
         0x00,
         0x70,
@@ -503,7 +503,7 @@ PROGMEM const unsigned char chr_f4_49[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4A[] =
+const unsigned char chr_f4_4A[] =
     {
         0x00,
         0x38,
@@ -515,7 +515,7 @@ PROGMEM const unsigned char chr_f4_4A[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4B[] =
+const unsigned char chr_f4_4B[] =
     {
         0x00,
         0x44,
@@ -527,7 +527,7 @@ PROGMEM const unsigned char chr_f4_4B[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4C[] =
+const unsigned char chr_f4_4C[] =
     {
         0x00,
         0x40,
@@ -539,7 +539,7 @@ PROGMEM const unsigned char chr_f4_4C[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4D[] =
+const unsigned char chr_f4_4D[] =
     {
         0x00,
         0x63,
@@ -551,7 +551,7 @@ PROGMEM const unsigned char chr_f4_4D[] =
         0x41,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4E[] =
+const unsigned char chr_f4_4E[] =
     {
         0x00,
         0x44,
@@ -563,7 +563,7 @@ PROGMEM const unsigned char chr_f4_4E[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_4F[] =
+const unsigned char chr_f4_4F[] =
     {
         0x00,
         0x38,
@@ -575,7 +575,7 @@ PROGMEM const unsigned char chr_f4_4F[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_50[] =
+const unsigned char chr_f4_50[] =
     {
         0x00,
         0x78,
@@ -586,7 +586,7 @@ PROGMEM const unsigned char chr_f4_50[] =
         0x40,
         0x40,
         0x00};
-PROGMEM const unsigned char chr_f4_51[] =
+const unsigned char chr_f4_51[] =
     {
         0x00,
         0x38,
@@ -598,7 +598,7 @@ PROGMEM const unsigned char chr_f4_51[] =
         0x38,
         0x0c};
 
-PROGMEM const unsigned char chr_f4_52[] =
+const unsigned char chr_f4_52[] =
     {
         0x00,
         0x78,
@@ -610,7 +610,7 @@ PROGMEM const unsigned char chr_f4_52[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_53[] =
+const unsigned char chr_f4_53[] =
     {
         0x00,
         0x3c,
@@ -622,7 +622,7 @@ PROGMEM const unsigned char chr_f4_53[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_54[] =
+const unsigned char chr_f4_54[] =
     {
         0x00,
         0x7c,
@@ -634,7 +634,7 @@ PROGMEM const unsigned char chr_f4_54[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_55[] =
+const unsigned char chr_f4_55[] =
     {
         0x00,
         0x44,
@@ -646,7 +646,7 @@ PROGMEM const unsigned char chr_f4_55[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_56[] =
+const unsigned char chr_f4_56[] =
     {
         0x00,
         0x44,
@@ -658,7 +658,7 @@ PROGMEM const unsigned char chr_f4_56[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_57[] =
+const unsigned char chr_f4_57[] =
     {
         0x00,
         0x49,
@@ -670,7 +670,7 @@ PROGMEM const unsigned char chr_f4_57[] =
         0x22,
         0x00};
 
-PROGMEM const unsigned char chr_f4_58[] =
+const unsigned char chr_f4_58[] =
     {
         0x00,
         0x44,
@@ -682,7 +682,7 @@ PROGMEM const unsigned char chr_f4_58[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_59[] =
+const unsigned char chr_f4_59[] =
     {
         0x00,
         0x44,
@@ -694,7 +694,7 @@ PROGMEM const unsigned char chr_f4_59[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5A[] =
+const unsigned char chr_f4_5A[] =
     {
         0x00,
         0x7c,
@@ -706,7 +706,7 @@ PROGMEM const unsigned char chr_f4_5A[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5B[] =
+const unsigned char chr_f4_5B[] =
     {
         0x00,
         0x60,
@@ -718,7 +718,7 @@ PROGMEM const unsigned char chr_f4_5B[] =
         0x60,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5C[] =
+const unsigned char chr_f4_5C[] =
     {
         0x00,
         0x40,
@@ -730,7 +730,7 @@ PROGMEM const unsigned char chr_f4_5C[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5D[] =
+const unsigned char chr_f4_5D[] =
     {
         0x00,
         0x60,
@@ -742,7 +742,7 @@ PROGMEM const unsigned char chr_f4_5D[] =
         0x60,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5E[] =
+const unsigned char chr_f4_5E[] =
     {
         0x00,
         0x10,
@@ -754,7 +754,7 @@ PROGMEM const unsigned char chr_f4_5E[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_5F[] =
+const unsigned char chr_f4_5F[] =
     {
         0x00,
         0x00,
@@ -766,7 +766,7 @@ PROGMEM const unsigned char chr_f4_5F[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_60[] =
+const unsigned char chr_f4_60[] =
     {
         0x00,
         0x20,
@@ -778,7 +778,7 @@ PROGMEM const unsigned char chr_f4_60[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_61[] =
+const unsigned char chr_f4_61[] =
     {
         0x00,
         0x00,
@@ -790,7 +790,7 @@ PROGMEM const unsigned char chr_f4_61[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_62[] =
+const unsigned char chr_f4_62[] =
     {
         0x00,
         0x40,
@@ -802,7 +802,7 @@ PROGMEM const unsigned char chr_f4_62[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_63[] =
+const unsigned char chr_f4_63[] =
     {
         0x00,
         0x00,
@@ -814,7 +814,7 @@ PROGMEM const unsigned char chr_f4_63[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_64[] =
+const unsigned char chr_f4_64[] =
     {
         0x00,
         0x08,
@@ -826,7 +826,7 @@ PROGMEM const unsigned char chr_f4_64[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_65[] =
+const unsigned char chr_f4_65[] =
     {
         0x00,
         0x00,
@@ -838,7 +838,7 @@ PROGMEM const unsigned char chr_f4_65[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_66[] =
+const unsigned char chr_f4_66[] =
     {
         0x00,
         0x18,
@@ -849,7 +849,7 @@ PROGMEM const unsigned char chr_f4_66[] =
         0x20,
         0x20,
         0x00};
-PROGMEM const unsigned char chr_f4_67[] =
+const unsigned char chr_f4_67[] =
     {
         0x00,
         0x00,
@@ -861,7 +861,7 @@ PROGMEM const unsigned char chr_f4_67[] =
         0x04,
         0x38};
 
-PROGMEM const unsigned char chr_f4_68[] =
+const unsigned char chr_f4_68[] =
     {
         0x00,
         0x40,
@@ -873,7 +873,7 @@ PROGMEM const unsigned char chr_f4_68[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_69[] =
+const unsigned char chr_f4_69[] =
     {
         0x00,
         0x40,
@@ -885,7 +885,7 @@ PROGMEM const unsigned char chr_f4_69[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_6A[] =
+const unsigned char chr_f4_6A[] =
     {
         0x00,
         0x20,
@@ -897,7 +897,7 @@ PROGMEM const unsigned char chr_f4_6A[] =
         0x10,
         0x60};
 
-PROGMEM const unsigned char chr_f4_6B[] =
+const unsigned char chr_f4_6B[] =
     {
         0x00,
         0x40,
@@ -909,7 +909,7 @@ PROGMEM const unsigned char chr_f4_6B[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_6C[] =
+const unsigned char chr_f4_6C[] =
     {
         0x00,
         0x60,
@@ -921,7 +921,7 @@ PROGMEM const unsigned char chr_f4_6C[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_6D[] =
+const unsigned char chr_f4_6D[] =
     {
         0x00,
         0x00,
@@ -933,7 +933,7 @@ PROGMEM const unsigned char chr_f4_6D[] =
         0x49,
         0x00};
 
-PROGMEM const unsigned char chr_f4_6E[] =
+const unsigned char chr_f4_6E[] =
     {
         0x00,
         0x00,
@@ -945,7 +945,7 @@ PROGMEM const unsigned char chr_f4_6E[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_6F[] =
+const unsigned char chr_f4_6F[] =
     {
         0x00,
         0x00,
@@ -957,7 +957,7 @@ PROGMEM const unsigned char chr_f4_6F[] =
         0x30,
         0x00};
 
-PROGMEM const unsigned char chr_f4_70[] =
+const unsigned char chr_f4_70[] =
     {
         0x00,
         0x00,
@@ -969,7 +969,7 @@ PROGMEM const unsigned char chr_f4_70[] =
         0x40,
         0x40};
 
-PROGMEM const unsigned char chr_f4_71[] =
+const unsigned char chr_f4_71[] =
     {
         0x00,
         0x00,
@@ -981,7 +981,7 @@ PROGMEM const unsigned char chr_f4_71[] =
         0x08,
         0x08};
 
-PROGMEM const unsigned char chr_f4_72[] =
+const unsigned char chr_f4_72[] =
     {
         0x00,
         0x00,
@@ -993,7 +993,7 @@ PROGMEM const unsigned char chr_f4_72[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_73[] =
+const unsigned char chr_f4_73[] =
     {
         0x00,
         0x00,
@@ -1005,7 +1005,7 @@ PROGMEM const unsigned char chr_f4_73[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_74[] =
+const unsigned char chr_f4_74[] =
     {
         0x00,
         0x20,
@@ -1017,7 +1017,7 @@ PROGMEM const unsigned char chr_f4_74[] =
         0x18,
         0x00};
 
-PROGMEM const unsigned char chr_f4_75[] =
+const unsigned char chr_f4_75[] =
     {
         0x00,
         0x00,
@@ -1029,7 +1029,7 @@ PROGMEM const unsigned char chr_f4_75[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_76[] =
+const unsigned char chr_f4_76[] =
     {
         0x00,
         0x00,
@@ -1041,7 +1041,7 @@ PROGMEM const unsigned char chr_f4_76[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_77[] =
+const unsigned char chr_f4_77[] =
     {
         0x00,
         0x00,
@@ -1053,7 +1053,7 @@ PROGMEM const unsigned char chr_f4_77[] =
         0x22,
         0x00};
 
-PROGMEM const unsigned char chr_f4_78[] =
+const unsigned char chr_f4_78[] =
     {
         0x00,
         0x00,
@@ -1065,7 +1065,7 @@ PROGMEM const unsigned char chr_f4_78[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_79[] =
+const unsigned char chr_f4_79[] =
     {
         0x00,
         0x00,
@@ -1077,7 +1077,7 @@ PROGMEM const unsigned char chr_f4_79[] =
         0x08,
         0x30};
 
-PROGMEM const unsigned char chr_f4_7A[] =
+const unsigned char chr_f4_7A[] =
     {
         0x00,
         0x00,
@@ -1089,7 +1089,7 @@ PROGMEM const unsigned char chr_f4_7A[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_7B[] =
+const unsigned char chr_f4_7B[] =
     {
         0x00,
         0x10,
@@ -1101,7 +1101,7 @@ PROGMEM const unsigned char chr_f4_7B[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_7C[] =
+const unsigned char chr_f4_7C[] =
     {
         0x00,
         0x40,
@@ -1113,7 +1113,7 @@ PROGMEM const unsigned char chr_f4_7C[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_7D[] =
+const unsigned char chr_f4_7D[] =
     {
         0x00,
         0x40,
@@ -1125,7 +1125,7 @@ PROGMEM const unsigned char chr_f4_7D[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_7E[] =
+const unsigned char chr_f4_7E[] =
     {
         0x00,
         0x00,
@@ -1137,7 +1137,7 @@ PROGMEM const unsigned char chr_f4_7E[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_7F[] =
+const unsigned char chr_f4_7F[] =
     {
         0x00,
         0x00,
@@ -1149,7 +1149,7 @@ PROGMEM const unsigned char chr_f4_7F[] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f4_411[] =
+const unsigned char chr_f4_411[] =
     {
         0x00,
         0x78,
@@ -1161,7 +1161,7 @@ PROGMEM const unsigned char chr_f4_411[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_413[] =
+const unsigned char chr_f4_413[] =
     {
         0x00,
         0x7c,
@@ -1173,7 +1173,7 @@ PROGMEM const unsigned char chr_f4_413[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_414[] =
+const unsigned char chr_f4_414[] =
     {
         0x00,
         0x1c,
@@ -1185,7 +1185,7 @@ PROGMEM const unsigned char chr_f4_414[] =
         0x42,
         0x00};
 
-PROGMEM const unsigned char chr_f4_416[] =
+const unsigned char chr_f4_416[] =
     {
         0x00,
         0x49,
@@ -1197,7 +1197,7 @@ PROGMEM const unsigned char chr_f4_416[] =
         0x49,
         0x00};
 
-PROGMEM const unsigned char chr_f4_417[] =
+const unsigned char chr_f4_417[] =
     {
         0x00,
         0x78,
@@ -1209,7 +1209,7 @@ PROGMEM const unsigned char chr_f4_417[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_418[] =
+const unsigned char chr_f4_418[] =
     {
         0x00,
         0x44,
@@ -1221,7 +1221,7 @@ PROGMEM const unsigned char chr_f4_418[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_419[] =
+const unsigned char chr_f4_419[] =
     {
         0x10,
         0x54,
@@ -1233,7 +1233,7 @@ PROGMEM const unsigned char chr_f4_419[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_41b[] =
+const unsigned char chr_f4_41b[] =
     {
         0x00,
         0x3c,
@@ -1245,7 +1245,7 @@ PROGMEM const unsigned char chr_f4_41b[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_41f[] =
+const unsigned char chr_f4_41f[] =
     {
         0x00,
         0x7c,
@@ -1257,7 +1257,7 @@ PROGMEM const unsigned char chr_f4_41f[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_423[] =
+const unsigned char chr_f4_423[] =
     {
         0x00,
         0x44,
@@ -1269,7 +1269,7 @@ PROGMEM const unsigned char chr_f4_423[] =
         0x60,
         0x00};
 
-PROGMEM const unsigned char chr_f4_424[] =
+const unsigned char chr_f4_424[] =
     {
         0x00,
         0x08,
@@ -1281,7 +1281,7 @@ PROGMEM const unsigned char chr_f4_424[] =
         0x08,
         0x00};
 
-PROGMEM const unsigned char chr_f4_426[] =
+const unsigned char chr_f4_426[] =
     {
         0x00,
         0x44,
@@ -1293,7 +1293,7 @@ PROGMEM const unsigned char chr_f4_426[] =
         0x7c,
         0x04};
 
-PROGMEM const unsigned char chr_f4_427[] =
+const unsigned char chr_f4_427[] =
     {
         0x00,
         0x44,
@@ -1305,7 +1305,7 @@ PROGMEM const unsigned char chr_f4_427[] =
         0x04,
         0x00};
 
-PROGMEM const unsigned char chr_f4_428[] =
+const unsigned char chr_f4_428[] =
     {
         0x00,
         0x49,
@@ -1317,7 +1317,7 @@ PROGMEM const unsigned char chr_f4_428[] =
         0x7f,
         0x00};
 
-PROGMEM const unsigned char chr_f4_429[] =
+const unsigned char chr_f4_429[] =
     {
         0x00,
         0x49,
@@ -1329,7 +1329,7 @@ PROGMEM const unsigned char chr_f4_429[] =
         0x7f,
         0x01};
 
-PROGMEM const unsigned char chr_f4_42a[] =
+const unsigned char chr_f4_42a[] =
     {
         0x00,
         0x60,
@@ -1341,7 +1341,7 @@ PROGMEM const unsigned char chr_f4_42a[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42b[] =
+const unsigned char chr_f4_42b[] =
     {
         0x00,
         0x42,
@@ -1353,7 +1353,7 @@ PROGMEM const unsigned char chr_f4_42b[] =
         0x72,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42c[] =
+const unsigned char chr_f4_42c[] =
     {
         0x00,
         0x40,
@@ -1365,7 +1365,7 @@ PROGMEM const unsigned char chr_f4_42c[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42d[] =
+const unsigned char chr_f4_42d[] =
     {
         0x00,
         0x78,
@@ -1377,7 +1377,7 @@ PROGMEM const unsigned char chr_f4_42d[] =
         0x78,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42e[] =
+const unsigned char chr_f4_42e[] =
     {
         0x00,
         0x4c,
@@ -1389,7 +1389,7 @@ PROGMEM const unsigned char chr_f4_42e[] =
         0x4c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_42f[] =
+const unsigned char chr_f4_42f[] =
     {
         0x00,
         0x3c,
@@ -1401,7 +1401,7 @@ PROGMEM const unsigned char chr_f4_42f[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_431[] =
+const unsigned char chr_f4_431[] =
     {
         0x00,
         0x08,
@@ -1413,7 +1413,7 @@ PROGMEM const unsigned char chr_f4_431[] =
         0x30,
         0x00};
 
-PROGMEM const unsigned char chr_f4_432[] =
+const unsigned char chr_f4_432[] =
     {
         0x00,
         0x00,
@@ -1425,7 +1425,7 @@ PROGMEM const unsigned char chr_f4_432[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_433[] =
+const unsigned char chr_f4_433[] =
     {
         0x00,
         0x00,
@@ -1437,7 +1437,7 @@ PROGMEM const unsigned char chr_f4_433[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_434[] =
+const unsigned char chr_f4_434[] =
     {
         0x00,
         0x00,
@@ -1449,7 +1449,7 @@ PROGMEM const unsigned char chr_f4_434[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_436[] =
+const unsigned char chr_f4_436[] =
     {
         0x00,
         0x00,
@@ -1461,7 +1461,7 @@ PROGMEM const unsigned char chr_f4_436[] =
         0x49,
         0x00};
 
-PROGMEM const unsigned char chr_f4_437[] =
+const unsigned char chr_f4_437[] =
     {
         0x00,
         0x00,
@@ -1473,7 +1473,7 @@ PROGMEM const unsigned char chr_f4_437[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_438[] =
+const unsigned char chr_f4_438[] =
     {
         0x00,
         0x00,
@@ -1485,7 +1485,7 @@ PROGMEM const unsigned char chr_f4_438[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_439[] =
+const unsigned char chr_f4_439[] =
     {
         0x00,
         0x30,
@@ -1497,7 +1497,7 @@ PROGMEM const unsigned char chr_f4_439[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43a[] =
+const unsigned char chr_f4_43a[] =
     {
         0x00,
         0x00,
@@ -1509,7 +1509,7 @@ PROGMEM const unsigned char chr_f4_43a[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43b[] =
+const unsigned char chr_f4_43b[] =
     {
         0x00,
         0x00,
@@ -1521,7 +1521,7 @@ PROGMEM const unsigned char chr_f4_43b[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43c[] =
+const unsigned char chr_f4_43c[] =
     {
         0x00,
         0x00,
@@ -1533,7 +1533,7 @@ PROGMEM const unsigned char chr_f4_43c[] =
         0x44,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43d[] =
+const unsigned char chr_f4_43d[] =
     {
         0x00,
         0x00,
@@ -1545,7 +1545,7 @@ PROGMEM const unsigned char chr_f4_43d[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_43f[] =
+const unsigned char chr_f4_43f[] =
     {
         0x00,
         0x00,
@@ -1557,7 +1557,7 @@ PROGMEM const unsigned char chr_f4_43f[] =
         0x48,
         0x00};
 
-PROGMEM const unsigned char chr_f4_442[] =
+const unsigned char chr_f4_442[] =
     {
         0x00,
         0x00,
@@ -1569,7 +1569,7 @@ PROGMEM const unsigned char chr_f4_442[] =
         0x20,
         0x00};
 
-PROGMEM const unsigned char chr_f4_444[] =
+const unsigned char chr_f4_444[] =
     {
         0x00,
         0x00,
@@ -1581,7 +1581,7 @@ PROGMEM const unsigned char chr_f4_444[] =
         0x10,
         0x00};
 
-PROGMEM const unsigned char chr_f4_446[] =
+const unsigned char chr_f4_446[] =
     {
         0x00,
         0x00,
@@ -1593,7 +1593,7 @@ PROGMEM const unsigned char chr_f4_446[] =
         0x78,
         0x08};
 
-PROGMEM const unsigned char chr_f4_447[] =
+const unsigned char chr_f4_447[] =
     {
         0x00,
         0x00,
@@ -1605,7 +1605,7 @@ PROGMEM const unsigned char chr_f4_447[] =
         0x08,
         0x00};
 
-PROGMEM const unsigned char chr_f4_448[] =
+const unsigned char chr_f4_448[] =
     {
         0x00,
         0x00,
@@ -1617,7 +1617,7 @@ PROGMEM const unsigned char chr_f4_448[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_449[] =
+const unsigned char chr_f4_449[] =
     {
         0x00,
         0x00,
@@ -1629,7 +1629,7 @@ PROGMEM const unsigned char chr_f4_449[] =
         0x7c,
         0x04};
 
-PROGMEM const unsigned char chr_f4_44a[] =
+const unsigned char chr_f4_44a[] =
     {
         0x00,
         0x00,
@@ -1641,7 +1641,7 @@ PROGMEM const unsigned char chr_f4_44a[] =
         0x30,
         0x00};
 
-PROGMEM const unsigned char chr_f4_44b[] =
+const unsigned char chr_f4_44b[] =
     {
         0x00,
         0x00,
@@ -1653,7 +1653,7 @@ PROGMEM const unsigned char chr_f4_44b[] =
         0x64,
         0x00};
 
-PROGMEM const unsigned char chr_f4_44c[] =
+const unsigned char chr_f4_44c[] =
     {
         0x00,
         0x00,
@@ -1665,7 +1665,7 @@ PROGMEM const unsigned char chr_f4_44c[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_44d[] =
+const unsigned char chr_f4_44d[] =
     {
         0x00,
         0x00,
@@ -1677,7 +1677,7 @@ PROGMEM const unsigned char chr_f4_44d[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_44e[] =
+const unsigned char chr_f4_44e[] =
     {
         0x00,
         0x00,
@@ -1689,7 +1689,7 @@ PROGMEM const unsigned char chr_f4_44e[] =
         0x4c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_44f[] =
+const unsigned char chr_f4_44f[] =
     {
         0x00,
         0x00,
@@ -1703,7 +1703,7 @@ PROGMEM const unsigned char chr_f4_44f[] =
 
 //-------------------------------------------------------------------
 
-PROGMEM const unsigned char chr_f4_404[] =
+const unsigned char chr_f4_404[] =
     {
         0x00,
         0x1c,
@@ -1715,7 +1715,7 @@ PROGMEM const unsigned char chr_f4_404[] =
         0x1c,
         0x00};
 
-PROGMEM const unsigned char chr_f4_454[] =
+const unsigned char chr_f4_454[] =
     {
         0x00,
         0x00,
@@ -1727,7 +1727,7 @@ PROGMEM const unsigned char chr_f4_454[] =
         0x38,
         0x00};
 
-PROGMEM const unsigned char chr_f4_407[] =
+const unsigned char chr_f4_407[] =
     {
         0x50,
         0x00,
@@ -1739,7 +1739,7 @@ PROGMEM const unsigned char chr_f4_407[] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f4_457[] =
+const unsigned char chr_f4_457[] =
     {
         0x00,
         0x00,
@@ -1751,7 +1751,7 @@ PROGMEM const unsigned char chr_f4_457[] =
         0x20,
         0x00};
 
-PROGMEM const unsigned char chr_f4_490[] =
+const unsigned char chr_f4_490[] =
     {
         0x04,
         0x7c,
@@ -1763,7 +1763,7 @@ PROGMEM const unsigned char chr_f4_490[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_491[] =
+const unsigned char chr_f4_491[] =
     {
         0x00,
         0x00,
@@ -1775,7 +1775,7 @@ PROGMEM const unsigned char chr_f4_491[] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f4_unk[] =
+const unsigned char chr_f4_unk[] =
     {
         0x00,
         0x7c,
@@ -1787,7 +1787,7 @@ PROGMEM const unsigned char chr_f4_unk[] =
         0x7c,
         0x00};
 
-PROGMEM const unsigned char widtbl_f4[] =
+const unsigned char widtbl_f4[] =
     {
         3, 3, 5, 7, 7, 8, 7, 3,
         4, 4, 7, 7, 4, 6, 4, 5,
@@ -1812,7 +1812,7 @@ PROGMEM const unsigned char widtbl_f4[] =
         //
         7, 6, 5, 5, 7, 6, 7};
 
-PROGMEM const unsigned char *const chrtbl_f4[CHRS_NMBR] =
+const unsigned char *const chrtbl_f4[CHRS_NMBR] =
     {
         chr_f4_20, chr_f4_21, chr_f4_22, chr_f4_23, chr_f4_24, chr_f4_25, chr_f4_26, chr_f4_27,
         chr_f4_28, chr_f4_29, chr_f4_2A, chr_f4_2B, chr_f4_2C, chr_f4_2D, chr_f4_2E, chr_f4_2F,
