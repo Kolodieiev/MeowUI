@@ -15,6 +15,8 @@
 
 void guiTask(void *params)
 {
+    // Serial.begin(115200);
+
     meow::MEOW.run();
 }
 
