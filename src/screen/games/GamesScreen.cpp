@@ -9,6 +9,7 @@
 
 #include "ImageItem.h"
 #include "./icons/snake_ico.h"
+#include "./icons/sokoban_ico.h"
 
 GamesScreen::GamesScreen(GraphicsDriver &display) : IScreen(display)
 {
@@ -45,17 +46,26 @@ GamesScreen::GamesScreen(GraphicsDriver &display) : IScreen(display)
     //------------------------------------------------------------------------------------------------------------------------ Налаштування елементів меню
 
     ImageItem *snake_item = new ImageItem(ID_SNAKE, _display);
+    _menu->addWidget(snake_item);
     snake_item->setFocusBorderColor(COLOR_LIME);
     snake_item->setFocusBackColor(COLOR_FOCUS_BACK);
-    snake_item->setTextColor(COLOR_WHITE);
     snake_item->setBackColor(COLOR_MENU_ITEM);
+    snake_item->setTextColor(COLOR_WHITE);
     snake_item->setChangingBorder(true); // Змінювати колір рамки коли віджет потрапляє у фокус
     snake_item->setChangingBack(true);   // Змінювати фоновий колір коли віджет потрапляє у фокус
     snake_item->setTickerInFocus(true);  // Вмикаємо прокрутку тексту, коли на елемент потрапляє фокус і ширини недостатньо, щоб вмістити увесь текст.
-    _menu->addWidget(snake_item);
+
+    ImageItem *sokoban_item = snake_item->clone(ID_SOKOBAN);
+    _menu->addWidget(sokoban_item);
+
+    //------------------------------------------------------------------------------------------------------------------------
 
     Label *snake_lbl = new Label(1, _display); // Налаштування віджету тексту
     snake_lbl->setText(STR_SNAKE_ITEM);
+    snake_lbl->setTickerInFocus(true); // Вмикаємо біжучий рядок, коли на віджет потрапляє фокус і ширини віджета не достатньо, щоб відобразити його текст
+    snake_lbl->setFocusBackColor(COLOR_FOCUS_BACK);
+    snake_lbl->setBackColor(COLOR_MENU_ITEM);
+    snake_lbl->setChangingBack(true);
     snake_lbl->setTextSize(2);
     snake_lbl->setChangingBack(true);
     //
@@ -69,6 +79,19 @@ GamesScreen::GamesScreen(GraphicsDriver &display) : IScreen(display)
     snake_item->setWidgets(snake_img, snake_lbl); // Встановити текст та іконку до елементу списку меню
 
     //------------------------------------------------------------------------------------------------------------------------
+    Label *pack_lbl = snake_lbl->clone(1);
+    pack_lbl->setText(STR_SOKOBAN_ITEM);
+    //
+    Image *pack_img = new Image(1, _display);
+    pack_img->init(32, 32);
+    pack_img->setBackColor(TFT_DARKGREY);
+    pack_img->setCornerRadius(5);
+    pack_img->setTransparentColor(snake_img->TRANSPARENT_COLOR);
+    pack_img->setSrc(ICO_SOKOBAN);
+    //
+    sokoban_item->setWidgets(pack_img, pack_lbl);
+
+    //------------------------------------------------------------------------------------------------------------------------
     _scrollbar->setMax(_menu->getSize());
 }
 
@@ -78,7 +101,17 @@ void GamesScreen::loop()
 
 void GamesScreen::update()
 {
-    if (_input.isReleased(Input::PIN_START))
+    if (_input.isHolded(Input::PIN_UP))
+    {
+        _input.lock(Input::PIN_UP, 200);
+        up();
+    }
+    else if (_input.isHolded(Input::PIN_DOWN))
+    {
+        _input.lock(Input::PIN_DOWN, 200);
+        down();
+    }
+    else if (_input.isReleased(Input::PIN_START))
     {
         _input.lock(Input::PIN_START, 500);
         _input.reset();
@@ -88,10 +121,14 @@ void GamesScreen::update()
 
 void GamesScreen::up()
 {
+    _menu->focusUp();
+    _scrollbar->scrollUp();
 }
 
 void GamesScreen::down()
 {
+    _menu->focusDown();
+    _scrollbar->scrollDown();
 }
 
 void GamesScreen::ok()

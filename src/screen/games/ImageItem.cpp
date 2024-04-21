@@ -55,11 +55,7 @@ void ImageItem::onDraw()
                                                                         * Формула: 1пкс ширина рамки контейнера + 1пкс відступ від рамки + 32пкс ширина зображення + 5пкс відступ зправа.
                                                                         */
 
-    _label->setTickerInFocus(_is_ticker_in_focus);
-    _label->setWidth(_width - 20 - 32); // Підганяємо ширину Label таким чином, щоб він не виходив за межі елементу.
-
-    _label->setBackColor(_back_color); // Встановити колір Label такий же, як і у основного елементу
-    _label->setFocusBackColor(_focus_back_color);
+    _label->setWidth(_width - 18 - 32); // Підганяємо ширину Label таким чином, щоб він не виходив за межі елементу.
 
     if (_has_focus) // Якщо фокус встановлено на елементі, передати його також вкладеній міткі
         _label->setFocus();
