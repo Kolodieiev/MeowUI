@@ -25,9 +25,7 @@ namespace meow
                 //
                 uint16_t width() { return _tft.width(); }
                 uint16_t height() { return _tft.height(); }
-                //
-                // Службовий метод для коректної обробки шрифтів
-                uint16_t decodeUTF8(uint8_t *buf, uint16_t *index, uint16_t remaining) { return _tft.decodeUTF8(buf, index, remaining); }
+
                 // ---------------------------------------------------------------------
                 inline void fillRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
                 {
