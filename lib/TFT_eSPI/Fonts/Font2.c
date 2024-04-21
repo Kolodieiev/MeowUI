@@ -1,6 +1,6 @@
 // Font 2
 
-PROGMEM const unsigned char chr_f2_20[15] =
+const unsigned char chr_f2_20[15] =
     {
         0x00,
         0x00,
@@ -18,7 +18,7 @@ PROGMEM const unsigned char chr_f2_20[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_21[15] =
+const unsigned char chr_f2_21[15] =
     {
         0x00,
         0x60,
@@ -36,7 +36,7 @@ PROGMEM const unsigned char chr_f2_21[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_22[15] =
+const unsigned char chr_f2_22[15] =
     {
         0x00,
         0x50,
@@ -54,7 +54,7 @@ PROGMEM const unsigned char chr_f2_22[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_23[15] =
+const unsigned char chr_f2_23[15] =
     {
         0x00,
         0x00,
@@ -72,7 +72,7 @@ PROGMEM const unsigned char chr_f2_23[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_24[15] =
+const unsigned char chr_f2_24[15] =
     {
         0x00,
         0x00,
@@ -90,7 +90,7 @@ PROGMEM const unsigned char chr_f2_24[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_25[15] =
+const unsigned char chr_f2_25[15] =
     {
         0x00,
         0x00,
@@ -108,7 +108,7 @@ PROGMEM const unsigned char chr_f2_25[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_26[15] =
+const unsigned char chr_f2_26[15] =
     {
         0x00,
         0x00,
@@ -126,7 +126,7 @@ PROGMEM const unsigned char chr_f2_26[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_27[15] =
+const unsigned char chr_f2_27[15] =
     {
         0x00,
         0x40,
@@ -144,7 +144,7 @@ PROGMEM const unsigned char chr_f2_27[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_28[15] =
+const unsigned char chr_f2_28[15] =
     {
         0x08,
         0x10,
@@ -162,7 +162,7 @@ PROGMEM const unsigned char chr_f2_28[15] =
         0x08,
         0x00};
 
-PROGMEM const unsigned char chr_f2_29[15] =
+const unsigned char chr_f2_29[15] =
     {
         0x40,
         0x20,
@@ -180,7 +180,7 @@ PROGMEM const unsigned char chr_f2_29[15] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2A[15] =
+const unsigned char chr_f2_2A[15] =
     {
         0x00,
         0x00,
@@ -198,7 +198,7 @@ PROGMEM const unsigned char chr_f2_2A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2B[15] =
+const unsigned char chr_f2_2B[15] =
     {
         0x00,
         0x00,
@@ -216,7 +216,7 @@ PROGMEM const unsigned char chr_f2_2B[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2C[15] =
+const unsigned char chr_f2_2C[15] =
     {
         0x00,
         0x00,
@@ -234,7 +234,7 @@ PROGMEM const unsigned char chr_f2_2C[15] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2D[15] =
+const unsigned char chr_f2_2D[15] =
     {
         0x00,
         0x00,
@@ -252,7 +252,7 @@ PROGMEM const unsigned char chr_f2_2D[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2E[15] =
+const unsigned char chr_f2_2E[15] =
     {
         0x00,
         0x00,
@@ -270,7 +270,7 @@ PROGMEM const unsigned char chr_f2_2E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_2F[15] =
+const unsigned char chr_f2_2F[15] =
     {
         0x00,
         0x02,
@@ -288,7 +288,7 @@ PROGMEM const unsigned char chr_f2_2F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_30[15] =
+const unsigned char chr_f2_30[15] =
     {
         0x00,
         0x00,
@@ -306,7 +306,7 @@ PROGMEM const unsigned char chr_f2_30[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_31[15] =
+const unsigned char chr_f2_31[15] =
     {
         0x00,
         0x00,
@@ -324,7 +324,7 @@ PROGMEM const unsigned char chr_f2_31[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_32[15] =
+const unsigned char chr_f2_32[15] =
     {
         0x00,
         0x00,
@@ -342,7 +342,7 @@ PROGMEM const unsigned char chr_f2_32[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_33[15] =
+const unsigned char chr_f2_33[15] =
     {
         0x00,
         0x00,
@@ -360,7 +360,7 @@ PROGMEM const unsigned char chr_f2_33[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_34[15] =
+const unsigned char chr_f2_34[15] =
     {
         0x00,
         0x00,
@@ -378,7 +378,7 @@ PROGMEM const unsigned char chr_f2_34[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_35[15] =
+const unsigned char chr_f2_35[15] =
     {
         0x00,
         0x00,
@@ -396,7 +396,7 @@ PROGMEM const unsigned char chr_f2_35[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_36[15] =
+const unsigned char chr_f2_36[15] =
     {
         0x00,
         0x00,
@@ -414,7 +414,7 @@ PROGMEM const unsigned char chr_f2_36[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_37[15] =
+const unsigned char chr_f2_37[15] =
     {
         0x00,
         0x00,
@@ -432,7 +432,7 @@ PROGMEM const unsigned char chr_f2_37[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_38[15] =
+const unsigned char chr_f2_38[15] =
     {
         0x00,
         0x00,
@@ -450,7 +450,7 @@ PROGMEM const unsigned char chr_f2_38[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_39[15] =
+const unsigned char chr_f2_39[15] =
     {
         0x00,
         0x00,
@@ -468,7 +468,7 @@ PROGMEM const unsigned char chr_f2_39[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3A[15] =
+const unsigned char chr_f2_3A[15] =
     {
         0x00,
         0x00,
@@ -486,7 +486,7 @@ PROGMEM const unsigned char chr_f2_3A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3B[15] =
+const unsigned char chr_f2_3B[15] =
     {
         0x00,
         0x00,
@@ -504,7 +504,7 @@ PROGMEM const unsigned char chr_f2_3B[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3C[15] =
+const unsigned char chr_f2_3C[15] =
     {
         0x00,
         0x00,
@@ -522,7 +522,7 @@ PROGMEM const unsigned char chr_f2_3C[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3D[15] =
+const unsigned char chr_f2_3D[15] =
     {
         0x00,
         0x00,
@@ -540,7 +540,7 @@ PROGMEM const unsigned char chr_f2_3D[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3E[15] =
+const unsigned char chr_f2_3E[15] =
     {
         0x00,
         0x00,
@@ -558,7 +558,7 @@ PROGMEM const unsigned char chr_f2_3E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_3F[15] =
+const unsigned char chr_f2_3F[15] =
     {
         0x00,
         0x3c,
@@ -576,7 +576,7 @@ PROGMEM const unsigned char chr_f2_3F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_40[15] =
+const unsigned char chr_f2_40[15] =
     {
         0x00,
         0x0c,
@@ -594,7 +594,7 @@ PROGMEM const unsigned char chr_f2_40[15] =
         0x0e,
         0x00};
 
-PROGMEM const unsigned char chr_f2_41[15] =
+const unsigned char chr_f2_41[15] =
     {
         0x00,
         0x00,
@@ -612,7 +612,7 @@ PROGMEM const unsigned char chr_f2_41[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_42[15] =
+const unsigned char chr_f2_42[15] =
     {
         0x00,
         0x00,
@@ -630,7 +630,7 @@ PROGMEM const unsigned char chr_f2_42[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43[15] =
+const unsigned char chr_f2_43[15] =
     {
         0x00,
         0x00,
@@ -647,7 +647,7 @@ PROGMEM const unsigned char chr_f2_43[15] =
         0x3c,
         0x00,
         0x00};
-PROGMEM const unsigned char chr_f2_44[15] =
+const unsigned char chr_f2_44[15] =
     {
         0x00,
         0x00,
@@ -665,7 +665,7 @@ PROGMEM const unsigned char chr_f2_44[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_45[15] =
+const unsigned char chr_f2_45[15] =
     {
         0x00,
         0x00,
@@ -683,7 +683,7 @@ PROGMEM const unsigned char chr_f2_45[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_46[15] =
+const unsigned char chr_f2_46[15] =
     {
         0x00,
         0x00,
@@ -701,7 +701,7 @@ PROGMEM const unsigned char chr_f2_46[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_47[15] =
+const unsigned char chr_f2_47[15] =
     {
         0x00,
         0x00,
@@ -719,7 +719,7 @@ PROGMEM const unsigned char chr_f2_47[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_48[15] =
+const unsigned char chr_f2_48[15] =
     {
         0x00,
         0x00,
@@ -737,7 +737,7 @@ PROGMEM const unsigned char chr_f2_48[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_49[15] =
+const unsigned char chr_f2_49[15] =
     {
         0x00,
         0x00,
@@ -755,7 +755,7 @@ PROGMEM const unsigned char chr_f2_49[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4A[15] =
+const unsigned char chr_f2_4A[15] =
     {
         0x00,
         0x00,
@@ -773,7 +773,7 @@ PROGMEM const unsigned char chr_f2_4A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4B[15] =
+const unsigned char chr_f2_4B[15] =
     {
         0x00,
         0x00,
@@ -791,7 +791,7 @@ PROGMEM const unsigned char chr_f2_4B[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4C[15] =
+const unsigned char chr_f2_4C[15] =
     {
         0x00,
         0x00,
@@ -809,7 +809,7 @@ PROGMEM const unsigned char chr_f2_4C[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4D[15] =
+const unsigned char chr_f2_4D[15] =
     {
         0x00,
         0x00,
@@ -827,7 +827,7 @@ PROGMEM const unsigned char chr_f2_4D[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4E[15] =
+const unsigned char chr_f2_4E[15] =
     {
         0x00,
         0x00,
@@ -845,7 +845,7 @@ PROGMEM const unsigned char chr_f2_4E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_4F[15] =
+const unsigned char chr_f2_4F[15] =
     {
         0x00,
         0x00,
@@ -863,7 +863,7 @@ PROGMEM const unsigned char chr_f2_4F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_50[15] =
+const unsigned char chr_f2_50[15] =
     {
         0x00,
         0x00,
@@ -880,7 +880,7 @@ PROGMEM const unsigned char chr_f2_50[15] =
         0x40,
         0x00,
         0x00};
-PROGMEM const unsigned char chr_f2_51[15] =
+const unsigned char chr_f2_51[15] =
     {
         0x00,
         0x00,
@@ -898,7 +898,7 @@ PROGMEM const unsigned char chr_f2_51[15] =
         0x08,
         0x06};
 
-PROGMEM const unsigned char chr_f2_52[15] =
+const unsigned char chr_f2_52[15] =
     {
         0x00,
         0x00,
@@ -916,7 +916,7 @@ PROGMEM const unsigned char chr_f2_52[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_53[15] =
+const unsigned char chr_f2_53[15] =
     {
         0x00,
         0x00,
@@ -934,7 +934,7 @@ PROGMEM const unsigned char chr_f2_53[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_54[15] =
+const unsigned char chr_f2_54[15] =
     {
         0x00,
         0x00,
@@ -952,7 +952,7 @@ PROGMEM const unsigned char chr_f2_54[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_55[15] =
+const unsigned char chr_f2_55[15] =
     {
         0x00,
         0x00,
@@ -970,7 +970,7 @@ PROGMEM const unsigned char chr_f2_55[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_56[15] =
+const unsigned char chr_f2_56[15] =
     {
         0x00,
         0x00,
@@ -988,7 +988,7 @@ PROGMEM const unsigned char chr_f2_56[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_57[15] =
+const unsigned char chr_f2_57[15] =
     {
         0x00,
         0x00,
@@ -1006,7 +1006,7 @@ PROGMEM const unsigned char chr_f2_57[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_58[15] =
+const unsigned char chr_f2_58[15] =
     {
         0x00,
         0x00,
@@ -1024,7 +1024,7 @@ PROGMEM const unsigned char chr_f2_58[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_59[15] =
+const unsigned char chr_f2_59[15] =
     {
         0x00,
         0x00,
@@ -1042,7 +1042,7 @@ PROGMEM const unsigned char chr_f2_59[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5A[15] =
+const unsigned char chr_f2_5A[15] =
     {
         0x00,
         0x00,
@@ -1060,7 +1060,7 @@ PROGMEM const unsigned char chr_f2_5A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5B[15] =
+const unsigned char chr_f2_5B[15] =
     {
         0x00,
         0x70,
@@ -1078,7 +1078,7 @@ PROGMEM const unsigned char chr_f2_5B[15] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5C[15] =
+const unsigned char chr_f2_5C[15] =
     {
         0x00,
         0x40,
@@ -1096,7 +1096,7 @@ PROGMEM const unsigned char chr_f2_5C[15] =
         0x02,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5D[15] =
+const unsigned char chr_f2_5D[15] =
     {
         0x00,
         0x70,
@@ -1114,7 +1114,7 @@ PROGMEM const unsigned char chr_f2_5D[15] =
         0x70,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5E[15] =
+const unsigned char chr_f2_5E[15] =
     {
         0x00,
         0x10,
@@ -1132,7 +1132,7 @@ PROGMEM const unsigned char chr_f2_5E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_5F[15] =
+const unsigned char chr_f2_5F[15] =
     {
         0x00,
         0x00,
@@ -1150,7 +1150,7 @@ PROGMEM const unsigned char chr_f2_5F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_60[15] =
+const unsigned char chr_f2_60[15] =
     {
         0x00,
         0x30,
@@ -1168,7 +1168,7 @@ PROGMEM const unsigned char chr_f2_60[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_61[15] =
+const unsigned char chr_f2_61[15] =
     {
         0x00,
         0x00,
@@ -1186,7 +1186,7 @@ PROGMEM const unsigned char chr_f2_61[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_62[15] =
+const unsigned char chr_f2_62[15] =
     {
         0x00,
         0x00,
@@ -1204,7 +1204,7 @@ PROGMEM const unsigned char chr_f2_62[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_63[15] =
+const unsigned char chr_f2_63[15] =
     {
         0x00,
         0x00,
@@ -1222,7 +1222,7 @@ PROGMEM const unsigned char chr_f2_63[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_64[15] =
+const unsigned char chr_f2_64[15] =
     {
         0x00,
         0x00,
@@ -1240,7 +1240,7 @@ PROGMEM const unsigned char chr_f2_64[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_65[15] =
+const unsigned char chr_f2_65[15] =
     {
         0x00,
         0x00,
@@ -1258,7 +1258,7 @@ PROGMEM const unsigned char chr_f2_65[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_66[15] =
+const unsigned char chr_f2_66[15] =
     {
         0x00,
         0x00,
@@ -1275,7 +1275,7 @@ PROGMEM const unsigned char chr_f2_66[15] =
         0x10,
         0x00,
         0x00};
-PROGMEM const unsigned char chr_f2_67[15] =
+const unsigned char chr_f2_67[15] =
     {
         0x00,
         0x00,
@@ -1293,7 +1293,7 @@ PROGMEM const unsigned char chr_f2_67[15] =
         0x04,
         0x38};
 
-PROGMEM const unsigned char chr_f2_68[15] =
+const unsigned char chr_f2_68[15] =
     {
         0x00,
         0x00,
@@ -1311,7 +1311,7 @@ PROGMEM const unsigned char chr_f2_68[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_69[15] =
+const unsigned char chr_f2_69[15] =
     {
         0x00,
         0x00,
@@ -1329,7 +1329,7 @@ PROGMEM const unsigned char chr_f2_69[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6A[15] =
+const unsigned char chr_f2_6A[15] =
     {
         0x00,
         0x00,
@@ -1347,7 +1347,7 @@ PROGMEM const unsigned char chr_f2_6A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6B[15] =
+const unsigned char chr_f2_6B[15] =
     {
         0x00,
         0x00,
@@ -1365,7 +1365,7 @@ PROGMEM const unsigned char chr_f2_6B[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6C[15] =
+const unsigned char chr_f2_6C[15] =
     {
         0x00,
         0x00,
@@ -1383,7 +1383,7 @@ PROGMEM const unsigned char chr_f2_6C[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6D[15] =
+const unsigned char chr_f2_6D[15] =
     {
         0x00,
         0x00,
@@ -1401,7 +1401,7 @@ PROGMEM const unsigned char chr_f2_6D[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6E[15] =
+const unsigned char chr_f2_6E[15] =
     {
         0x00,
         0x00,
@@ -1419,7 +1419,7 @@ PROGMEM const unsigned char chr_f2_6E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_6F[15] =
+const unsigned char chr_f2_6F[15] =
     {
         0x00,
         0x00,
@@ -1437,7 +1437,7 @@ PROGMEM const unsigned char chr_f2_6F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_70[15] =
+const unsigned char chr_f2_70[15] =
     {
         0x00,
         0x00,
@@ -1455,7 +1455,7 @@ PROGMEM const unsigned char chr_f2_70[15] =
         0x40,
         0x40};
 
-PROGMEM const unsigned char chr_f2_71[15] =
+const unsigned char chr_f2_71[15] =
     {
         0x00,
         0x00,
@@ -1473,7 +1473,7 @@ PROGMEM const unsigned char chr_f2_71[15] =
         0x02,
         0x02};
 
-PROGMEM const unsigned char chr_f2_72[15] =
+const unsigned char chr_f2_72[15] =
     {
         0x00,
         0x00,
@@ -1491,7 +1491,7 @@ PROGMEM const unsigned char chr_f2_72[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_73[15] =
+const unsigned char chr_f2_73[15] =
     {
         0x00,
         0x00,
@@ -1509,7 +1509,7 @@ PROGMEM const unsigned char chr_f2_73[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_74[15] =
+const unsigned char chr_f2_74[15] =
     {
         0x00,
         0x00,
@@ -1527,7 +1527,7 @@ PROGMEM const unsigned char chr_f2_74[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_75[15] =
+const unsigned char chr_f2_75[15] =
     {
         0x00,
         0x00,
@@ -1545,7 +1545,7 @@ PROGMEM const unsigned char chr_f2_75[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_76[15] =
+const unsigned char chr_f2_76[15] =
     {
         0x00,
         0x00,
@@ -1563,7 +1563,7 @@ PROGMEM const unsigned char chr_f2_76[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_77[15] =
+const unsigned char chr_f2_77[15] =
     {
         0x00,
         0x00,
@@ -1581,7 +1581,7 @@ PROGMEM const unsigned char chr_f2_77[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_78[15] =
+const unsigned char chr_f2_78[15] =
     {
         0x00,
         0x00,
@@ -1599,7 +1599,7 @@ PROGMEM const unsigned char chr_f2_78[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_79[15] =
+const unsigned char chr_f2_79[15] =
     {
         0x00,
         0x00,
@@ -1617,7 +1617,7 @@ PROGMEM const unsigned char chr_f2_79[15] =
         0x04,
         0x38};
 
-PROGMEM const unsigned char chr_f2_7A[15] =
+const unsigned char chr_f2_7A[15] =
     {
         0x00,
         0x00,
@@ -1635,7 +1635,7 @@ PROGMEM const unsigned char chr_f2_7A[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_7B[15] =
+const unsigned char chr_f2_7B[15] =
     {
         0x0c,
         0x10,
@@ -1653,7 +1653,7 @@ PROGMEM const unsigned char chr_f2_7B[15] =
         0x0c,
         0x00};
 
-PROGMEM const unsigned char chr_f2_7C[15] =
+const unsigned char chr_f2_7C[15] =
     {
         0x40,
         0x40,
@@ -1671,7 +1671,7 @@ PROGMEM const unsigned char chr_f2_7C[15] =
         0x40,
         0x00};
 
-PROGMEM const unsigned char chr_f2_7D[15] =
+const unsigned char chr_f2_7D[15] =
     {
         0x60,
         0x10,
@@ -1689,7 +1689,7 @@ PROGMEM const unsigned char chr_f2_7D[15] =
         0x60,
         0x00};
 
-PROGMEM const unsigned char chr_f2_7E[15] =
+const unsigned char chr_f2_7E[15] =
     {
         0x00,
         0x00,
@@ -1707,7 +1707,7 @@ PROGMEM const unsigned char chr_f2_7E[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_7F[15] =
+const unsigned char chr_f2_7F[15] =
     {
         0x00,
         0x00,
@@ -1725,7 +1725,7 @@ PROGMEM const unsigned char chr_f2_7F[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_411[15] =
+const unsigned char chr_f2_411[15] =
     {
         0x00,
         0x00,
@@ -1743,7 +1743,7 @@ PROGMEM const unsigned char chr_f2_411[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_413[15] =
+const unsigned char chr_f2_413[15] =
     {
         0x00,
         0x00,
@@ -1761,7 +1761,7 @@ PROGMEM const unsigned char chr_f2_413[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_414[15] =
+const unsigned char chr_f2_414[15] =
     {
         0x00,
         0x00,
@@ -1779,7 +1779,7 @@ PROGMEM const unsigned char chr_f2_414[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_416[15] =
+const unsigned char chr_f2_416[15] =
     {
         0x00,
         0x00,
@@ -1797,7 +1797,7 @@ PROGMEM const unsigned char chr_f2_416[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_417[15] =
+const unsigned char chr_f2_417[15] =
     {
         0x00,
         0x00,
@@ -1815,7 +1815,7 @@ PROGMEM const unsigned char chr_f2_417[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_418[15] =
+const unsigned char chr_f2_418[15] =
     {
         0x00,
         0x00,
@@ -1833,7 +1833,7 @@ PROGMEM const unsigned char chr_f2_418[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_419[15] =
+const unsigned char chr_f2_419[15] =
     {
         0x24,
         0x18,
@@ -1851,7 +1851,7 @@ PROGMEM const unsigned char chr_f2_419[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_41b[15] =
+const unsigned char chr_f2_41b[15] =
     {
         0x00,
         0x00,
@@ -1869,7 +1869,7 @@ PROGMEM const unsigned char chr_f2_41b[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_41f[15] =
+const unsigned char chr_f2_41f[15] =
     {
         0x00,
         0x00,
@@ -1887,7 +1887,7 @@ PROGMEM const unsigned char chr_f2_41f[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_423[15] =
+const unsigned char chr_f2_423[15] =
     {
         0x00,
         0x00,
@@ -1905,7 +1905,7 @@ PROGMEM const unsigned char chr_f2_423[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_424[15] =
+const unsigned char chr_f2_424[15] =
     {
         0x00,
         0x00,
@@ -1923,7 +1923,7 @@ PROGMEM const unsigned char chr_f2_424[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_426[15] =
+const unsigned char chr_f2_426[15] =
     {
         0x00,
         0x00,
@@ -1941,7 +1941,7 @@ PROGMEM const unsigned char chr_f2_426[15] =
         0x02,
         0x00};
 
-PROGMEM const unsigned char chr_f2_427[15] =
+const unsigned char chr_f2_427[15] =
     {
         0x00,
         0x00,
@@ -1959,7 +1959,7 @@ PROGMEM const unsigned char chr_f2_427[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_428[15] =
+const unsigned char chr_f2_428[15] =
     {
         0x00,
         0x00,
@@ -1977,7 +1977,7 @@ PROGMEM const unsigned char chr_f2_428[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_429[15] =
+const unsigned char chr_f2_429[15] =
     {
         0x00,
         0x00,
@@ -1995,7 +1995,7 @@ PROGMEM const unsigned char chr_f2_429[15] =
         0x01,
         0x01};
 
-PROGMEM const unsigned char chr_f2_42a[15] =
+const unsigned char chr_f2_42a[15] =
     {
         0x00,
         0x00,
@@ -2013,7 +2013,7 @@ PROGMEM const unsigned char chr_f2_42a[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_42b[15] =
+const unsigned char chr_f2_42b[15] =
     {
         0x00,
         0x00,
@@ -2030,7 +2030,7 @@ PROGMEM const unsigned char chr_f2_42b[15] =
         0x79,
         0x00,
         0x00};
-PROGMEM const unsigned char chr_f2_42c[15] =
+const unsigned char chr_f2_42c[15] =
     {
         0x00,
         0x00,
@@ -2048,7 +2048,7 @@ PROGMEM const unsigned char chr_f2_42c[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_42d[15] =
+const unsigned char chr_f2_42d[15] =
     {
         0x00,
         0x00,
@@ -2065,7 +2065,7 @@ PROGMEM const unsigned char chr_f2_42d[15] =
         0x38,
         0x00,
         0x00};
-PROGMEM const unsigned char chr_f2_42e[15] =
+const unsigned char chr_f2_42e[15] =
     {
         0x00,
         0x00,
@@ -2083,7 +2083,7 @@ PROGMEM const unsigned char chr_f2_42e[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_42f[15] =
+const unsigned char chr_f2_42f[15] =
     {
         0x00,
         0x00,
@@ -2101,7 +2101,7 @@ PROGMEM const unsigned char chr_f2_42f[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_431[15] =
+const unsigned char chr_f2_431[15] =
     {
         0x00,
         0x00,
@@ -2119,7 +2119,7 @@ PROGMEM const unsigned char chr_f2_431[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_432[15] =
+const unsigned char chr_f2_432[15] =
     {
         0x00,
         0x00,
@@ -2137,7 +2137,7 @@ PROGMEM const unsigned char chr_f2_432[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_433[15] =
+const unsigned char chr_f2_433[15] =
     {
         0x00,
         0x00,
@@ -2155,7 +2155,7 @@ PROGMEM const unsigned char chr_f2_433[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_434[15] =
+const unsigned char chr_f2_434[15] =
     {
         0x00,
         0x00,
@@ -2173,7 +2173,7 @@ PROGMEM const unsigned char chr_f2_434[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_436[15] =
+const unsigned char chr_f2_436[15] =
     {
         0x00,
         0x00,
@@ -2191,7 +2191,7 @@ PROGMEM const unsigned char chr_f2_436[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_437[15] =
+const unsigned char chr_f2_437[15] =
     {
         0x00,
         0x00,
@@ -2209,7 +2209,7 @@ PROGMEM const unsigned char chr_f2_437[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_438[15] =
+const unsigned char chr_f2_438[15] =
     {
         0x00,
         0x00,
@@ -2227,7 +2227,7 @@ PROGMEM const unsigned char chr_f2_438[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_439[15] =
+const unsigned char chr_f2_439[15] =
     {
         0x00,
         0x00,
@@ -2245,7 +2245,7 @@ PROGMEM const unsigned char chr_f2_439[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43a[15] =
+const unsigned char chr_f2_43a[15] =
     {
         0x00,
         0x00,
@@ -2263,7 +2263,7 @@ PROGMEM const unsigned char chr_f2_43a[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43b[15] =
+const unsigned char chr_f2_43b[15] =
     {
         0x00,
         0x00,
@@ -2281,7 +2281,7 @@ PROGMEM const unsigned char chr_f2_43b[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43c[15] =
+const unsigned char chr_f2_43c[15] =
     {
         0x00,
         0x00,
@@ -2299,7 +2299,7 @@ PROGMEM const unsigned char chr_f2_43c[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43d[15] =
+const unsigned char chr_f2_43d[15] =
     {
         0x00,
         0x00,
@@ -2317,7 +2317,7 @@ PROGMEM const unsigned char chr_f2_43d[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_43f[15] =
+const unsigned char chr_f2_43f[15] =
     {
         0x00,
         0x00,
@@ -2335,7 +2335,7 @@ PROGMEM const unsigned char chr_f2_43f[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_442[15] =
+const unsigned char chr_f2_442[15] =
     {
         0x00,
         0x00,
@@ -2353,7 +2353,7 @@ PROGMEM const unsigned char chr_f2_442[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_444[15] =
+const unsigned char chr_f2_444[15] =
     {
         0x00,
         0x00,
@@ -2371,7 +2371,7 @@ PROGMEM const unsigned char chr_f2_444[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_446[15] =
+const unsigned char chr_f2_446[15] =
     {
         0x00,
         0x00,
@@ -2389,7 +2389,7 @@ PROGMEM const unsigned char chr_f2_446[15] =
         0x02,
         0x00};
 
-PROGMEM const unsigned char chr_f2_447[15] =
+const unsigned char chr_f2_447[15] =
     {
         0x00,
         0x00,
@@ -2407,7 +2407,7 @@ PROGMEM const unsigned char chr_f2_447[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_448[15] =
+const unsigned char chr_f2_448[15] =
     {
         0x00,
         0x00,
@@ -2425,7 +2425,7 @@ PROGMEM const unsigned char chr_f2_448[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_449[15] =
+const unsigned char chr_f2_449[15] =
     {
         0x00,
         0x00,
@@ -2443,7 +2443,7 @@ PROGMEM const unsigned char chr_f2_449[15] =
         0x01,
         0x01};
 
-PROGMEM const unsigned char chr_f2_44a[15] =
+const unsigned char chr_f2_44a[15] =
     {
         0x00,
         0x00,
@@ -2461,7 +2461,7 @@ PROGMEM const unsigned char chr_f2_44a[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_44b[15] =
+const unsigned char chr_f2_44b[15] =
     {
         0x00,
         0x00,
@@ -2479,7 +2479,7 @@ PROGMEM const unsigned char chr_f2_44b[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_44c[15] =
+const unsigned char chr_f2_44c[15] =
     {
         0x00,
         0x00,
@@ -2497,7 +2497,7 @@ PROGMEM const unsigned char chr_f2_44c[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_44d[15] =
+const unsigned char chr_f2_44d[15] =
     {
         0x00,
         0x00,
@@ -2515,7 +2515,7 @@ PROGMEM const unsigned char chr_f2_44d[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_44e[15] =
+const unsigned char chr_f2_44e[15] =
     {
         0x00,
         0x00,
@@ -2533,7 +2533,7 @@ PROGMEM const unsigned char chr_f2_44e[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_44f[15] =
+const unsigned char chr_f2_44f[15] =
     {
         0x00,
         0x00,
@@ -2553,7 +2553,7 @@ PROGMEM const unsigned char chr_f2_44f[15] =
 
 //-------------------------------------------------------------------
 
-PROGMEM const unsigned char chr_f2_404[15] =
+const unsigned char chr_f2_404[15] =
     {
         0x00,
         0x00,
@@ -2571,7 +2571,7 @@ PROGMEM const unsigned char chr_f2_404[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_454[15] =
+const unsigned char chr_f2_454[15] =
     {
         0x00,
         0x00,
@@ -2589,7 +2589,7 @@ PROGMEM const unsigned char chr_f2_454[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_407[15] =
+const unsigned char chr_f2_407[15] =
     {
         0x6c,
         0x6c,
@@ -2607,7 +2607,7 @@ PROGMEM const unsigned char chr_f2_407[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_457[15] =
+const unsigned char chr_f2_457[15] =
     {
         0x00,
         0x00,
@@ -2625,7 +2625,7 @@ PROGMEM const unsigned char chr_f2_457[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_490[15] =
+const unsigned char chr_f2_490[15] =
     {
         0x00,
         0x04,
@@ -2643,7 +2643,7 @@ PROGMEM const unsigned char chr_f2_490[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_491[15] =
+const unsigned char chr_f2_491[15] =
     {
         0x00,
         0x00,
@@ -2661,7 +2661,7 @@ PROGMEM const unsigned char chr_f2_491[15] =
         0x00,
         0x00};
 
-PROGMEM const unsigned char chr_f2_unk[15] =
+const unsigned char chr_f2_unk[15] =
     {
         0x00,
         0x00,
@@ -2681,7 +2681,7 @@ PROGMEM const unsigned char chr_f2_unk[15] =
 
 #define CHRS_NMBR 167
 
-PROGMEM const unsigned char widtbl_f2[CHRS_NMBR] =
+const unsigned char widtbl_f2[CHRS_NMBR] =
     {
         4, 5, 5, 8, 7, 9, 8, 3,
         6, 6, 8, 7, 4, 6, 4, 8,
@@ -2701,12 +2701,12 @@ PROGMEM const unsigned char widtbl_f2[CHRS_NMBR] =
         9, 9, 8, 9, 7, 8, 9, 8,
         8, 8, 8, 7, 8, 8, 9, 8,
         8, 8, 8, 8, 9, 8, 8, 8,
-        8, 8, 7, 8, 9, 8, 8, 8,
+        8, 8, 7, 7, 9, 8, 8, 8,
         9, 9, 8, 9, 7, 8, 9, 8,
         //
         8, 8, 7, 7, 7, 7, 7};
 
-PROGMEM const unsigned char *const chrtbl_f2[CHRS_NMBR] =
+const unsigned char *const chrtbl_f2[CHRS_NMBR] =
     {
         chr_f2_20, chr_f2_21, chr_f2_22, chr_f2_23, chr_f2_24, chr_f2_25, chr_f2_26, chr_f2_27,
         chr_f2_28, chr_f2_29, chr_f2_2A, chr_f2_2B, chr_f2_2C, chr_f2_2D, chr_f2_2E, chr_f2_2F,
