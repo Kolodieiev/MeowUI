@@ -29,7 +29,7 @@ MenuScreen::MenuScreen(GraphicsDriver &display) : IScreen(display)
     _menu->setWidth(_display.width() - SCROLLBAR_WIDTH - 2);
     _menu->setHeight(_display.height() - NAVBAR_HEIGHT - 2);
     _menu->setItemHeight((_display.height() - NAVBAR_HEIGHT - 2) / 4); // Встановити висоту для кожного окремого елемента списку
-                                                                       // В залежності від висоти меню і цього параметра, буде розраховано кількість видимих елементів 
+                                                                       // В залежності від висоти меню і цього параметра, буде розраховано кількість видимих елементів
     //
     _scrollbar = new ScrollBar(ID_SCROLLBAR, _display);
     layout->addWidget(_scrollbar);
@@ -79,7 +79,7 @@ MenuScreen::MenuScreen(GraphicsDriver &display) : IScreen(display)
     _menu->addWidget(ex3_item);
     ex3_item->setText(STR_EXAMPL3_ITEM);
 
-    //------------------------------------------------------------------------------------------------------------------------ Встановлення кількості позицій скролбару 
+    //------------------------------------------------------------------------------------------------------------------------ Встановлення кількості позицій скролбару
 
     _scrollbar->setMax(_menu->getSize());
 }
@@ -90,7 +90,7 @@ void MenuScreen::loop()
 
 void MenuScreen::update()
 {
-    if (_input.isHolded(Input::PIN_UP)) //
+    if (_input.isHolded(Input::PIN_UP)) 
     {
         _input.lock(Input::PIN_UP, 200);
         up();
@@ -127,13 +127,12 @@ void MenuScreen::down()
 
 void MenuScreen::ok()
 {
-    uint16_t id = _menu->getCurrentItemID();
-
+    uint16_t id = _menu->getCurrentItemID(); // Отримати ідентифікатор виділеного елементу меню
     _input.reset();
 
-    // if (ID == ID_SCREEN_MUSIC)
-    //     openScreenByID(ID_SCREEN_MUSIC);
+    // Якщо список меню визначае екрани, тоді елементам меню в якості id можна задати id екранів та викликати одразу openScreenByID(id);
+    // Але для прикладу буде так.
+    if (id == ID_GAMES)
+        openScreenByID(ID_SCREEN_GAMES);
 
-    // else if (ID == ID_SCREEN_FILES)
-    //     openScreenByID(ID_SCREEN_FILES);
 }

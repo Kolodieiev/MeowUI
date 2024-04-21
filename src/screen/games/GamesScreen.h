@@ -2,8 +2,8 @@
 #include <Arduino.h>
 
 #include "meow/ui/screen/IScreen.h"
-
-// TODO Додати меню із списком ігор
+#include "meow/ui/widget/menu/FixedMenu.h"
+#include "meow/ui/widget/scrollbar/ScrollBar.h"
 
 using namespace meow;
 
@@ -11,7 +11,7 @@ class GamesScreen : public IScreen
 {
 public:
     GamesScreen(GraphicsDriver &display);
-    virtual ~GamesScreen();
+    virtual ~GamesScreen(){}
 
 protected:
     virtual void loop() override;
@@ -20,6 +20,20 @@ protected:
 private:
     enum Widget_ID : uint8_t
     {
-        ID_W = 1,
+        ID_MENU = 1,
+        ID_SCROLLBAR,
+        ID_NAVBAR,
     };
+
+    enum Item_ID : uint8_t
+    {
+        ID_SNAKE = 1,
+    };
+
+    FixedMenu *_menu;
+    ScrollBar *_scrollbar;
+
+    void up();
+    void down();
+    void ok();
 };
