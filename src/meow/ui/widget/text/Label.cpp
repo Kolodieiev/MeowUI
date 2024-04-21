@@ -154,7 +154,7 @@ namespace meow
 
     uint16_t Label::calcRealStrLen(const String &str) const
     {
-        if (str == nullptr || str == "")
+        if (str.isEmpty())
             return 0;
 
         uint16_t length{0};
@@ -162,9 +162,7 @@ namespace meow
         for (char c : str)
         {
             if ((c & 0xC0) != 0x80)
-            {
                 ++length;
-            }
         }
         return length;
     }
@@ -175,29 +173,103 @@ namespace meow
             return 0;
 
         uint16_t len = _text.length();
-        uint16_t n = char_pos;
+        uint8_t *ch_str_p8 = (uint8_t *)_text.c_str();
+
+        uint16_t byte_pos = charPosToByte(ch_str_p8, char_pos);
 
         uint16_t unicode;
         uint16_t pix_sum{0};
 
-        uint8_t *ch_str_p8 = (uint8_t *)_text.c_str();
+        const unsigned char *width_table;
 
         if (_font_ID == 2)
-            while (n < len)
-            {
-                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
-                unicode = getCharPos(unicode);
-                pix_sum += pgm_read_byte(widtbl_f2 + unicode);
-            }
+            width_table = widtbl_f2;
+        else if (_font_ID == 4)
+            width_table = widtbl_f4;
         else
-            while (n < len)
-            {
-                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
-                unicode = getCharPos(unicode);
-                pix_sum += pgm_read_byte(widtbl_f4 + unicode);
-            }
+        {
+            log_e("Невідомий шрифт");
+            esp_restart();
+        }
+
+        while (byte_pos < len)
+        {
+            unicode = utf8ToUnicode(ch_str_p8, byte_pos, len - byte_pos);
+            unicode = getCharPos(unicode);
+            pix_sum += pgm_read_byte(width_table + unicode);
+        }
 
         return pix_sum * _text_size;
+    }
+
+    uint16_t Label::charPosToByte(const uint8_t *buf, uint16_t char_pos) const
+    {
+        uint16_t char_num = 0;
+        uint16_t i = 0;
+
+        while (char_num < char_pos && buf[i] != '\0')
+        {
+            if ((buf[i] & 0x80) == 0x00)
+                ++i;
+            else if ((buf[i] & 0xE0) == 0xC0)
+                i += 2;
+            else if ((buf[i] & 0xF0) == 0xE0)
+                i += 3;
+            else if ((buf[i] & 0xF8) == 0xF0)
+                i += 4;
+            else
+                ++i;
+
+            ++char_num;
+        }
+
+        return i;
+    }
+
+    uint32_t Label::utf8ToUnicode(const uint8_t *buf, uint16_t &byte_pos, uint16_t remaining) const
+    {
+        uint32_t codepoint = 0;
+
+        if ((buf[byte_pos] & 0x80) == 0x00)
+        {
+            // 1-byte sequence
+            codepoint = buf[byte_pos];
+            ++byte_pos;
+        }
+        else if ((buf[byte_pos] & 0xE0) == 0xC0 && remaining > 1)
+        {
+            // 2-byte sequence
+            codepoint = (buf[byte_pos] & 0x1F) << 6;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F);
+            ++byte_pos;
+        }
+        else if ((buf[byte_pos] & 0xF0) == 0xE0 && remaining > 2)
+        {
+            // 3-byte sequence
+            codepoint = (buf[byte_pos] & 0x0F) << 12;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F) << 6;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F);
+            ++byte_pos;
+        }
+        else if ((buf[byte_pos] & 0xF8) == 0xF0 && remaining > 3)
+        {
+            // 4-byte sequence
+            codepoint = (buf[byte_pos] & 0x07) << 18;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F) << 12;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F) << 6;
+            ++byte_pos;
+            codepoint |= (buf[byte_pos] & 0x3F);
+            ++byte_pos;
+        }
+        else
+            ++byte_pos;
+
+        return codepoint;
     }
 
     uint16_t Label::getFitStr(String &ret_str, uint16_t start_pos) const
@@ -216,54 +288,49 @@ namespace meow
             esp_restart();
         }
 
-        uint16_t n = start_pos;
+        const unsigned char *width_table;
 
-        uint16_t unicode;
-        uint16_t pix_sum{0};
-
-        uint16_t chars_counter{0};
+        if (_font_ID == 2)
+            width_table = widtbl_f2;
+        else if (_font_ID == 4)
+            width_table = widtbl_f4;
+        else
+        {
+            log_e("Невідомий шрифт");
+            esp_restart();
+        }
 
         uint8_t *ch_str_p8 = (uint8_t *)_text.c_str();
 
-        if (_font_ID == 2)
+        uint16_t byte_pos = charPosToByte(ch_str_p8, start_pos);
+
+        uint32_t code;
+        uint16_t pos;
+
+        uint16_t pix_sum{0};
+        uint16_t chars_counter{0};
+
+        while (byte_pos < len)
         {
-            while (n < len)
+            code = utf8ToUnicode(ch_str_p8, byte_pos, len - byte_pos);
+
+            if (!code)
+                continue;
+
+            pos = getCharPos(code);
+
+            uint16_t char_w = pgm_read_byte(width_table + pos) * _text_size;
+
+            if (pix_sum + char_w >= _width - _text_offset - 3)
+                break;
+            else
             {
-                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
-                unicode = getCharPos(unicode);
-
-                uint16_t char_w = pgm_read_byte(widtbl_f2 + unicode) * _text_size;
-
-                if (pix_sum + char_w >= _width - _text_offset - 2)
-                    break;
-                else
-                {
-                    pix_sum += char_w;
-                    chars_counter++;
-                }
-            }
-        }
-        else if (_font_ID == 4)
-        {
-            while (n < len)
-            {
-                unicode = _display.decodeUTF8(ch_str_p8, &n, len - n);
-                unicode = getCharPos(unicode);
-
-                uint16_t char_w = pgm_read_byte(widtbl_f4 + unicode) * _text_size;
-
-                if (pix_sum + char_w >= _width - _text_offset - 2)
-                    break;
-                else
-                {
-                    pix_sum += char_w;
-                    chars_counter++;
-                }
+                pix_sum += char_w;
+                ++chars_counter;
             }
         }
 
         ret_str = getSubStr(_text, start_pos, chars_counter);
-
         return pix_sum;
     }
 
@@ -273,7 +340,6 @@ namespace meow
             return "";
 
         unsigned int c, i, ix, q;
-
         unsigned int min = -1, max = -1; //
 
         for (q = 0, i = 0, ix = str.length(); i < ix; ++i, q++)
@@ -307,7 +373,7 @@ namespace meow
         return str.substring(min, max);
     }
 
-    uint16_t Label::getCharPos(uint16_t unicode) const
+    uint16_t Label::getCharPos(uint32_t unicode) const
     {
         if (unicode > 127)
         {
@@ -429,6 +495,7 @@ namespace meow
             if (!_is_multiline)
             {
                 sub_str_pix_num = getFitStr(sub_str, _first_draw_char_pos);
+
                 txt_x_pos = calcXStrOffset(sub_str_pix_num);
 
                 if (_temp_is_ticker || (_temp_is_ticker_in_focus && _has_focus))
@@ -436,7 +503,7 @@ namespace meow
                     if (_first_draw_char_pos == _text_len - 1 || sub_str_pix_num == 0)
                         _first_draw_char_pos = 0;
                     else
-                        _first_draw_char_pos++;
+                        ++_first_draw_char_pos;
                 }
 
                 _display.drawString(sub_str, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + txtYPos);
