@@ -19,7 +19,7 @@ namespace meow
         void setVolume(uint8_t volume);
         inline uint8_t getVolume() const { return _volume * MAX_VOLUME; }
 
-        // Встановити коефіцієнт фільтрації шуму. По замовченню встановлено 200.
+        // Встановити коефіцієнт фільтрації шуму. По замовченню встановлено 1. Без фільтрації.
         void setFiltrationLvl(uint16_t lvl) { _filtration_lvl = lvl; }
         void freeData();
 
