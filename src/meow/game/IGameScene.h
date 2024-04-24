@@ -19,25 +19,37 @@ namespace meow
     class IGameScene
     {
     public:
-        IGameScene(GraphicsDriver &display, Input &input) : _display{display},
-                                                            _input{input},
-                                                            _game_map{GameMap(display)} {}
+        IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs) : _display{display},
+                                                                                                   _input{input},
+                                                                                                   _game_map{GameMap(display)},
+                                                                                                   _stored_objs{stored_objs}
+        {
+        }
+
         virtual ~IGameScene() = 0;
+
+        // Функія, яка викликається керуючим екраном кожний кадр
         virtual void update() = 0;
+
+        // Функция обробник тригерів сцени
         virtual void onTriggered(int16_t id) {}
         //
         IGameScene(const IGameScene &rhs) = delete;
         IGameScene &operator=(const IGameScene &rhs) = delete;
         //
+        // Службовий метод, необхідний екрану для перевірки стану гри
         inline bool isFinished() const { return _is_finished; }
+        // Службовий метод, необхідний екрану для перевірки стану сцени
         inline bool isReleased() const { return _is_released; }
+        // Службовий метод, який повідомляє екрану ідентифікатор наступої сцени, яка повинна бути відкрита після поточної
         inline uint8_t getNextSceneID() const { return _next_scene_ID; }
         //
     protected:
-        //
+        // Прапор встановлення сцени на паузу
         bool _is_paused{false};
-        //
+        // Прапор, який вказує, що поточна сцена готова звільнити своє місце для наступної сцени
         bool _is_released{false};
+        // Прапор, який повідомляє керуючому екрану, що гру завершено
         bool _is_finished{false};
         //
         uint8_t _next_scene_ID{0};
@@ -54,17 +66,20 @@ namespace meow
         GraphicsDriver &_display;
         // Ввід
         Input &_input;
-
+        // Звуковий менеджер
         WavManager _audio;
 
-        //
+        // Контейнер для перенесення відбитків об'єктів до наступної сцени.
+        std::vector<IObjShape *> &_stored_objs;
+
+        // Знищити поточну сцену і відкрити наступну із вказаним ідентифікатором
         inline void openSceneByID(uint16_t scene_ID)
         {
             _next_scene_ID = scene_ID;
             _is_released = true;
         }
-        inline void endGame() { _is_finished = true; }
 
+        // Метод-шаблон для створення ігрових об'єктів
         template <typename T>
         T *createObject()
         {
