@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "meow/ui/Meow.h"
+#include "meow/ui/ScreenManager.h"
 
 #define SCK_PIN 18
 #define MISO_PIN 8

@@ -5,7 +5,7 @@
 namespace meow
 {
 
-    class Meow
+    class ScreenManager
     {
     public:
         void run();
@@ -14,6 +14,6 @@ namespace meow
         GraphicsDriver _display;
     };
 
-    extern Meow MEOW;
+    extern ScreenManager MEOW;
 
 }
