@@ -12,8 +12,9 @@ namespace meow
             TYPE_NONE = 0,
             TYPE_GROUND,
             TYPE_WATER,
-            TYPE_MUD,
             TYPE_AIR,
+            TYPE_FIRE,
+            TYPE_MUD,
             TYPE_WALL
         };
 
