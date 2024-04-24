@@ -7,11 +7,11 @@
 
 using namespace meow;
 
-class GamesScreen : public IScreen
+class GamesListScreen : public IScreen
 {
 public:
-    GamesScreen(GraphicsDriver &display);
-    virtual ~GamesScreen(){}
+    GamesListScreen(GraphicsDriver &display);
+    virtual ~GamesListScreen(){}
 
 protected:
     virtual void loop() override;

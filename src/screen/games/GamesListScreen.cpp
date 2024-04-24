@@ -1,4 +1,4 @@
-#include "GamesScreen.h"
+#include "GamesListScreen.h"
 #include "../resources/color.h"
 #include "../resources/string.h"
 #include "../resources/const.h"
@@ -11,7 +11,7 @@
 #include "./icons/snake_ico.h"
 #include "./icons/sokoban_ico.h"
 
-GamesScreen::GamesScreen(GraphicsDriver &display) : IScreen(display)
+GamesListScreen::GamesListScreen(GraphicsDriver &display) : IScreen(display)
 {
     //------------------------------------------------------------------------------------------------------------------------ Пам'ятка
 
@@ -95,11 +95,11 @@ GamesScreen::GamesScreen(GraphicsDriver &display) : IScreen(display)
     _scrollbar->setMax(_menu->getSize());
 }
 
-void GamesScreen::loop()
+void GamesListScreen::loop()
 {
 }
 
-void GamesScreen::update()
+void GamesListScreen::update()
 {
     if (_input.isHolded(Input::PIN_UP))
     {
@@ -119,18 +119,18 @@ void GamesScreen::update()
     }
 }
 
-void GamesScreen::up()
+void GamesListScreen::up()
 {
     _menu->focusUp();
     _scrollbar->scrollUp();
 }
 
-void GamesScreen::down()
+void GamesListScreen::down()
 {
     _menu->focusDown();
     _scrollbar->scrollDown();
 }
 
-void GamesScreen::ok()
+void GamesListScreen::ok()
 {
 }

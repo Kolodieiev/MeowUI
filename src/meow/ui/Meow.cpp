@@ -7,7 +7,7 @@
 #include "screen/splash/SplashScreen.h"
 #include "screen/home/HomeScreen.h"
 #include "screen/menu/MenuScreen.h"
-#include "screen/games/GamesScreen.h"
+#include "screen/games/GamesListScreen.h"
 #include "screen/mp3/Mp3Screen.h"
 #include "screen/files/FilesScreen.h"
 #include "screen/preferences/PrefScreen.h"
@@ -48,7 +48,7 @@ namespace meow
                     screen = new MenuScreen(_display);
                     break;
                 case ScreenID::ID_SCREEN_GAMES:
-                    screen = new GamesScreen(_display);
+                    screen = new GamesListScreen(_display);
                     break;
                 case ScreenID::ID_SCREEN_MP3:
                     screen = new Mp3Screen(_display);
