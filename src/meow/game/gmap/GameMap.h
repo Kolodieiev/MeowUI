@@ -40,6 +40,9 @@ namespace meow
         // Чи можна пройти в указанному напрямку
         bool canPass(uint16_t x_from, uint16_t y_from, int32_t x_to, int32_t y_to, const BodyDescription &body, const SpriteDescription &sprite);
 
+        // Отримати тип плитки в указаних координатах
+        Tile::TileType getTileType(uint16_t x, uint16_t y);
+
         // Встановити позицію камери
         void setCameraPos(uint16_t x, uint16_t y);
         // Перевірити, чи потрапляє об'єкт до view-порту

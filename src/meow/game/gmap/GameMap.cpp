@@ -212,6 +212,16 @@ namespace meow
         return false;
     }
 
+    Tile::TileType GameMap::getTileType(uint16_t x, uint16_t y)
+    {
+        if (x > _map_w || y > _map_h)
+            return Tile::TileType::TYPE_NONE;
+
+        uint16_t tile_y_pos = getTilePos(y);
+        uint16_t tile_x_pos = getTilePos(x);
+        return _tiles[tile_y_pos][tile_x_pos]->_type;
+    }
+
     bool GameMap::isInView(uint16_t x_pos, uint16_t y_pos, uint16_t sprite_w, uint16_t sprite_h)
     {
         if (x_pos + sprite_w < _view_x || y_pos + sprite_h < _view_y || x_pos > _view_x + VIEW_W || y_pos > _view_y + VIEW_H)
