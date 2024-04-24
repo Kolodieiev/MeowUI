@@ -7,6 +7,8 @@ namespace meow
     class Tile
     {
     public:
+
+        // Типи поверхні плитки. Можете розширити власними типами, за потреби.
         enum TileType : uint8_t
         {
             TYPE_NONE = 0,

@@ -40,6 +40,14 @@ namespace meow
         virtual void update() = 0;
         // Метод, в якому рекомендується ралізовувати ініціалізацію об'єкта
         virtual void init() = 0;
+
+        // Повертає образ об'єкта, який можна перенести між сценами або зберегти до файлу
+        virtual IObjShape *getShape() = 0;
+
+        // Повертає об'єкту властивості із образу
+        virtual void reborn(IObjShape *shape) = 0;
+
+        // Службовий метод, що відповідає за відрисовку спрайту об'єкта. Не обов'язковий до перевантаження
         virtual void onDraw();
         //
         uint16_t _x_global{0}; // Координати об'єкта на мапі
@@ -48,8 +56,8 @@ namespace meow
         int32_t _x_local{0}; // Координати об'єкта на екрані
         int32_t _y_local{0}; // Координати об'єкта на екрані
         //
-        BodyDescription _body{};
-        SpriteDescription _sprite{};
+        BodyDescription _body{};     // Структура, що описує характеристики твердого тіла об'єкта
+        SpriteDescription _sprite{}; // Структура, яка описує спрайт об'єкта та його стани
 
         inline const char *getName() const { return _name; }
         inline int16_t getTriggerID() const { return _trigger_ID; }
@@ -58,24 +66,18 @@ namespace meow
         inline bool isDestroyed() const { return _is_destroyed; }
         inline uint8_t getLayer() const { return _layer; }
 
-        // Костиль, що дозволяє фільтрувати типи об'єктів. instanceof не підтримується.
+        // Метод, що дозволяє фільтрувати типи об'єктів. instanceof не підтримується
         int16_t getClassID() const { return _class_ID; }
 
-        // Повертає образ об'єкта, який можна перенести між сценами або зберегти до файлу
-        virtual IObjShape *getShape() = 0;
-
-        // Повертає об'єкту властивості із образу
-        virtual void reborn(IObjShape *shape) = 0;
-
     protected:
-        int16_t _class_ID{-1};
+        int16_t _class_ID{-1};     // Ідентифікатор типу об'єкта
         int16_t _trigger_ID{-1};   // Ідентифіктор тригера
         bool _is_triggered{false}; // Прапор спрацювання тригера об'єкта
 
-        const char *_name{nullptr};
+        const char *_name{nullptr}; // Ім'я об'єкта, може не використовуватися
 
         bool _is_destroyed{false}; // Прапор знищення об'єкта іншими об'єктами
-        uint8_t _layer{0};         // Шар сортування об'єкта. Чим більше значення, тим вище шар
+        uint8_t _layer{0};         // Шар сортування об'єкта по осі Z. Чим більше значення, тим вище шар
         //
         WavManager &_audio;
         GameMap &_game_map;                   // ігрова мапа
@@ -100,11 +102,16 @@ namespace meow
         // Повертає true якщо спрайт об'єкта пересікається з цими координатами
         bool hasIntersectWithPoint(uint16_t x_to, uint16_t y_to);
 
-        //
+        // Розрахувати кут від pivot об'єкта, до вказаної точки
         uint16_t calcAngleToPoint(uint16_t x, uint16_t y);
+
+        // Розрахувати відстань від pivot об'єкта до вказаної точки
         uint16_t calcDistToPoint(uint16_t x, uint16_t y);
+
+        // Зробити крок в сторону об'єкта, що знаходиться в указаних координатах з шириною кроку step_w
         void stepToPoint(uint16_t x_to, uint16_t y_to, uint16_t step_w);
 
+        // Метод-шаблон для створення ігрових об'єктів
         template <typename T>
         T *createObject()
         {
