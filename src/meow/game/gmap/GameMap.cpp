@@ -147,11 +147,11 @@ namespace meow
 
     bool GameMap::canPass(uint16_t x_from, uint16_t y_from, int32_t x_to, int32_t y_to, const BodyDescription &body, const SpriteDescription &sprite)
     {
-        if (!body.is_rigid)
-            return true;
-
         if (x_to < 0 || y_to < 0 || x_to > _map_w || y_to > _map_h)
             return false;
+
+        if (!body.is_rigid)
+            return true;
 
         // Якщо рух вгору чи вниз, додатково перевірити по ширині.
         // Якщо вправо чи вліво, по висоті.
