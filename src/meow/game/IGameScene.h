@@ -28,10 +28,10 @@ namespace meow
 
         virtual ~IGameScene() = 0;
 
-        // Функія, яка викликається керуючим екраном кожний кадр
+        // Метод, що викликається керуючим екраном кожний кадр
         virtual void update() = 0;
 
-        // Функция обробник тригерів сцени
+        // Метод-обробник тригерів сцени
         virtual void onTriggered(int16_t id) {}
         //
         IGameScene(const IGameScene &rhs) = delete;
