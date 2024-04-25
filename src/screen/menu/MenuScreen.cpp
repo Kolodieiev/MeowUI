@@ -133,6 +133,6 @@ void MenuScreen::ok()
     // Якщо список меню визначае екрани, тоді елементам меню в якості id можна задати id екранів та викликати одразу openScreenByID(id);
     // Але для прикладу буде так.
     if (id == ID_GAMES)
-        openScreenByID(ID_SCREEN_GAMES);
+        openScreenByID(ID_SCREEN_GAMES_LIST);
 
 }
