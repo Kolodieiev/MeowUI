@@ -27,7 +27,7 @@ const char STR_FIRMWARE_ITEM[] = "Прошивка";
 const char STR_EXAMPL2_ITEM[] = "Зарезервовано 2";
 const char STR_EXAMPL3_ITEM[] = "Зарезервовано 3";
 // games
-const char STR_SNAKE_ITEM[] = "Змійка та якась дуже довга назва гри";
+const char STR_SNAKE_ITEM[] = "Змійка. Та дуже-дуже-дуже багато тексту";
 const char STR_SOKOBAN_ITEM[] = "Комірник";
 //
 // const char MON_STR[]  = "Понеділок";
