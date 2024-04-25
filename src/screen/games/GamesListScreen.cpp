@@ -45,7 +45,8 @@ GamesListScreen::GamesListScreen(GraphicsDriver &display) : IScreen(display)
 
     //------------------------------------------------------------------------------------------------------------------------ Налаштування елементів меню
 
-    ImageItem *snake_item = new ImageItem(ID_SNAKE, _display);
+    ImageItem *snake_item = new ImageItem(ID_SCREEN_SNAKE, _display); // В якості ідентифікатора елементу присвоюється ідентифікатор екрану.
+                                                                      // Завдяки цьому, не потрібно писати додаткову перевірку. Див. метод void ok();
     _menu->addWidget(snake_item);
     snake_item->setFocusBorderColor(COLOR_LIME);
     snake_item->setFocusBackColor(COLOR_FOCUS_BACK);
@@ -55,7 +56,7 @@ GamesListScreen::GamesListScreen(GraphicsDriver &display) : IScreen(display)
     snake_item->setChangingBack(true);   // Змінювати фоновий колір коли віджет потрапляє у фокус
     snake_item->setTickerInFocus(true);  // Вмикаємо прокрутку тексту, коли на елемент потрапляє фокус і ширини недостатньо, щоб вмістити увесь текст.
 
-    ImageItem *sokoban_item = snake_item->clone(ID_SOKOBAN);
+    ImageItem *sokoban_item = snake_item->clone(ID_SCREEN_SOKOBAN);
     _menu->addWidget(sokoban_item);
 
     //------------------------------------------------------------------------------------------------------------------------
@@ -117,6 +118,12 @@ void GamesListScreen::update()
         _input.reset();
         openScreenByID(ID_SCREEN_MENU);
     }
+    else if (_input.isReleased(Input::PIN_SELECT))
+    {
+        _input.lock(Input::PIN_SELECT, 500);
+        _input.reset();
+        ok();
+    }
 }
 
 void GamesListScreen::up()
@@ -133,4 +140,10 @@ void GamesListScreen::down()
 
 void GamesListScreen::ok()
 {
+    uint8_t screen_id = _menu->getCurrentItemID();
+
+    if (screen_id == ID_SCREEN_SNAKE)
+        return; // Гру ще не реалізовано
+
+    openScreenByID((ScreenID)screen_id); // Ігровий екран буде відкриватися без додаткової перевірки.
 }

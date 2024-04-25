@@ -25,12 +25,6 @@ private:
         ID_NAVBAR,
     };
 
-    enum Item_ID : uint8_t
-    {
-        ID_SNAKE = 1,
-        ID_SOKOBAN
-    };
-
     FixedMenu *_menu;
     ScrollBar *_scrollbar;
 
