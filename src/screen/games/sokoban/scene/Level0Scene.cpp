@@ -1,5 +1,7 @@
 #include "Level0Scene.h"
 
+#include "../obj/TriggerID.h"
+
 // Підключити шаблон мапи рівня
 #include "../map/template/map_scene_0.h"
 
@@ -75,22 +77,22 @@ void Level0Scene::update()
 
         if (_input.isReleased(Input::PIN_UP)) // Оброблюємо тільки відпусканя кнопок
         {
-            _input.lock(Input::PIN_UP, 200); // Блокуємо кнопку на 200мс, щоб запобігти випадковим зайвим натисканням
+            _input.lock(Input::PIN_UP, 100); // Блокуємо кнопку на 200мс, щоб запобігти випадковим зайвим натисканням
             direction = IGameObject::DIRECTION_UP;
         }
         else if (_input.isReleased(Input::PIN_DOWN))
         {
-            _input.lock(Input::PIN_DOWN, 200);
+            _input.lock(Input::PIN_DOWN, 100);
             direction = IGameObject::DIRECTION_DOWN;
         }
         else if (_input.isReleased(Input::PIN_RIGHT))
         {
-            _input.lock(Input::PIN_RIGHT, 200);
+            _input.lock(Input::PIN_RIGHT, 100);
             direction = IGameObject::DIRECTION_RIGHT;
         }
         else if (_input.isReleased(Input::PIN_LEFT))
         {
-            _input.lock(Input::PIN_LEFT, 200);
+            _input.lock(Input::PIN_LEFT, 100);
             direction = IGameObject::DIRECTION_LEFT;
         }
 
@@ -103,6 +105,8 @@ void Level0Scene::update()
 
 void Level0Scene::onTriggered(int16_t id)
 {
+    if (id == TriggerID::TRIGGER_NEXT_SCENE)
+        _is_finished = true;
 }
 
 void Level0Scene::buildMap()
