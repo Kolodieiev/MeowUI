@@ -1,33 +1,34 @@
-#include "BoxObj.h"
+#include "BoxPointObj.h"
+//
 #include "../ClassID.h"
+//
+#include "./res/sprite_box_point.h"
 
-#include "./res/sprite_box.h"
-#include "./res/sprite_box_ok.h"
-
-void BoxObj::init()
+void BoxPointObj::init()
 {
-    _class_ID = ClassID::CLASS_BOX;
-    _layer = 1; // Об'єкт повинен бути вище об'єктів точок
-    _sprite.img_ptr = SPRITE_BOX;
+    _class_ID = ClassID::CLASS_BOX_POINT;
+    _sprite.img_ptr = SPRITE_BOX_POIN;
     _sprite.has_img = true;
     _sprite.width = 32;
     _sprite.height = 32;
 
+    _body.is_rigid = false;
+
     initSprite();
 }
 
-void BoxObj::update()
+void BoxPointObj::update()
 {
 }
 
-IObjShape *BoxObj::getShape()
+IObjShape *BoxPointObj::getShape()
 {
     log_e("Об'єкт не повинен повертати свій образ");
     esp_restart();
     return nullptr;
 }
 
-void BoxObj::reborn(IObjShape *shape)
+void BoxPointObj::reborn(IObjShape *shape)
 {
     log_e("Об'єкт не повинен бути відновлений");
     esp_restart();

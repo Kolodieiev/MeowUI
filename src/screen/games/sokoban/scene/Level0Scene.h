@@ -22,6 +22,8 @@ public:
     virtual void onTriggered(int16_t id) override;
 
 private:
+    const uint8_t BOX_NUM{7};
+
     GhostObj *_ghost;     // Об'єкт який дозволяє переміщувати камеру по ігровому рівню.
     SokobanObj *_sokoban; // Вказівник на персонажа. Його не можна видаляти самостійно. Тому що цей об'єкт буде додано до ігрового світу і сцена видалить його сама
 
@@ -35,4 +37,6 @@ private:
     void createSokoban();
     // Створити об'єкти ящиків
     void createBoxes();
+    // Створити об'єкти ключових точок, на яких повинні бути встановлені ящики
+    void createBoxPoints();
 };

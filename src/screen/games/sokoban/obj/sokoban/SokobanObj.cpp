@@ -7,8 +7,8 @@
 
 void SokobanObj::init()
 {
-    _class_ID = ClassID::CLASS_HERO; // Встановити ідентифікатор типу
-
+    _class_ID = ClassID::CLASS_HERO;  // Встановити ідентифікатор типу
+    _layer = 1;                       // Об'єкт повинен бути вище об'єктів точок
     _sprite.img_ptr = SPRITE_SOKOBAN; // Встановити зображення спрайта
     _sprite.has_img = true;           // Указати, що об'єкт може малювати свій спрайт
     _sprite.width = 32;               // Ширина спрайта
