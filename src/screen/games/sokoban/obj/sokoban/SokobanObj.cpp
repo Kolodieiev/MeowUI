@@ -66,3 +66,8 @@ void SokobanObj::move(MovingDirection direction)
             _x_global += PIX_PER_STEP;
     }
 }
+
+void SokobanObj::addBoxPtr(BoxObj *box_ptr)
+{
+    _boxes.push_back(box_ptr);
+}

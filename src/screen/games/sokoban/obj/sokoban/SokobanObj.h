@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "meow/game/object/IGameObject.h"
+#include "../box/BoxObj.h"
 
 using namespace meow;
 
@@ -22,6 +23,11 @@ public:
 
     void move(MovingDirection direction);
 
+    // Додати вказівник на новий ящик на сцені. Комірник зможе перевіряти стан ящика по цьому вказівнику.
+    void addBoxPtr(BoxObj *box_ptr);
+
 private:
     const uint16_t PIX_PER_STEP{32};
+
+    std::vector<BoxObj *> _boxes;
 };

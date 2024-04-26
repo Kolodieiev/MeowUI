@@ -9,6 +9,7 @@
 //
 #include "../ui/SceneUI.h"
 // Ігрові об'єкти
+#include "../obj/box/BoxObj.h"
 
 Level0Scene::Level0Scene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs, bool is_loaded)
     : IGameScene(display, input, stored_objs)
@@ -19,6 +20,8 @@ Level0Scene::Level0Scene(GraphicsDriver &display, Input &input, std::vector<IObj
     createGhost();
 
     createSokoban();
+
+    createBoxes();
 
     _game_UI = new SceneUI(_display); // Встановити шар UI. Тут можуть відрисовуватися різноманітні інформаційні панелі
 }
@@ -127,4 +130,31 @@ void Level0Scene::createSokoban()
     _sokoban->_x_global = 2 * 32;   // Встановити глобальні координати об'єкта на 3й плитці зліва.
                                     // Точка відліку починається у верхньому лівому куті як для мапи так і для об'єктів.
     _sokoban->_y_global = 2 * 32;   // Встановити глобальні координати об'єкта на 3й плитці зверху.
+}
+
+void Level0Scene::createBoxes()
+{
+    const uint8_t BOX_NUM{7};
+
+    // Координати усіх ящиків
+    uint16_t box_arr[BOX_NUM][2] = {
+        {3 * 32, 2 * 32},
+        {4 * 32, 3 * 32},
+        {4 * 32, 4 * 32},
+        {1 * 32, 6 * 32},
+        {3 * 32, 6 * 32},
+        {4 * 32, 6 * 32},
+        {5 * 32, 6 * 32},
+    };
+
+    for (uint8_t i{0}; i < BOX_NUM; ++i)
+    {
+        BoxObj *box = createObject<BoxObj>(); // Створити об'єкт ящика
+        box->init();
+        box->_x_global = box_arr[i][0];
+        box->_y_global = box_arr[i][1];
+
+        _sokoban->addBoxPtr(box);  // Додати вказівник на об'єкт до комірника.
+        _game_objs.push_back(box); // Додати об'єкт до ігрового світу
+    }
 }

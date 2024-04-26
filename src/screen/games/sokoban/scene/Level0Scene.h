@@ -33,4 +33,6 @@ private:
     void createGhost();
     // Створити об'єкт комірника
     void createSokoban();
+    // Створити об'єкти ящиків
+    void createBoxes();
 };
