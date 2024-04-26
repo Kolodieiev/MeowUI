@@ -18,7 +18,7 @@ public:
     virtual void update() override;
     virtual IObjShape *getShape() override;
     virtual void reborn(IObjShape *shape) override;
-    virtual void onDraw() override; // Необовязковий метод
+    virtual void onDraw() override; // Необов'язковий метод
 
     void move(MovingDirection direction);
 

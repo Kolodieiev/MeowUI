@@ -44,22 +44,25 @@ void SokobanObj::onDraw()
 void SokobanObj::move(MovingDirection direction)
 {
     // TODO додати логіку переміщення ящиків
-    // TODO додати перевірку переміщення
 
     if (direction == DIRECTION_UP)
     {
-        _y_global -= PIX_PER_STEP;
+        if (_game_map.canPass(_x_global, _y_global, _x_global, _y_global - PIX_PER_STEP, _body, _sprite))
+            _y_global -= PIX_PER_STEP;
     }
     else if (direction == DIRECTION_DOWN)
     {
-        _y_global += PIX_PER_STEP;
+        if (_game_map.canPass(_x_global, _y_global, _x_global, _y_global + PIX_PER_STEP, _body, _sprite))
+            _y_global += PIX_PER_STEP;
     }
     else if (direction == DIRECTION_LEFT)
     {
-        _x_global -= PIX_PER_STEP;
+        if (_game_map.canPass(_x_global, _y_global, _x_global - PIX_PER_STEP, _y_global, _body, _sprite))
+            _x_global -= PIX_PER_STEP;
     }
     else if (direction == DIRECTION_RIGHT)
     {
-        _x_global += PIX_PER_STEP;
+        if (_game_map.canPass(_x_global, _y_global, _x_global + PIX_PER_STEP, _y_global, _body, _sprite))
+            _x_global += PIX_PER_STEP;
     }
 }
