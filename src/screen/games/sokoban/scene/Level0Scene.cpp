@@ -1,6 +1,7 @@
 #include "Level0Scene.h"
 
 #include "../obj/TriggerID.h"
+#include "../SceneID.h"
 
 // Підключити шаблон мапи рівня
 #include "../map/template/map_scene_0.h"
@@ -106,7 +107,9 @@ void Level0Scene::update()
 void Level0Scene::onTriggered(int16_t id)
 {
     if (id == TriggerID::TRIGGER_NEXT_SCENE)
-        _is_finished = true;
+    {
+        openSceneByID(SceneID::ID_SCENE_LVL1);
+    }
 }
 
 void Level0Scene::buildMap()
