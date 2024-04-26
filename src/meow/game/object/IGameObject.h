@@ -111,6 +111,9 @@ namespace meow
         // Зробити крок в сторону об'єкта, що знаходиться в указаних координатах з шириною кроку step_w
         void stepToPoint(uint16_t x_to, uint16_t y_to, uint16_t step_w);
 
+        // Отримати список об'єктів, які перетинаються з точкою
+        std::list<IGameObject *> getObjInPoint(uint16_t x, uint16_t y);
+
         // Метод-шаблон для створення ігрових об'єктів
         template <typename T>
         T *createObject()

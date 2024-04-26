@@ -155,6 +155,19 @@ namespace meow
     }
   }
 
+  std::list<IGameObject *> IGameObject::getObjInPoint(uint16_t x, uint16_t y)
+  {
+    std::list<IGameObject *> objs;
+    std::list<IGameObject *>::iterator it;
+    for (it = _game_objs.begin(); it != _game_objs.end(); ++it)
+    {
+      if (*it != this && (*it)->hasIntersectWithPoint(x, y))
+        objs.push_back(*it);
+    }
+
+    return objs;
+  }
+
   std::list<IGameObject *> IGameObject::getObjInCircle(uint16_t x_mid, uint16_t y_mid, uint16_t radius)
   {
     std::list<IGameObject *> objs;
