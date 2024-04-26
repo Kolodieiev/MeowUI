@@ -4,6 +4,7 @@
 #include "./SceneID.h"
 // Тут необхідно підключити всі сцени, які будуть доступні в грі
 #include "scene/Level0Scene.h"
+#include "scene/Level1Scene.h"
 
 SokobanScreen::SokobanScreen(GraphicsDriver &display) : IScreen{display}
 {
@@ -32,8 +33,8 @@ void SokobanScreen::update()
             delete _scene;                                    // Видаляємо поточну
             if (next_scene_id == ID_SCENE_LVL0)               // Створюємо нову в залежності від ідентифікатора
                 _scene = new Level0Scene(_display, _input, _stored_objs, true);
-            // else if (next_scene_id == ID_SCENE_LVL1)
-            //     _scene = new Level0Scene(_display, _input, _stored_objs, true);
+            else if (next_scene_id == ID_SCENE_LVL1)
+                _scene = new Level1Scene(_display, _input, _stored_objs, true);
         }
     }
     else
