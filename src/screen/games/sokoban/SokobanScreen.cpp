@@ -5,6 +5,7 @@
 // Тут необхідно підключити всі сцени, які будуть доступні в грі
 #include "scene/Level0Scene.h"
 #include "scene/Level1Scene.h"
+#include "scene/Level2Scene.h"
 
 SokobanScreen::SokobanScreen(GraphicsDriver &display) : IScreen{display}
 {
@@ -35,6 +36,8 @@ void SokobanScreen::update()
                 _scene = new Level0Scene(_display, _input, _stored_objs, true);
             else if (next_scene_id == ID_SCENE_LVL1)
                 _scene = new Level1Scene(_display, _input, _stored_objs, true);
+            else if (next_scene_id == ID_SCENE_LVL2)
+                _scene = new Level2Scene(_display, _input, _stored_objs, true);
         }
     }
     else
