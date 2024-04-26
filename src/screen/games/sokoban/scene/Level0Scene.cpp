@@ -49,6 +49,14 @@ void Level0Scene::update()
         return;
     }
 
+    if (_input.isReleased(Input::PIN_A))
+    {
+        _input.lock(Input::PIN_A, 400);
+        _input.reset();
+        openSceneByID(SceneID::ID_SCENE_LVL0);
+        return;
+    }
+
     if (_input.isReleased(Input::PIN_D))
     {
         _input.lock(Input::PIN_D, 400);
