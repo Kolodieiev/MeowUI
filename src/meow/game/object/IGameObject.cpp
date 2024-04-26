@@ -220,20 +220,18 @@ namespace meow
   bool IGameObject::hasCollisionWithRect(uint16_t x_start, uint16_t y_start, uint16_t width, uint16_t height)
   {
     if (_x_global + _body.ofst_w > x_start + width ||
-        x_start > _x_global + _sprite.width - _body.ofst_w ||
+        x_start > _x_global + _sprite.width - 1 - _body.ofst_w ||
         _y_global + _body.ofst_h > y_start + height ||
-        y_start > _y_global + _sprite.height)
+        y_start > _y_global + _sprite.height - 1)
       return false;
 
     return true;
   }
 
-  bool IGameObject::hasIntersectWithPoint(uint16_t x_to, uint16_t y_to)
+  bool IGameObject::hasIntersectWithPoint(uint16_t x, uint16_t y)
   {
-    return x_to >= _x_global + _body.ofst_w &&
-           x_to <= _x_global + _sprite.width - _body.ofst_w &&
-           y_to >= _y_global + _body.ofst_h &&
-           y_to <= _y_global + _sprite.height;
+    return (x >= _x_global + _body.ofst_w && x <= _x_global + _sprite.width - 1 - _body.ofst_w) &&
+           (y >= _y_global + _body.ofst_h && y <= _y_global + _sprite.height - 1);
   }
 
   bool IGameObject::hasIntersectWithBody(uint16_t x, uint16_t y, MovingDirection direction)
@@ -248,28 +246,28 @@ namespace meow
       {
         if (direction == DIRECTION_UP)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) ||              // верхній лівий
-              obj->hasIntersectWithPoint(x + _sprite.width - _body.ofst_w, y + _body.ofst_h) // верхній правий
+          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) ||                  // верхній лівий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _body.ofst_h) // верхній правий
           )
             return true;
         }
         else if (direction == DIRECTION_DOWN)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height) ||              // нижній лівий
-              obj->hasIntersectWithPoint(x + _sprite.width - _body.ofst_w, y + _sprite.height) // нижній правий
+          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height - 1) ||                  // нижній лівий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _sprite.height - 1) // нижній правий
           )
             return true;
         }
         else if (direction == DIRECTION_LEFT)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) || // верхній лівий
-              obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height)) // нижній лівий
+          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) ||     // верхній лівий
+              obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height - 1)) // нижній лівий
             return true;
         }
         else // RIGHT
         {
-          if (obj->hasIntersectWithPoint(x + _sprite.width - _body.ofst_w, y + _body.ofst_h) || // верхній правий
-              obj->hasIntersectWithPoint(x + _sprite.width - _body.ofst_w, y + _sprite.height)  // нижній правий
+          if (obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _body.ofst_h) ||    // верхній правий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _sprite.height - 1) // нижній правий
           )
             return true;
         }
