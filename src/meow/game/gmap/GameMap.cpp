@@ -163,13 +163,13 @@ namespace meow
 
             if (_tiles[tile_y_pos][tile_x_main_pos]->_type & body.pass_abillity_mask) // чи проходить лівий кут спрайта
             {
-                uint16_t tile_x_side_pos = getTilePos(x_to + sprite.width - body.ofst_w);    // х правого краю
-                return _tiles[tile_y_pos][tile_x_side_pos]->_type & body.pass_abillity_mask; // Якщо другий теж проходить значить спрайт проходить повністю
+                uint16_t tile_x_side_pos = getTilePos(x_to + sprite.width - 1 - body.ofst_w); // х правого краю
+                return _tiles[tile_y_pos][tile_x_side_pos]->_type & body.pass_abillity_mask;  // Якщо другий теж проходить значить спрайт проходить повністю
             }
         }
         else if (y_to > y_from) // DOWN
         {
-            uint16_t tile_y_pos = getTilePos(y_to + sprite.height); // Висота куди повинна стати нижня сторона спрайту
+            uint16_t tile_y_pos = getTilePos(y_to + sprite.height - 1); // Висота куди повинна стати нижня сторона спрайту
 
             if (tile_y_pos >= _tile_y_num)
                 return false;
@@ -177,7 +177,7 @@ namespace meow
             uint16_t tile_x_main_pos = getTilePos(x_to + body.ofst_w); // х лівого краю
             if (_tiles[tile_y_pos][tile_x_main_pos]->_type & body.pass_abillity_mask)
             {
-                uint16_t tile_x_side_pos = getTilePos(x_to + sprite.width - body.ofst_w); // х правого краю
+                uint16_t tile_x_side_pos = getTilePos(x_to + sprite.width - 1 - body.ofst_w); // х правого краю
 
                 return _tiles[tile_y_pos][tile_x_side_pos]->_type & body.pass_abillity_mask;
             }
@@ -189,14 +189,13 @@ namespace meow
 
             if (_tiles[tile_y_main_pos][tile_x_pos]->_type & body.pass_abillity_mask)
             {
-                uint16_t tile_y_side_pos = getTilePos(y_to + sprite.height); // у нижнього краю
-
+                uint16_t tile_y_side_pos = getTilePos(y_to + sprite.height - 1); // у нижнього краю
                 return _tiles[tile_y_side_pos][tile_x_pos]->_type & body.pass_abillity_mask;
             }
         }
         else if (x_to > x_from) // RIGHT
         {
-            uint16_t tile_x_pos = getTilePos(x_to + sprite.width - body.ofst_w); // Права сторона спрайту
+            uint16_t tile_x_pos = getTilePos(x_to + sprite.width - 1 - body.ofst_w); // Права сторона спрайту
 
             if (tile_x_pos >= _tile_x_num)
                 return false;
@@ -204,7 +203,7 @@ namespace meow
             uint16_t tile_y_main_pos = getTilePos(y_to + body.ofst_h); // у верхнього краю
             if (_tiles[tile_y_main_pos][tile_x_pos]->_type & body.pass_abillity_mask)
             {
-                uint16_t tile_y_side_pos = getTilePos(y_to + sprite.height); // у нижнього краю
+                uint16_t tile_y_side_pos = getTilePos(y_to + sprite.height - 1); // у нижнього краю
                 return _tiles[tile_y_side_pos][tile_x_pos]->_type & body.pass_abillity_mask;
             }
         }
