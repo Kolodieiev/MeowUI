@@ -18,6 +18,21 @@ void BoxObj::init()
 
 void BoxObj::update()
 {
+    _is_ok = false; // Необхідно на випадок, якщо ящик було переміщено із ключової точки
+    _sprite.img_ptr = SPRITE_BOX;
+
+    std::list<IGameObject *> objs = getObjInPoint(_x_global, _y_global); // Отримати список усіх об'єктів у точці
+
+    std::list<IGameObject *>::iterator it;
+    for (it = objs.begin(); it != objs.end(); ++it)
+    {
+        if ((*it)->getClassID() == ClassID::CLASS_BOX_POINT) // Якщо об'єкт належить до типу BoxPointObj
+        {
+            _is_ok = true;                   // Підняти прапор, який вказує, що ящик встановлено в потрібному місці
+            _sprite.img_ptr = SPRITE_BOX_OK; // Змінити спрайт об'єкта
+            break;
+        }
+    }
 }
 
 IObjShape *BoxObj::getShape()
