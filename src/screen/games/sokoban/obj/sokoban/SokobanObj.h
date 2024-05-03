@@ -30,4 +30,7 @@ private:
     const uint16_t PIX_PER_STEP{32};
 
     std::vector<BoxObj *> _boxes;
+
+    // Якщо можливо, переміститися самому в задані координати, та перемістити ящик
+    void stepTo(uint16_t x, uint16_t y, uint16_t box_x_step, uint16_t box_y_step); 
 };

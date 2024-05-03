@@ -17,6 +17,9 @@ public:
     virtual IObjShape *getShape() override;
     virtual void reborn(IObjShape *shape) override;
 
+    // Якщо можливо, переміститися в задані координати. Повертає true в разі успіху
+    bool moveTo(uint16_t x, uint16_t y);
+
     inline bool isOk() const { return _is_ok; }
 
 private:

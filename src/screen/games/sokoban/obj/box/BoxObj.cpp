@@ -12,6 +12,7 @@ void BoxObj::init()
     _sprite.has_img = true;
     _sprite.width = 32;
     _sprite.height = 32;
+    _body.pass_abillity_mask = Tile::TYPE_GROUND;
 
     initSprite();
 }
@@ -46,4 +47,29 @@ void BoxObj::reborn(IObjShape *shape)
 {
     log_e("Об'єкт не повинен бути відновлений");
     esp_restart();
+}
+
+bool BoxObj::moveTo(uint16_t x, uint16_t y)
+{
+    std::list<IGameObject *> objs = getObjInPoint(x, y); // Вибрати всі об'єкти на плитці куди повинен бути встановлений ящик
+
+    std::list<IGameObject *>::iterator it_j;
+    for (it_j = objs.begin(); it_j != objs.end(); ++it_j)
+    {
+        if ((*it_j)->getClassID() == ClassID::CLASS_BOX) // Якщо знайдено об'єкт ящика, рух продовжувати не можна
+            return false;
+    }
+
+    // Якщо ящик не знайдено, перевірити, чи не вприємося в стіну за ящиком
+    if (!_game_map.canPass(_x_global, _y_global, x, y, _body, _sprite))
+    {
+        // Якщо впираємося в стіну, рух продовжувати не можна
+        return false;
+    }
+
+    // Якщо всі перевірки пройдено
+    _x_global = x; //  переміщуємо об'єкт ящика
+    _y_global = y;
+
+    return true;
 }
