@@ -11,9 +11,10 @@ namespace meow
     WavManager::~WavManager()
     {
         if (_task_handle != NULL)
+        {
+            _params.cmd = TaskParams::CMD_STOP;
             vTaskDelete(_task_handle);
-
-        _params.cmd = TaskParams::CMD_STOP;
+        }
 
         if (_is_inited)
             i2s_driver_uninstall(I2S_NUM_0);
@@ -209,7 +210,7 @@ namespace meow
                 i2s_write(I2S_NUM_0, _samples_buf, I2S_BUF_LEN, &bytes_written, 1500 / portTICK_PERIOD_MS);
             }
 
-            delay(1);
+            vTaskDelay(1 / portTICK_PERIOD_MS);
         }
 
         vTaskDelete(NULL);
