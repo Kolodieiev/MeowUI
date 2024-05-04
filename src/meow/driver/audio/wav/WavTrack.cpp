@@ -131,10 +131,8 @@ namespace meow
 
     void WavTrack::freeData()
     {
-        if (_data_buf == nullptr || _data_buf == NULL)
-            return;
-
-        free(_data_buf);
+        if (_data_buf)
+            free(_data_buf);
     }
 
     WavTrack *WavTrack::clone()
