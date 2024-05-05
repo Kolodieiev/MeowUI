@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "Pin.h"
-#include <map>
+#include <unordered_map>
 
 namespace meow
 {
@@ -33,16 +33,16 @@ namespace meow
         // Скинути значення всіх пінів
         void reset();
 
-        inline bool isHolded(PinID pin_id) { return _buttons[pin_id]->isHolded(); }
-        inline bool isPressed(PinID pin_id) { return _buttons[pin_id]->isPressed(); }
-        inline bool isReleased(PinID pin_id) { return _buttons[pin_id]->isReleased(); }
-        inline void lock(PinID pin_id, unsigned long lock_duration) { _buttons[pin_id]->lock(lock_duration); }
+        inline bool isHolded(PinID pin_id) { return _buttons.at(pin_id)->isHolded(); }
+        inline bool isPressed(PinID pin_id) { return _buttons.at(pin_id)->isPressed(); }
+        inline bool isReleased(PinID pin_id) { return _buttons.at(pin_id)->isReleased(); }
+        inline void lock(PinID pin_id, unsigned long lock_duration) { _buttons.at(pin_id)->lock(lock_duration); }
 
 #pragma endregion "don't touch this"
 
     private:
         //---------------------------------------------------------------------------------------------------------------- Відредагуй це
-        std::map<PinID, Pin *> _buttons = {
+        std::unordered_map<PinID, Pin *> _buttons = {
             {PIN_UP, new Pin(PIN_UP, TACT)},
             {PIN_DOWN, new Pin(PIN_DOWN, TACT)},
             {PIN_LEFT, new Pin(PIN_LEFT, TACT)},
