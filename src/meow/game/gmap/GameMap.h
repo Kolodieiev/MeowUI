@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include <cmath>
-#include <map>
+#include <unordered_map>
 //
 #include "../../driver/graphics/GraphicsDriver.h"
 //
@@ -51,7 +51,7 @@ namespace meow
         void addTileDescr(uint16_t sprite_id, Tile::TileType type, const uint16_t *sprite_src);
 
     private:
-        std::map<uint16_t, Tile *> _tile_descr; // Опис плиток.
+        std::unordered_map<uint16_t, Tile *> _tile_descr; // Опис плиток.
 
         Tile ***_tiles{nullptr}; // Ігрова мапа.
 

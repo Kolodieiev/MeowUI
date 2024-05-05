@@ -18,7 +18,7 @@ namespace meow
 
         free(_tiles);
 
-        std::map<uint16_t, Tile *>::iterator it;
+        std::unordered_map<uint16_t, Tile *>::iterator it;
 
         for (it = _tile_descr.begin(); it != _tile_descr.end(); ++it)
             delete it->second;
@@ -139,7 +139,7 @@ namespace meow
             for (uint16_t j{0}; j < _tile_x_num; ++j)
             {
                 uint16_t sprite_id = map_build_table[build_pos];
-                _tiles[i][j] = _tile_descr[sprite_id];
+                _tiles[i][j] = _tile_descr.at(sprite_id);
                 ++build_pos;
             }
         }
