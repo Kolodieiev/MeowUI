@@ -30,20 +30,17 @@ HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
 
     //------------------------------------------------------------------------------------------------------------------------ Завантаження зображення із SD
 
-    BmpUtil util;     // Об'єкт, що завантажує bmp із SD
-    BmpHeader header; // Об'єкт, в який буде завантажено заголовочні дані про файл bmp
+    BmpUtil util; // Об'єкт, що завантажує bmp із SD
+    BmpData bmp;  // Структура, куди будуть завантажені дані про зображення
 
-    const uint16_t *wallpaper_ptr = util.loadBmp("/wall/wallpaper.bmp", header); // Завантажити зображення в PSRAM і отримати вказівник на нього.
-                                                                                 // Якщо завантажити зображення із SD не вдалося, повертається вказівник на зображення-заглушку із FLASH.
-
-    if (header.file_type != 0) // Якщо не нуль, значить зображення успішно завантажено із SD
+    if (util.loadBmp("/wall/wallpaper.bmp", bmp))
     {
-        _wallpaper_ptr = wallpaper_ptr; // Закешувати вказівник на зображення. Воно буде видалене в даному випадку в деструкторі.
-                                        // Якщо header.file_type == 0 видаляти нічого не потрібно. Повернутий вказівник буде вказувати на зображення в FLASH
+        _wallpaper_ptr = bmp.data_ptr; // Закешувати вказівник на зображення. Воно буде видалене в даному випадку в деструкторі.
+                                       // Якщо util.loadBmp() == false, видаляти нічого не потрібно. Повернутий вказівник буде вказувати на зображення в FLASH
 
         Image *wallpp_img = new Image(ID_WALLPAPER, _display); // Створення віджету зображення, яке буде фоновим для екрану
         layout->addWidget(wallpp_img);                         // Додати віджет до макету. Рекомендується одразу додавати віджет після його створення до макету, аби потім не забути
-        wallpp_img->init(header.width, header.height);         // Ініціалізувати зображення відповідно до розмірів завантаженного bmp. Метод недоступний, якщо вимкнута подвійна буферизація
+        wallpp_img->init(bmp.width, bmp.height);               // Ініціалізувати зображення відповідно до розмірів завантаженного bmp. Метод недоступний, якщо вимкнута подвійна буферизація
         wallpp_img->setSrc(_wallpaper_ptr);                    // Встановити вказівник на зображення в PSRAM/FLASH. Ресурс не буде звільнено разом з віджетом. Програміст повинен сам контролювати очищення зображення.
                                                                // Перед викликом setSrc() при подвійній буферизації завжди потрібно викликати метод init.
 
@@ -113,13 +110,13 @@ HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
     }
     else
     {
-        uint16_t back_bat_color = *(_wallpaper_ptr + bat_lvl_lbl->getYPos() * header.width + bat_lvl_lbl->getXPos()); // Встановити фоновий колір, як у фонового зображення заантаженого із SD.
-                                                                                                                      // Припускається, що фонове зображення має достатні розміри.
-                                                                                                                      // Прийом працюватиме гарно, якщо фонове зображення не дуже барвисте.
+        uint16_t back_bat_color = *(_wallpaper_ptr + bat_lvl_lbl->getYPos() * bmp.width + bat_lvl_lbl->getXPos()); // Встановити фоновий колір, як у фонового зображення заантаженого із SD.
+                                                                                                                   // Припускається, що фонове зображення має достатні розміри.
+                                                                                                                   // Прийом працюватиме гарно, якщо фонове зображення не дуже барвисте.
 
         _bat_ico->setBackColor(back_bat_color);
 
-        uint16_t back_lbl_color = *(_wallpaper_ptr + time_lbl->getYPos() * header.width + time_lbl->getXPos());
+        uint16_t back_lbl_color = *(_wallpaper_ptr + time_lbl->getYPos() * bmp.width + time_lbl->getXPos());
 
         time_lbl->setBackColor(back_lbl_color);
         date_lbl->setBackColor(back_lbl_color);

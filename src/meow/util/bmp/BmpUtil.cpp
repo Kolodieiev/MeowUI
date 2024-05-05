@@ -1,45 +1,44 @@
 #include "BmpUtil.h"
-#include <byteswap.h>
 #include <SD.h>
 
 namespace meow
 {
-    const uint16_t *BmpUtil::loadBmp(const char *path_to_bmp, BmpHeader &out_header)
+    bool BmpUtil::loadBmp(const char *path_to_bmp, BmpData &out_bmp_data)
     {
         File bmp_file = SD.open(path_to_bmp, "r");
         if (!bmp_file)
         {
             log_e("Помилка читання файлу: %s", path_to_bmp);
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
 
         if (bmp_file.isDirectory())
         {
             bmp_file.close();
             log_e("Помилка. Файл не може бути каталогом: %s", path_to_bmp);
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
 
-        bmp_file.read((uint8_t *)&out_header, 54);
-
-        if (!validateHeader(out_header))
+        BmpHeader bmp_header;
+        bmp_file.read((uint8_t *)&bmp_header, 54);
+        if (!validateHeader(bmp_header))
         {
             bmp_file.close();
             log_e("Помилка валідації файлу: %s", path_to_bmp);
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
 
         if (!psramFound() || !psramInit())
         {
             bmp_file.close();
             log_e("Помилка ініціалізації PSRAM");
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
         //
-        bool is_flipped = out_header.height > 0;
-        int32_t height = std::abs(out_header.height);
-        out_header.height = height;
-        int32_t width = out_header.width;
+        bool is_flipped = bmp_header.height > 0;
+        int32_t height = std::abs(bmp_header.height);
+        bmp_header.height = height;
+        int32_t width = bmp_header.width;
         //
         uint32_t data_size = width * height * 2;
         //
@@ -48,10 +47,10 @@ namespace meow
         {
             bmp_file.close();
             log_e("Помилка виділення %lu байт PSRAM памяті", data_size);
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
 
-        bmp_file.seek(out_header.data_offset);
+        bmp_file.seek(bmp_header.data_offset);
 
         size_t bytes_readed = bmp_file.read(data, data_size);
 
@@ -60,7 +59,7 @@ namespace meow
             log_e("Помилка читання файлу: %s", path_to_bmp);
             free(data);
             bmp_file.close();
-            return srcNotFound(out_header);
+            return srcNotFound(out_bmp_data);
         }
 
         bmp_file.close();
@@ -79,7 +78,12 @@ namespace meow
             }
         }
 
-        return (uint16_t *)data;
+        out_bmp_data.width = bmp_header.width;
+        out_bmp_data.height = bmp_header.height;
+        out_bmp_data.is_loaded = true;
+        out_bmp_data.data_ptr = (uint16_t *)data;
+
+        return true;
     }
 
     bool BmpUtil::validateHeader(const BmpHeader &bmp_header)
@@ -105,12 +109,13 @@ namespace meow
         return true;
     }
 
-    const uint16_t *BmpUtil::srcNotFound(BmpHeader &out_header)
+    bool BmpUtil::srcNotFound(BmpData &out_bmp_data)
     {
-        out_header.file_type = 0;
-        out_header.width = 32;
-        out_header.height = 32;
-        return SRC_NOT_FOUND;
+        out_bmp_data.width = 32;
+        out_bmp_data.height = 32;
+        out_bmp_data.data_ptr = SRC_NOT_FOUND;
+
+        return false;
     }
 
     bool BmpUtil::saveBmp(BmpHeader &header, const uint16_t *buff, const char *path_to_bmp)
