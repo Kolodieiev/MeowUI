@@ -9,9 +9,10 @@ class KawaiiObj : public IGameObject
 
 public:
     KawaiiObj(GraphicsDriver &display,
+              ResManager &res,
               WavManager &audio,
               GameMap &game_map,
-              std::list<IGameObject *> &game_objs) : IGameObject(display, audio, game_map, game_objs) {}
+              std::list<IGameObject *> &game_objs) : IGameObject(display, res, audio, game_map, game_objs) {}
     virtual ~KawaiiObj() {}
 
     virtual void init() override;

@@ -5,6 +5,7 @@
 //
 #include "../../driver/graphics/GraphicsDriver.h"
 #include "../../driver/audio/wav/WavManager.h"
+#include "../../game/ResManager.h"
 //
 #include "IObjShape.h"
 //
@@ -12,6 +13,8 @@
 //
 #include "BodyDescription.h"
 #include "SpriteDescription.h"
+
+#include "meow/driver/audio/wav/WavTrack.h"
 
 namespace meow
 {
@@ -31,6 +34,7 @@ namespace meow
         IGameObject &operator=(const IGameObject &rhs) = delete;
 
         IGameObject(GraphicsDriver &display,
+                    ResManager &res,
                     WavManager &audio,
                     GameMap &game_map,
                     std::list<IGameObject *> &game_objs);
@@ -79,7 +83,8 @@ namespace meow
         bool _is_destroyed{false}; // Прапор знищення об'єкта іншими об'єктами
         uint8_t _layer{0};         // Шар сортування об'єкта по осі Z. Чим більше значення, тим вище шар
         //
-        WavManager &_audio;
+        ResManager &_res;                     // Менеджер ресурсів
+        WavManager &_audio;                   // Менеджер аудіо
         GameMap &_game_map;                   // ігрова мапа
         std::list<IGameObject *> &_game_objs; // ігрові об'єкти, які достпуні на сцені
         GraphicsDriver &_display;

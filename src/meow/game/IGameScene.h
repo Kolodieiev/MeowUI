@@ -4,8 +4,9 @@
 #include <list>
 //
 #include "../driver/graphics/GraphicsDriver.h"
-#include "../driver/audio/wav/WavManager.h"
 #include "../driver/input/Input.h"
+#include "./ResManager.h"
+#include "../driver/audio/wav/WavManager.h"
 //
 #include "./IGameUI.h"
 #include "./IGameMenu.h"
@@ -68,6 +69,8 @@ namespace meow
         Input &_input;
         // Звуковий менеджер
         WavManager _audio;
+        // Менеджер ресурсів
+        ResManager _res_manager;
 
         // Контейнер для перенесення відбитків об'єктів до наступної сцени.
         std::vector<IObjShape *> &_stored_objs;
@@ -83,7 +86,7 @@ namespace meow
         template <typename T>
         T *createObject()
         {
-            T *t = new T(_display, _audio, _game_map, _game_objs);
+            T *t = new T(_display, _res_manager, _audio, _game_map, _game_objs);
             if (!t)
             {
                 log_e("Помилка створення об'єкта");

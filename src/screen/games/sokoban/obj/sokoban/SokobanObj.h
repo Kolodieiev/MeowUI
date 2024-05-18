@@ -10,9 +10,10 @@ class SokobanObj : public IGameObject
 
 public:
     SokobanObj(GraphicsDriver &display,
+               ResManager &res,
                WavManager &audio,
                GameMap &game_map,
-               std::list<IGameObject *> &game_objs) : IGameObject(display, audio, game_map, game_objs) {}
+               std::list<IGameObject *> &game_objs) : IGameObject(display, res, audio, game_map, game_objs) {}
     virtual ~SokobanObj() {}
 
     virtual void init() override;
@@ -32,5 +33,5 @@ private:
     std::vector<BoxObj *> _boxes;
 
     // Якщо можливо, переміститися самому в задані координати, та перемістити ящик
-    void stepTo(uint16_t x, uint16_t y, uint16_t box_x_step, uint16_t box_y_step); 
+    void stepTo(uint16_t x, uint16_t y, uint16_t box_x_step, uint16_t box_y_step);
 };

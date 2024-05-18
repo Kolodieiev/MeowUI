@@ -5,10 +5,12 @@ namespace meow
 {
 
   IGameObject::IGameObject(GraphicsDriver &display,
+                           ResManager &res,
                            WavManager &audio,
                            GameMap &game_map,
                            std::list<IGameObject *> &game_objs)
       : _display{display},
+        _res{res},
         _audio{audio},
         _obj_sprite{TFT_eSprite(display.getTFT())},
         _game_map{game_map},
