@@ -3,10 +3,8 @@
 
 namespace meow
 {
-
     uint64_t WavManager::_track_id;
-    std::map<uint16_t, WavTrack *> WavManager::_mix;
-    std::map<uint16_t, WavTrack *> WavManager::_preloaded_tracks;
+    std::unordered_map<uint16_t, WavTrack *> WavManager::_mix;
 
     WavManager::~WavManager()
     {
@@ -19,20 +17,12 @@ namespace meow
         if (_is_inited)
             i2s_driver_uninstall(I2S_NUM_0);
 
-        std::map<uint16_t, WavTrack *>::iterator it;
-        for (it = _preloaded_tracks.begin(); it != _preloaded_tracks.end(); ++it)
-        {
-            it->second->freeData();
-            delete it->second;
-        }
-
-        std::map<uint16_t, WavTrack *>::iterator mix_it;
+        std::unordered_map<uint16_t, WavTrack *>::iterator mix_it;
         for (mix_it = _mix.begin(); mix_it != _mix.end(); ++mix_it)
         {
             delete mix_it->second;
         }
 
-        _preloaded_tracks.clear();
         _mix.clear();
         _track_id = 0;
     }
@@ -77,54 +67,6 @@ namespace meow
         return true;
     }
 
-    void WavManager::addToPreloaded(uint16_t id, WavTrack *sound)
-    {
-        if (!sound)
-        {
-            log_e("Помилка. sound == null");
-            esp_restart();
-        }
-
-        try
-        {
-            WavTrack *sound = _preloaded_tracks.at(id);
-            log_e("Спроба замінити існуючу пару: %i", id);
-        }
-        catch (std::out_of_range)
-        {
-            _preloaded_tracks.insert(_preloaded_tracks.end(), std::pair<uint16_t, WavTrack *>(id, sound));
-        }
-    }
-
-    void WavManager::removeFromPreloaded(uint16_t id)
-    {
-        try
-        {
-            WavTrack *sound = _preloaded_tracks.at(id);
-            sound->freeData();
-            delete sound;
-            _preloaded_tracks.erase(id);
-        }
-        catch (std::out_of_range)
-        {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
-        }
-    }
-
-    WavTrack *WavManager::getPreloadedByID(uint16_t id)
-    {
-        try
-        {
-            WavTrack *sound = _preloaded_tracks.at(id);
-            return sound->clone();
-        }
-        catch (std::out_of_range)
-        {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
-            return nullptr;
-        }
-    }
-
     uint16_t WavManager::addToMix(WavTrack *sound)
     {
         if (!sound)
@@ -134,7 +76,7 @@ namespace meow
         }
 
         ++_track_id;
-        _mix.insert(_mix.end(), std::pair<uint16_t, WavTrack *>(_track_id, sound));
+        _mix.insert(std::pair<uint16_t, WavTrack *>(_track_id, sound));
         return _track_id;
     }
 
@@ -179,7 +121,7 @@ namespace meow
         TaskParams *task_params = (TaskParams *)params;
 
         int16_t sample;
-        std::map<uint16_t, WavTrack *>::iterator it;
+        std::unordered_map<uint16_t, WavTrack *>::iterator it;
         size_t bytes_written;
 
         while (task_params->cmd != TaskParams::CMD_STOP)
@@ -215,5 +157,4 @@ namespace meow
 
         vTaskDelete(NULL);
     }
-
 }
