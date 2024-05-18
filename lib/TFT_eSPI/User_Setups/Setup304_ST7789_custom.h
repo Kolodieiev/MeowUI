@@ -35,5 +35,4 @@
 #define TFT_DC 15
 #define TFT_CS 7
 
-// #define TFT_RST  25      // TFT reset pin connect to NodeMCU RST, must also then add 10K pull down to TFT SCK
-#define TFT_RST 1 // TFT reset pin connect to NodeMCU RST, must also then add 10K pull down to TFT SCK
+#define TFT_RST -1 // TFT reset pin connect to RST
