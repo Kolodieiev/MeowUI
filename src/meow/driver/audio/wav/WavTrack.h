@@ -1,6 +1,5 @@
 #pragma once
 #include <Arduino.h>
-#include "WavHeader.h"
 
 namespace meow
 {
@@ -8,9 +7,10 @@ namespace meow
     class WavTrack
     {
     public:
-        WavTrack(const char *path);
+        WavTrack(uint8_t *data_buf, uint32_t data_size) : _data_buf{data_buf}, _data_size{data_size} {}
 
-        bool play();
+        void play();
+        inline void stop() { _is_playing = false; }
         int16_t getNextSample();
 
         inline void setOnRepeat(bool repeate) { _on_repeate = repeate; }
@@ -21,31 +21,27 @@ namespace meow
 
         // Встановити коефіцієнт фільтрації шуму. По замовченню встановлено 1. Без фільтрації.
         void setFiltrationLvl(uint16_t lvl) { _filtration_lvl = lvl; }
-        void freeData();
 
         WavTrack *clone();
 
     private:
-        WavTrack() {}
+        WavTrack() : _data_buf{nullptr}, _data_size{0} {}
 
         const uint8_t MAX_VOLUME{100};
         const float DEF_VOLUME{1.0f};
 
         float _volume{DEF_VOLUME};
-
-        const uint8_t HEADER_SIZE{44};
         //
-        uint8_t *_data_buf{nullptr};
-        uint32_t _data_size;
+        const uint8_t *_data_buf{nullptr};
+        const uint32_t _data_size;
+        //
         uint32_t _current_sample{0};
         //
         uint16_t _filtration_lvl{1};
         //
-        bool _is_playing{false};
+        bool _is_playing{true};
         bool _on_repeate{false};
-        bool _has_init_err{false};
         //
-        bool validateHeader(const WavHeader &wav_header);
     };
 
 }
