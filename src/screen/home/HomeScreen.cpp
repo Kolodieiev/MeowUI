@@ -30,10 +30,10 @@ HomeScreen::HomeScreen(GraphicsDriver &display) : IScreen{display}
 
     //------------------------------------------------------------------------------------------------------------------------ Завантаження зображення із SD
 
-    BmpUtil util; // Об'єкт, що завантажує bmp із SD
-    BmpData bmp;  // Структура, куди будуть завантажені дані про зображення
+    BmpUtil util;                                      // Об'єкт, що завантажує bmp із SD
+    BmpData bmp = util.loadBmp("/wall/wallpaper.bmp"); // Структура, куди будуть завантажені дані про зображення
 
-    if (util.loadBmp("/wall/wallpaper.bmp", bmp))
+    if (bmp.is_loaded)
     {
         _wallpaper_ptr = bmp.data_ptr; // Закешувати вказівник на зображення. Воно буде видалене в даному випадку в деструкторі.
                                        // Якщо util.loadBmp() == false, видаляти нічого не потрібно. Повернутий вказівник буде вказувати на зображення в FLASH
