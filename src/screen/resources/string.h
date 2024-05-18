@@ -1,6 +1,5 @@
 #pragma once
 #include <Arduino.h>
-#include <pgmspace.h>
 
 const char STR_AUTHOR[] = "Автор: Пройдисвіт";
 const char STR_MENU[] = "Меню(Sel)";
