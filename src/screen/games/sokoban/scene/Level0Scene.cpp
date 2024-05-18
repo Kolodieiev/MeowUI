@@ -5,6 +5,8 @@
 
 // Підключити шаблон мапи рівня
 #include "../map/template/map_scene_0.h"
+// Ідентифікатори ресурсів
+#include "../ResID.h"
 
 // Додати зображення плиток
 #include "../map/tile_img/tile_0.h"
@@ -14,6 +16,7 @@
 // Ігрові об'єкти
 #include "../obj/box/BoxObj.h"
 #include "../obj/box_point/BoxPointObj.h"
+//
 
 Level0Scene::Level0Scene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs, bool is_loaded)
     : IGameScene(display, input, stored_objs)
@@ -28,6 +31,11 @@ Level0Scene::Level0Scene(GraphicsDriver &display, Input &input, std::vector<IObj
     createBoxes();
 
     createBoxPoints();
+
+    loadFX();
+
+    _audio.init();     // Ініціалізувати драйвер аудіо
+    _audio.startMix(); // Запустити міксування доріжок
 
     _game_UI = new SceneUI(_display); // Встановити шар UI. Тут можуть відрисовуватися різноманітні інформаційні панелі
 }
@@ -197,4 +205,18 @@ void Level0Scene::createBoxPoints()
 
         _game_objs.push_back(point);
     }
+}
+
+void Level0Scene::loadFX()
+{
+    std::unordered_map<uint16_t, const char *> fx_descr;
+    // Підготувати список звукових файлів, які необхідно завантажити
+    fx_descr.insert(std::pair<uint16_t, const char *>(FX_ID_STEP_1, FX_PATH_STEP_1));
+    fx_descr.insert(std::pair<uint16_t, const char *>(FX_ID_STEP_2, FX_PATH_STEP_2));
+    fx_descr.insert(std::pair<uint16_t, const char *>(FX_ID_STEP_3, FX_PATH_STEP_3));
+    fx_descr.insert(std::pair<uint16_t, const char *>(FX_ID_STEP_4, FX_PATH_STEP_4));
+    fx_descr.insert(std::pair<uint16_t, const char *>(FX_ID_STEP_5, FX_PATH_STEP_5));
+
+    // Завантажити звукові дані до менеджера ресурсів
+    _res_manager.loadWavs(fx_descr);
 }

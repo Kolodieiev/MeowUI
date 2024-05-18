@@ -7,6 +7,8 @@
 
 using namespace meow;
 
+// E:\game\sokoban\audio\fx
+
 class Level0Scene : public IGameScene
 {
 
@@ -39,4 +41,6 @@ private:
     void createBoxes();
     // Створити об'єкти ключових точок, на яких повинні бути встановлені ящики
     void createBoxPoints();
+    // Завантажити звукові ресурси
+    void loadFX();
 };

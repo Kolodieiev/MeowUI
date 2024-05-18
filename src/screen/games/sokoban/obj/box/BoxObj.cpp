@@ -4,6 +4,8 @@
 #include "./res/sprite_box.h"
 #include "./res/sprite_box_ok.h"
 
+#include "../../ResID.h"
+
 void BoxObj::init()
 {
     _class_ID = ClassID::CLASS_BOX;
@@ -70,6 +72,32 @@ bool BoxObj::moveTo(uint16_t x, uint16_t y)
     // Якщо всі перевірки пройдено
     _x_global = x; //  переміщуємо об'єкт ящика
     _y_global = y;
+
+    // Відтворення звуку по його ідентфікатору
+
+    int start = 0;
+    int end = 4;
+
+    // Отримати випадковий звук переміщення
+    uint8_t track_ID = rand() % (end - start + 1) + start;
+    WavData *s_data = _res.getWav(track_ID);
+
+    if (s_data && s_data->size > 0)
+    {
+        WavTrack *track = new WavTrack(s_data->data_ptr, s_data->size);
+
+        if (!track)
+        {
+            log_e("Помилка виділення пам'яті");
+            esp_restart();
+        }
+
+        _audio.addToMix(track);
+    }
+    else
+    {
+        log_e("Звукові дані з таким ID{%d} відсутні", track_ID);
+    }
 
     return true;
 }

@@ -8,9 +8,10 @@ class BoxObj : public IGameObject
 {
 public:
     BoxObj(GraphicsDriver &display,
+           ResManager &res,
            WavManager &audio,
            GameMap &game_map,
-           std::list<IGameObject *> &game_objs) : IGameObject(display, audio, game_map, game_objs) {}
+           std::list<IGameObject *> &game_objs) : IGameObject(display, res, audio, game_map, game_objs) {}
     virtual ~BoxObj() {}
     virtual void init() override;
     virtual void update() override;
