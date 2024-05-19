@@ -8,10 +8,6 @@
 #include "screen/home/HomeScreen.h"
 #include "screen/menu/MenuScreen.h"
 #include "screen/games/GamesListScreen.h"
-#include "screen/mp3/Mp3Screen.h"
-#include "screen/files/FilesScreen.h"
-#include "screen/preferences/PrefScreen.h"
-#include "screen/firmware/FirmwareScreen.h"
 // Ігрові екрани
 #include "screen/games/sokoban/SokobanScreen.h"
 
@@ -51,18 +47,6 @@ namespace meow
                     break;
                 case ScreenID::ID_SCREEN_GAMES_LIST:
                     screen = new GamesListScreen(_display);
-                    break;
-                case ScreenID::ID_SCREEN_MP3:
-                    screen = new Mp3Screen(_display);
-                    break;
-                case ScreenID::ID_SCREEN_FILES:
-                    screen = new FilesScreen(_display);
-                    break;
-                case ScreenID::ID_SCREEN_PREF:
-                    screen = new PrefScreen(_display);
-                    break;
-                case ScreenID::ID_SCREEN_FIRMWARE:
-                    screen = new FirmwareScreen(_display);
                     break;
                     // --------------------------------------- Ігрові екрани
                 case ScreenID::ID_SCREEN_SOKOBAN:
