@@ -6,7 +6,12 @@
 namespace meow
 {
 
-#define TRESHOLD 65         // Чутливість сенсорних кнопок.
+#if defined(CONFIG_IDF_TARGET_ESP32S3)
+#define TRESHOLD 110000 // Чутливість сенсорних кнопок.
+#else
+#define TRESHOLD 65
+#endif
+
 #define PRESS_DURATION 1200 // Час, після спливання якого, кнопка вважається утримуваною.
 
     Pin::Pin(uint8_t pin_id, bool is_touch) : _pin_id{pin_id},
@@ -46,7 +51,12 @@ namespace meow
                 static uint16_t touch_value;
 #endif
                 touch_pad_read_raw_data((touch_pad_t)_pad, &touch_value);
+
+#if defined(CONFIG_IDF_TARGET_ESP32S3)
+                _is_holded = touch_value > TRESHOLD;
+#else
                 _is_holded = touch_value < TRESHOLD;
+#endif
             }
             else
             {
