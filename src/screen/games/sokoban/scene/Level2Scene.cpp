@@ -22,7 +22,6 @@ void Level2Scene::update()
     if (_input.isReleased(Input::PIN_START))
     {
         _input.lock(Input::PIN_START, 400);
-        _input.reset();
         _is_finished = true;
         return;
     }

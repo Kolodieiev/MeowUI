@@ -43,7 +43,6 @@ void Level1Scene::update()
     if (_input.isReleased(Input::PIN_START))
     {
         _input.lock(Input::PIN_START, 400);
-        _input.reset();
         _is_finished = true;
         return;
     }
@@ -51,7 +50,6 @@ void Level1Scene::update()
     if (_input.isReleased(Input::PIN_A))
     {
         _input.lock(Input::PIN_A, 400);
-        _input.reset();
         openSceneByID(SceneID::ID_SCENE_LVL1);
         return;
     }
@@ -60,7 +58,7 @@ void Level1Scene::update()
     {
         _input.lock(Input::PIN_D, 400);
         _is_ghost_selected = !_is_ghost_selected;
-        _input.reset();
+        _input.reset(); 
     }
 
     if (_is_ghost_selected)

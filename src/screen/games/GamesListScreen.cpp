@@ -115,13 +115,11 @@ void GamesListScreen::update()
     else if (_input.isReleased(Input::PIN_START))
     {
         _input.lock(Input::PIN_START, 500);
-        _input.reset();
         openScreenByID(ID_SCREEN_MENU);
     }
     else if (_input.isReleased(Input::PIN_SELECT))
     {
         _input.lock(Input::PIN_SELECT, 500);
-        _input.reset();
         ok();
     }
 }

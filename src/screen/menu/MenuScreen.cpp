@@ -108,7 +108,6 @@ void MenuScreen::update()
     else if (_input.isReleased(Input::PIN_START))
     {
         _input.lock(Input::PIN_START, 500);
-        _input.reset();
         openScreenByID(ID_SCREEN_HOME);
     }
 }
@@ -128,9 +127,8 @@ void MenuScreen::down()
 void MenuScreen::ok()
 {
     uint16_t id = _menu->getCurrentItemID(); // Отримати ідентифікатор виділеного елементу меню
-    _input.reset();
 
-    // Якщо список меню визначае екрани, тоді елементам меню в якості id можна задати id екранів та викликати одразу openScreenByID(id);
+    // Якщо список меню визначає екрани, тоді елементам меню в якості id можна задати id екранів та викликати одразу openScreenByID(id);
     // Але для прикладу буде так.
     if (id == ID_GAMES)
         openScreenByID(ID_SCREEN_GAMES_LIST);

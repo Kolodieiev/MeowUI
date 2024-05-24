@@ -74,6 +74,7 @@ namespace meow
 
     void IScreen::openScreenByID(ScreenID screen_ID)
     {
+        _input.reset();
         _next_screen_ID = screen_ID;
         _is_released = true;
     }
