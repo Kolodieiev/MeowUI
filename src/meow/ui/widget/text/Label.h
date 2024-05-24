@@ -51,7 +51,11 @@ namespace meow
         void setTextSize(uint8_t size)
         {
             _text_size = size;
-            _height = _font_ID == 2 ? chr_hgt_font2 * size : chr_hgt_font4 * size;
+
+            uint16_t text_h = _font_ID == 2 ? chr_hgt_font2 * size + 2: chr_hgt_font4 * size + 2;
+
+            if (_height < text_h)
+                _height = text_h;
 
             _is_changed = true;
         }
