@@ -36,23 +36,24 @@ namespace meow
 
     File *Preferences::loadPrefFile(const char *file_name, const char *mode)
     {
-        if (!SD.exists(ROOT))
-            if (!SD.mkdir(ROOT))
+        String path = ROOT;
+
+        if (!SD.exists(path))
+            if (!SD.mkdir(path))
             {
                 log_e("Помилка створення ROOT каталогу");
                 return nullptr;
             }
 
-        if (!SD.exists(PREF_DIR))
-            if (!SD.mkdir(PREF_DIR))
+        path += PREF_DIR;
+
+        if (!SD.exists(path))
+            if (!SD.mkdir(path))
             {
                 log_e("Помилка створення PREF_DIR каталогу");
                 return nullptr;
             }
 
-        String path = ROOT;
-        path += "/";
-        path += PREF_DIR;
         path += "/";
         path += file_name;
 
