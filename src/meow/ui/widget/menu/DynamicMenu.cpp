@@ -14,13 +14,13 @@ namespace meow
                 IWidget *item = _widgets[_cur_focus_pos];
                 item->removeFocus();
 
-                _cur_focus_pos--;
+                --_cur_focus_pos;
 
                 uint16_t cycles_count = getCyclesCount();
 
                 if (_cur_focus_pos < _first_item_index)
                 {
-                    _first_item_index--;
+                    --_first_item_index;
                     drawItems(_first_item_index, cycles_count);
                 }
 
@@ -31,16 +31,14 @@ namespace meow
             }
             else
             {
-                std::vector<IWidget *> temp_vector;
+                std::vector<IWidget *> temp_vector = _loader->loadPrev(getItemsNumberOnScreen(), _widgets[_cur_focus_pos]->getID());
 
-                if (_loader->loadPrev(temp_vector, getItemsNumberOnScreen(), _widgets[_cur_focus_pos]->getID()))
+                if (temp_vector.size() > 0)
                 {
-                    for (uint16_t i{0}; i < _widgets.size(); ++i)
-                        delete _widgets[i];
+                    deleteWidgets();
 
                     _widgets = temp_vector;
 
-                    _first_item_index = 0;
                     drawItems(_first_item_index, getCyclesCount());
                     _cur_focus_pos = _widgets.size() - 1;
 
@@ -64,13 +62,13 @@ namespace meow
                 IWidget *item = _widgets[_cur_focus_pos];
                 item->removeFocus();
 
-                _cur_focus_pos++;
+                ++_cur_focus_pos;
 
                 uint16_t cycles_count = getCyclesCount();
 
                 if (_cur_focus_pos > _first_item_index + cycles_count - 1)
                 {
-                    _first_item_index++;
+                    ++_first_item_index;
 
                     drawItems(_first_item_index, cycles_count);
                 }
@@ -82,16 +80,14 @@ namespace meow
             }
             else
             {
-                std::vector<IWidget *> temp_vector;
+                std::vector<IWidget *> temp_vector = _loader->loadNext(getItemsNumberOnScreen(), _widgets[_cur_focus_pos]->getID());
 
-                if (_loader->loadNext(temp_vector, getItemsNumberOnScreen(), _widgets[_cur_focus_pos]->getID()))
+                if (temp_vector.size() > 0)
                 {
-                    for (uint16_t i{0}; i < _widgets.size(); ++i)
-                        delete _widgets[i];
+                    deleteWidgets();
 
                     _widgets = temp_vector;
 
-                    _first_item_index = 0;
                     drawItems(_first_item_index, getCyclesCount());
                     _cur_focus_pos = _first_item_index;
 

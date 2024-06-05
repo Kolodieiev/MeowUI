@@ -12,8 +12,8 @@ namespace meow
         IItemsLoader(){};
         virtual ~IItemsLoader(){};
 
-        virtual bool loadNext(std::vector<IWidget *> &widgets, uint8_t size, uint16_t current_ID) = 0;
-        virtual bool loadPrev(std::vector<IWidget *> &widgets, uint8_t size, uint16_t current_ID) = 0;
+        virtual std::vector<IWidget *> loadPrev(uint8_t size, uint16_t current_ID) = 0;
+        virtual std::vector<IWidget *> loadNext(uint8_t size, uint16_t current_ID) = 0;
     };
 
 }
