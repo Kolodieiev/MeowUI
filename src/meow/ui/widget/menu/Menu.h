@@ -76,6 +76,12 @@ namespace meow
         uint16_t getCurrentItemID() const;
 
         /*!
+         * @return
+         *        Позиція елементу, на якому встановлено фокус.
+         */
+        uint16_t getCurrentFocusPos() const { return _cur_focus_pos; };
+
+        /*!
          * @brief
          *       Не використовуй, якщо item* не є Label* !!
          * @return
