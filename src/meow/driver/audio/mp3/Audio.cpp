@@ -1294,7 +1294,7 @@ void Audio::computeAudioTime(uint16_t bytesDecoderIn, uint16_t bytesDecoderOut)
         {
             m_avr_bitrate = sumBitRate / counter;
             m_audioCurrentTime = (sumBytesIn * 8) / m_avr_bitrate;
-            m_audioFileDuration = round(((float)m_audioDataSize * 8 / m_avr_bitrate));
+            m_audioFileDuration = round(8 * ((float)m_audioDataSize / m_avr_bitrate));
         }
         deltaBytesIn = 0;
     }
