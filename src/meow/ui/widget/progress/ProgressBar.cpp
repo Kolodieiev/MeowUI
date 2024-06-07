@@ -68,7 +68,6 @@ namespace meow
         if (_orientation == ORIENTATION_HORIZONTAL)
         {
             uint16_t progressW = ((float)_width / _max) * _progress;
-
             if (progressW < 3)
                 progressW = 3;
 
@@ -76,16 +75,47 @@ namespace meow
             {
                 uint16_t next_prgrs_pos = ((float)_width / _max) * _prev_progress;
 
+                uint16_t x = _x_pos + x_offset + next_prgrs_pos;
+                if (next_prgrs_pos < 2)
+                    ++x;
+                else
+                    --x;
+
                 if (_progress > _prev_progress) // Заливка тільки прогресу
-                    _display.fillRect(next_prgrs_pos + _x_pos + x_offset - 1, _y_pos + y_offset + 1, progressW - next_prgrs_pos, _height - 2, _progress_color);
+                {
+                    _display.fillRect(x,
+                                      _y_pos + y_offset + 1,
+                                      progressW - next_prgrs_pos,
+                                      _height - 2,
+                                      _progress_color);
+                }
+
                 else if (_progress < _prev_progress) // Заливка тільки фону
-                    _display.fillRect(_x_pos + x_offset + 1 + progressW - 2, _y_pos + y_offset + 1, next_prgrs_pos - progressW, _height - 2, _back_color);
+                    _display.fillRect(_x_pos + x_offset + progressW - 1,
+                                      _y_pos + y_offset + 1,
+                                      next_prgrs_pos - progressW,
+                                      _height - 2,
+                                      _back_color);
             }
             else
             {
-                _display.drawRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _border_color);                                       // рамка
-                _display.fillRect(_x_pos + x_offset + 1, _y_pos + y_offset + 1, progressW - 2, _height - 2, _progress_color);                  // прогрес
-                _display.fillRect(_x_pos + x_offset + 1 + progressW - 2, _y_pos + y_offset + 1, _width - progressW, _height - 2, _back_color); // фон
+                _display.drawRect(_x_pos + x_offset,
+                                  _y_pos + y_offset,
+                                  _width,
+                                  _height,
+                                  _border_color); // рамка
+
+                _display.fillRect(_x_pos + x_offset + 1,
+                                  _y_pos + y_offset + 1,
+                                  progressW - 2,
+                                  _height - 2,
+                                  _progress_color); // прогрес
+
+                _display.fillRect(_x_pos + x_offset + 1 + progressW,
+                                  _y_pos + y_offset + 1,
+                                  _width - progressW - 2,
+                                  _height - 2,
+                                  _back_color); // фон
 
                 _is_first_draw = false;
             }
@@ -93,7 +123,6 @@ namespace meow
         else // orientation == vertical
         {
             uint16_t progressH = ((float)_height / _max) * _progress;
-
             if (progressH < 3)
                 progressH = 3;
 
@@ -102,15 +131,46 @@ namespace meow
                 uint16_t next_prgrs_pos = ((float)_height / _max) * _prev_progress;
 
                 if (_progress > _prev_progress) // Заливка тільки прогресу
-                    _display.fillRect(_x_pos + x_offset + 1, next_prgrs_pos + _y_pos + y_offset - 2, _width - 2, progressH - next_prgrs_pos + 1, _progress_color);
+                {
+                    uint16_t y = _y_pos + y_offset + next_prgrs_pos;
+                    if (next_prgrs_pos < 2)
+                        ++y;
+                    else
+                        --y;
+
+                    _display.fillRect(_x_pos + x_offset + 1,
+                                      y,
+                                      _width - 2,
+                                      progressH - next_prgrs_pos,
+                                      _progress_color);
+                }
+
                 else if (_progress < _prev_progress) // Заливка тільки фону
-                    _display.fillRect(_x_pos + x_offset + 1, _y_pos + y_offset + progressH - 1, _width - 2, next_prgrs_pos - progressH, _back_color);
+                    _display.fillRect(_x_pos + x_offset + 1,
+                                      _y_pos + y_offset + progressH - 1,
+                                      _width - 2,
+                                      next_prgrs_pos - progressH,
+                                      _back_color);
             }
             else
             {
-                _display.drawRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _border_color);                                       // рамка
-                _display.fillRect(_x_pos + x_offset + 1, _y_pos + y_offset + 1, _width - 2, progressH - 2, _progress_color);                   // прогрес
-                _display.fillRect(_x_pos + x_offset + 1, _y_pos + y_offset + progressH - 2, _width - 2, _height - progressH + 1, _back_color); // фон
+                _display.drawRect(_x_pos + x_offset,
+                                  _y_pos + y_offset,
+                                  _width,
+                                  _height,
+                                  _border_color); // рамка
+
+                _display.fillRect(_x_pos + x_offset + 1,
+                                  _y_pos + y_offset + 1,
+                                  _width - 2,
+                                  progressH - 2,
+                                  _progress_color); // прогрес
+
+                _display.fillRect(_x_pos + x_offset + 1,
+                                  _y_pos + y_offset + 1 + progressH,
+                                  _width - 2,
+                                  _height - progressH - 2,
+                                  _back_color); // фон
 
                 _is_first_draw = false;
             }
@@ -131,7 +191,11 @@ namespace meow
         }
 
         _progress = 1;
-        _display.fillRect(_x_pos + x_offset + 1, _y_pos + y_offset + 1, _width - 2, _height - 2, _back_color);
+        _display.fillRect(_x_pos + x_offset + 1,
+                          _y_pos + y_offset + 1,
+                          _width - 2,
+                          _height - 2,
+                          _back_color);
     }
 
 }
