@@ -32,7 +32,12 @@
 //  #define TFT_CS 10
 
 // Лілка
+#define USE_HSPI_PORT
 #define TFT_DC 15
 #define TFT_CS 7
-
+#define TFT_MOSI 17 // sda
+#define TFT_SCLK 18 // dcl
 #define TFT_RST -1 // TFT reset pin connect to RST
+
+// Позбутися помилки. 8 пін не використовується
+#define TFT_MISO 8 
