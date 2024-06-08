@@ -75,14 +75,14 @@ namespace meow
             {
                 uint16_t next_prgrs_pos = ((float)_width / _max) * _prev_progress;
 
-                uint16_t x = _x_pos + x_offset + next_prgrs_pos;
-                if (next_prgrs_pos < 2)
-                    ++x;
-                else
-                    --x;
-
                 if (_progress > _prev_progress) // Заливка тільки прогресу
                 {
+                    uint16_t x = _x_pos + x_offset + next_prgrs_pos;
+                    if (next_prgrs_pos < 2)
+                        ++x;
+                    else
+                        --x;
+
                     _display.fillRect(x,
                                       _y_pos + y_offset + 1,
                                       progressW - next_prgrs_pos,
@@ -111,9 +111,9 @@ namespace meow
                                   _height - 2,
                                   _progress_color); // прогрес
 
-                _display.fillRect(_x_pos + x_offset + 1 + progressW,
+                _display.fillRect(_x_pos + x_offset + 1 + progressW - 2,
                                   _y_pos + y_offset + 1,
-                                  _width - progressW - 2,
+                                  _width - progressW,
                                   _height - 2,
                                   _back_color); // фон
 
@@ -141,7 +141,7 @@ namespace meow
                     _display.fillRect(_x_pos + x_offset + 1,
                                       y,
                                       _width - 2,
-                                      progressH - next_prgrs_pos,
+                                      progressH - next_prgrs_pos + 1,
                                       _progress_color);
                 }
 
@@ -167,9 +167,9 @@ namespace meow
                                   _progress_color); // прогрес
 
                 _display.fillRect(_x_pos + x_offset + 1,
-                                  _y_pos + y_offset + 1 + progressH,
+                                  _y_pos + y_offset + progressH - 2,
                                   _width - 2,
-                                  _height - progressH - 2,
+                                  _height - progressH + 1,
                                   _back_color); // фон
 
                 _is_first_draw = false;
