@@ -1,7 +1,6 @@
 #include "Label.h"
 namespace meow
 {
-
     Label::Label(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display)
     {
         _height = chr_hgt_font2;
@@ -97,7 +96,18 @@ namespace meow
         else
             _font_ID = font_ID;
 
-        _height = _font_ID == 2 ? chr_hgt_font2 * _text_size : chr_hgt_font4 * _text_size; // інші шрифти не підтримуються
+        uint8_t char_h = 0;
+
+        if (_font_ID == 2)
+            char_h = chr_hgt_font2;
+        else if (_font_ID == 4)
+            char_h = chr_hgt_font4;
+
+        // інші шрифти не підтримуються
+
+        if (char_h > 0)
+            if (_height < char_h * _text_size + 2)
+                _height = char_h * _text_size + 2;
 
         _is_changed = true;
     }
