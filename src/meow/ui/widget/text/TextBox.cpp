@@ -25,10 +25,7 @@ namespace meow
 
     bool TextBox::removeLastChar()
     {
-        if (_text == "")
-            return false;
-
-        if (_text_len == 0)
+        if (_text.isEmpty())
             return false;
 
         _text = getSubStr(_text, 0, _text_len - 1);
@@ -36,6 +33,13 @@ namespace meow
 
         _is_changed = true;
         return true;
+    }
+
+    void TextBox::addChars(const char *ch)
+    {
+        _text += ch;
+        _text_len = calcRealStrLen(_text);
+        _is_changed = true;
     }
 
     uint16_t TextBox::getFitStr(String &ret_str) const

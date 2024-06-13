@@ -36,6 +36,11 @@ namespace meow
          */
         bool removeLastChar();
 
+        /*!
+         * @brief Додати символи в кінець рядка текстового поля.
+         */
+        void addChars(const char *ch);
+
     private:
         using Label::initWidthToFit;
         using Label::isTicker;
