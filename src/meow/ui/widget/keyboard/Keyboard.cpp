@@ -1,9 +1,7 @@
 #include "Keyboard.h"
-#include "KeyboardRow.h"
 
 namespace meow
 {
-
     Keyboard::Keyboard(uint16_t widget_ID, GraphicsDriver &display) : IWidgetContainer(widget_ID, display) {}
 
     Keyboard *Keyboard::clone(uint16_t id) const
@@ -36,57 +34,17 @@ namespace meow
 
     uint16_t Keyboard::getCurrentBtnID() const
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return 0;
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return 0;
-        }
-
-        return row->getCurrentBtnID();
+        return getFocusRow()->getCurrentBtnID();
     }
 
     String Keyboard::getCurrentBtnTxt() const
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return "";
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return "";
-        }
-
-        return row->getCurrentBtnTxt();
+        return getFocusRow()->getCurrentBtnTxt();
     }
 
     void Keyboard::focusUp()
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return;
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return;
-        }
+        KeyboardRow *row = getFocusRow();
 
         uint16_t focusPos = row->getCurFocusPos();
 
@@ -103,19 +61,7 @@ namespace meow
 
     void Keyboard::focusDown()
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return;
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return;
-        }
+        KeyboardRow *row = getFocusRow();
 
         uint16_t focusPos = row->getCurFocusPos();
 
@@ -132,19 +78,7 @@ namespace meow
 
     void Keyboard::focusLeft()
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return;
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return;
-        }
+        KeyboardRow *row = getFocusRow();
 
         if (row->focusUp())
             return;
@@ -155,25 +89,32 @@ namespace meow
 
     void Keyboard::focusRight()
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної KeyboardRow.");
-            return;
-        }
-
-        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
-
-        if (row == nullptr)
-        {
-            log_e("KeyboardRow не знайдено.");
-            return;
-        }
+        KeyboardRow *row = getFocusRow();
 
         if (row->focusDown())
             return;
 
         row->removeFocus();
         row->setFocus(0);
+    }
+
+    KeyboardRow *Keyboard::getFocusRow() const
+    {
+        if (_widgets.empty())
+        {
+            log_e("Не додано жодної KeyboardRow");
+            esp_restart();
+        }
+
+        KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[_cur_focus_row_pos]);
+
+        if (!row)
+        {
+            log_e("KeyboardRow не знайдено");
+            esp_restart();
+        }
+
+        return row;
     }
 
     void Keyboard::onDraw()
@@ -201,26 +142,19 @@ namespace meow
                 _first_drawing = false;
 
                 if (!_widgets.empty())
-                {
-                    KeyboardRow *row = reinterpret_cast<KeyboardRow *>(_widgets[0]);
-                    if (row != nullptr)
-                        row->setFocus(0);
-                    else
-                        log_e("KeyboardRow не знайдено.");
-                }
+                    getFocusRow()->setFocus(0);
             }
 
-            uint16_t x = 1;
-            uint16_t y = 1;
+            uint16_t x{2};
+            uint16_t y{2};
 
             for (uint16_t i{0}; i < _widgets.size(); ++i)
             {
                 _widgets[i]->setPos(x, y);
-                _widgets[i]->setWidth(_width - 1);
+                _widgets[i]->setWidth(_width - 4);
                 _widgets[i]->onDraw();
                 y += _widgets[i]->getHeight();
             }
         }
     }
-
 }

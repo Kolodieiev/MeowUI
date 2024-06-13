@@ -4,7 +4,6 @@
 
 namespace meow
 {
-
     class KeyboardRow : public IWidgetContainer
     {
 
@@ -106,6 +105,7 @@ namespace meow
 
         uint16_t _btn_height{1};
         uint16_t _btn_width{1};
-    };
 
+        IWidget *getFocusBtn() const;
+    };
 }

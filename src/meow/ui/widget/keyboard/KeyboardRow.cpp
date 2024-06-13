@@ -3,7 +3,6 @@
 
 namespace meow
 {
-
     KeyboardRow::KeyboardRow(uint16_t widget_ID, GraphicsDriver &display) : IWidgetContainer(widget_ID, display) {}
 
     KeyboardRow *KeyboardRow::clone(uint16_t id) const
@@ -38,71 +37,23 @@ namespace meow
 
     uint16_t KeyboardRow::getCurrentBtnID() const
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної кнопки.");
-            return 0;
-        }
-
-        if (_cur_focus_pos > _widgets.size() - 1)
-        {
-            log_e("Кнопку не знайдено.");
-            return 0;
-        }
-
-        return _widgets[_cur_focus_pos]->getID();
+        return getFocusBtn()->getID();
     }
 
     String KeyboardRow::getCurrentBtnTxt() const
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної кнопки.");
-            return "";
-        }
-
-        if (_cur_focus_pos > _widgets.size() - 1)
-        {
-            log_e("Кнопку не знайдено.");
-            return "";
-        }
-
-        Label *item = reinterpret_cast<Label *>(_widgets[_cur_focus_pos]);
-
-        if (item == nullptr)
-        {
-            log_e("Кнопку не знайдено.");
-            return "";
-        }
-
-        return item->getText();
+        return reinterpret_cast<Label *>(getFocusBtn())->getText();
     }
 
     bool KeyboardRow::focusUp()
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної кнопки.");
-            return false;
-        }
-
         if (_cur_focus_pos > 0)
         {
-            IWidget *btn = _widgets[_cur_focus_pos];
-
-            if (btn == nullptr)
-            {
-                log_e("Кнопку не знайдено.");
-                return false;
-            }
-
+            IWidget *btn = getFocusBtn();
             btn->removeFocus();
-
-            _cur_focus_pos--;
-
-            btn = reinterpret_cast<Label *>(_widgets[_cur_focus_pos]);
+            --_cur_focus_pos;
+            btn = getFocusBtn();
             btn->setFocus();
-
             return true;
         }
 
@@ -111,29 +62,13 @@ namespace meow
 
     bool KeyboardRow::focusDown()
     {
-        if (_widgets.size() == 0)
+        if (!_widgets.empty() && _cur_focus_pos < _widgets.size() - 1)
         {
-            log_e("Не додано жодної кнопки.");
-            return false;
-        }
-
-        if (_cur_focus_pos < _widgets.size() - 1)
-        {
-            IWidget *btn = _widgets[_cur_focus_pos];
-
-            if (btn == nullptr)
-            {
-                log_e("Кнопку не знайдено.");
-                return false;
-            }
-
+            IWidget *btn = getFocusBtn();
             btn->removeFocus();
-
-            _cur_focus_pos++;
-
-            btn = _widgets[_cur_focus_pos];
+            ++_cur_focus_pos;
+            btn = getFocusBtn();
             btn->setFocus();
-
             return true;
         }
 
@@ -142,19 +77,7 @@ namespace meow
 
     void KeyboardRow::setFocus(uint16_t pos)
     {
-        if (_widgets.size() == 0)
-        {
-            log_e("Не додано жодної кнопки.");
-            return;
-        }
-
-        IWidget *btn = _widgets[_cur_focus_pos];
-
-        if (btn == nullptr)
-        {
-            log_e("Кнопку не знайдено.");
-            return;
-        }
+        IWidget *btn = getFocusBtn();
 
         btn->removeFocus();
 
@@ -163,29 +86,33 @@ namespace meow
         else
             _cur_focus_pos = pos;
 
-        btn = _widgets[_cur_focus_pos];
+        btn = getFocusBtn();
         btn->setFocus();
     }
 
     void KeyboardRow::removeFocus()
     {
-        if (_widgets.size() == 0)
+        getFocusBtn()->removeFocus();
+        _cur_focus_pos = 0;
+    }
+
+    IWidget *KeyboardRow::getFocusBtn() const
+    {
+        if (_widgets.empty())
         {
-            log_e("Не додано жодної кнопки.");
-            return;
+            log_e("Не додано жодної кнопки");
+            esp_restart();
         }
 
         IWidget *item = _widgets[_cur_focus_pos];
 
-        if (item == nullptr)
+        if (!item)
         {
-            log_e("Кнопку не знайдено.");
-            return;
+            log_e("Кнопку не знайдено");
+            esp_restart();
         }
 
-        item->removeFocus();
-
-        _cur_focus_pos = 0;
+        return item;
     }
 
     void KeyboardRow::onDraw()
@@ -208,10 +135,16 @@ namespace meow
 
             clear();
 
-            uint16_t step = (_width - _btn_width * _widgets.size()) / (_widgets.size() + 1);
+            if (_widgets.empty())
+                return;
+
+            uint16_t step{0};
+
+            if (_btn_width * _widgets.size() < _width)
+                step = (float)(_width - _btn_width * _widgets.size()) / (_widgets.size() + 1);
 
             uint16_t x = step;
-            uint16_t y = 0;
+            uint16_t y = (float)(_height - _btn_height) / 2;
 
             for (uint16_t i{0}; i < _widgets.size(); ++i)
             {
@@ -224,5 +157,4 @@ namespace meow
             }
         }
     }
-
 }

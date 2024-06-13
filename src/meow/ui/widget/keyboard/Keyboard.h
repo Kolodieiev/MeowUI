@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "../layout/IWidgetContainer.h"
+#include "./KeyboardRow.h"
 
 namespace meow
 {
@@ -55,6 +56,8 @@ namespace meow
         uint16_t _cur_focus_row_pos{0};
 
         bool _first_drawing{true};
+
+        KeyboardRow * getFocusRow() const;
     };
 
 }
