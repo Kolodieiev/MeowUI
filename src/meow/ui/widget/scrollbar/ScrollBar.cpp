@@ -2,12 +2,25 @@
 
 namespace meow
 {
-
     ScrollBar::ScrollBar(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
+
+    ScrollBar *ScrollBar::clone(uint16_t id) const
+    {
+        ScrollBar *clone = new ScrollBar(*this);
+
+        if (!clone)
+        {
+            log_e("Помилка клонування");
+            esp_restart();
+        }
+
+        clone->_id = id;
+        return clone;
+    }
 
     void ScrollBar::setValue(uint16_t value)
     {
-        _cur_value = value < _max_value ? value : _max_value;
+        _cur_value = value > _max_value ? _max_value : value;
         _is_changed = true;
     }
 
@@ -27,7 +40,7 @@ namespace meow
         uint16_t x_offset{0};
         uint16_t y_offset{0};
 
-        if (_parent != nullptr)
+        if (_parent)
         {
             x_offset = _parent->getXPos();
             y_offset = _parent->getYPos();
@@ -52,27 +65,21 @@ namespace meow
         if (_slider_last_y_pos < _y_pos + y_offset)
             _slider_last_y_pos = _y_pos + y_offset;
 
-        _display.fillRect(_slider_last_x_pos, _slider_last_y_pos, _slider_width, _slider_height, _back_color);
+        uint16_t old_slider_w = _slider_width;
+        if (_slider_last_x_pos + _slider_width > _x_pos + x_offset + _width)
+            old_slider_w = _x_pos + x_offset + _width - _slider_last_x_pos;
+
+        uint16_t old_slider_h = _slider_height;
+        if (_slider_last_y_pos + _slider_height > _y_pos + y_offset + _height)
+            old_slider_h = _y_pos + y_offset + _height - _slider_last_y_pos;
+
+        _display.fillRect(_slider_last_x_pos, _slider_last_y_pos, old_slider_w, old_slider_h, _back_color);
 
         _slider_last_x_pos = slider_x_pos;
         _slider_last_y_pos = slider_y_pos;
 
         // draw new
         _display.fillRect(slider_x_pos, slider_y_pos, _slider_width, _slider_height, _slider_color);
-    }
-
-    ScrollBar *ScrollBar::clone(uint16_t id) const
-    {
-        ScrollBar *clone = new ScrollBar(*this);
-
-        if (!clone)
-        {
-            log_e("Помилка клонування");
-            esp_restart();
-        }
-
-        clone->_id = id;
-        return clone;
     }
 
     void ScrollBar::setMax(uint16_t max_value)
@@ -197,5 +204,4 @@ namespace meow
         }
         return false;
     }
-
 }
