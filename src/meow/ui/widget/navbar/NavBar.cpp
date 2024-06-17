@@ -2,17 +2,13 @@
 
 namespace meow
 {
-
     NavBar::NavBar(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
 
     NavBar::~NavBar()
     {
-        if (_first != nullptr)
-        {
-            delete _first;
-            delete _middle;
-            delete _last;
-        }
+        delete _first;
+        delete _middle;
+        delete _last;
     }
 
     void NavBar::setWidgets(IWidget *first, IWidget *middle, IWidget *last)
@@ -23,12 +19,9 @@ namespace meow
             esp_restart();
         }
 
-        if (_first)
-        {
-            delete _first;
-            delete _middle;
-            delete _last;
-        }
+        delete _first;
+        delete _middle;
+        delete _last;
 
         _first = first;
         _middle = middle;
@@ -97,5 +90,4 @@ namespace meow
 
         return clone;
     }
-
 }

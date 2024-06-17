@@ -2,22 +2,14 @@
 
 namespace meow
 {
-
     Notification::Notification(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
 
     Notification::~Notification()
     {
-        if (_title_lbl != nullptr)
-            delete _title_lbl;
-
-        if (_msg_lbl != nullptr)
-            delete _msg_lbl;
-
-        if (_left_lbl != nullptr)
-            delete _left_lbl;
-
-        if (_right_lbl != nullptr)
-            delete _right_lbl;
+        delete _title_lbl;
+        delete _msg_lbl;
+        delete _left_lbl;
+        delete _right_lbl;
     }
 
     void Notification::setLabels(Label *title, Label *msg, Label *left_btn, Label *right_btn)
@@ -28,17 +20,10 @@ namespace meow
             esp_restart();
         }
 
-        if (_title_lbl != nullptr)
-            delete _title_lbl;
-
-        if (_msg_lbl != nullptr)
-            delete _msg_lbl;
-
-        if (_left_lbl != nullptr)
-            delete _left_lbl;
-
-        if (_right_lbl != nullptr)
-            delete _right_lbl;
+        delete _title_lbl;
+        delete _msg_lbl;
+        delete _left_lbl;
+        delete _right_lbl;
 
         _title_lbl = title;
         _msg_lbl = msg;
@@ -80,5 +65,4 @@ namespace meow
         _left_lbl->forcedDraw();
         _right_lbl->forcedDraw();
     }
-
 }

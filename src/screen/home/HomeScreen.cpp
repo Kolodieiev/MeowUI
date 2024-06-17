@@ -135,9 +135,7 @@ HomeScreen::~HomeScreen()
     //------------------------------------------------------------------------------------------------------------------------ Вивільнення ресурсів
 
     delete _bat_ico;
-
-    if (_wallpaper_ptr) // Якщо зображення було завантажено в PSRAM
-        free((void *)_wallpaper_ptr);
+    free((void *)_wallpaper_ptr);
 }
 
 void HomeScreen::loop()
