@@ -294,8 +294,8 @@ namespace meow
 
         if (start_pos >= len)
         {
-            log_e("Стартова позиція повинна бути меншою за довжину рядка");
-            esp_restart();
+            ret_str = "";
+            return 0;
         }
 
         const unsigned char *width_table;
