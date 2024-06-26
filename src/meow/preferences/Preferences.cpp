@@ -66,13 +66,13 @@ namespace meow
 
         if (!file)
         {
-            log_e("Помилка читання файлу налаштувань: %s", path);
+            log_e("Помилка читання файлу налаштувань: %s", path.c_str());
             return nullptr;
         }
 
         if (file.isDirectory())
         {
-            log_e("Помилка. Файл налаштувань не може бути каталогом: %s", path);
+            log_e("Помилка. Файл налаштувань не може бути каталогом: %s", path.c_str());
             file.close();
             return nullptr;
         }
