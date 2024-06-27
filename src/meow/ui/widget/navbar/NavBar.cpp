@@ -39,7 +39,7 @@ namespace meow
     {
         if (!_is_changed)
         {
-            if (!_first)
+            if (_visibility == INVISIBLE || !_first)
                 return;
 
             _first->onDraw();
