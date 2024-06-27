@@ -40,16 +40,21 @@ namespace meow
 
     void IWidget::hide() const
     {
-        if (_parent == nullptr)
-            return;
+        uint16_t back_color{0};
+        uint16_t x_offset{0};
+        uint16_t y_offset{0};
 
-        uint16_t x_offset = _parent->getXPos();
-        uint16_t y_offset = _parent->getYPos();
+        if (_parent)
+        {
+            x_offset = _parent->getXPos();
+            y_offset = _parent->getYPos();
+            back_color = _parent->getBackColor();
+        }
 
         if (!_corner_radius)
-            _display.fillRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _parent->getBackColor());
+            _display.fillRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, back_color);
         else
-            _display.fillRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, _parent->getBackColor());
+            _display.fillRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, back_color);
     }
 
     uint16_t IWidget::getXPos() const
@@ -73,6 +78,7 @@ namespace meow
         if (_has_focus)
             return;
 
+        _is_changed = true;
         _has_focus = true;
 
         if (_need_change_border)
@@ -89,8 +95,6 @@ namespace meow
             _old_back_color = _back_color;
             _back_color = _focus_back_color;
         }
-
-        _is_changed = true;
     }
 
     void IWidget::removeFocus()
@@ -98,6 +102,7 @@ namespace meow
         if (!_has_focus)
             return;
 
+        _is_changed = true;
         _has_focus = false;
 
         if (_need_change_border)
@@ -108,8 +113,6 @@ namespace meow
 
         if (_need_change_back)
             _back_color = _old_back_color;
-
-        _is_changed = true;
     }
 
 }
