@@ -2,6 +2,7 @@
 
 namespace meow
 {
+
     NavBar::NavBar(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
 
     NavBar::~NavBar()
@@ -37,7 +38,15 @@ namespace meow
     void NavBar::onDraw()
     {
         if (!_is_changed)
+        {
+            if (!_first)
+                return;
+
+            _first->onDraw();
+            _middle->onDraw();
+            _last->onDraw();
             return;
+        }
 
         _is_changed = false;
 
@@ -49,7 +58,7 @@ namespace meow
 
         clear();
 
-        if (_first == nullptr)
+        if (!_first)
             return;
 
         _first->setPos(0, 0);
@@ -90,4 +99,5 @@ namespace meow
 
         return clone;
     }
+
 }
