@@ -2453,6 +2453,10 @@ int16_t TFT_eSprite::drawChar(uint16_t uniCode, int32_t x, int32_t y, uint8_t fo
   if (_vpOoB || !uniCode)
     return 0;
 
+    
+  if (uniCode < 32)
+    uniCode = 32;
+
   int32_t width = 0;
   int32_t height = 0;
   uint32_t flash_address = 0;
