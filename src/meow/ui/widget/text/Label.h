@@ -5,7 +5,6 @@
 
 namespace meow
 {
-
     // TODO додати перенесення рядків по /n
 
     class Label : public IWidget
@@ -36,7 +35,7 @@ namespace meow
          */
         void updateWidthToFit(uint16_t add_width_value = 0);
 
-        void setText(String text);
+        void setText(const String &text);
         inline String getText() const
         {
             return _text;
@@ -52,7 +51,7 @@ namespace meow
         {
             _text_size = size;
 
-            uint16_t text_h = _font_ID == 2 ? chr_hgt_font2 * size + 2: chr_hgt_font4 * size + 2;
+            uint16_t text_h = _font_ID == 2 ? chr_hgt_font2 * size + 2 : chr_hgt_font4 * size + 2;
 
             if (_height < text_h)
                 _height = text_h;
@@ -196,5 +195,4 @@ namespace meow
         uint16_t charPosToByte(const uint8_t *buf, uint16_t char_pos) const;
         uint32_t utf8ToUnicode(const uint8_t *buf, uint16_t &char_pos, uint16_t remaining) const;
     };
-
 }

@@ -37,12 +37,11 @@ namespace meow
         _is_changed = true;
     }
 
-    void Label::setText(String text)
+    void Label::setText(const String &text)
     {
         _text = text;
         _text_len = calcRealStrLen(_text);
         _first_draw_char_pos = 0;
-
         _is_changed = true;
     }
 
@@ -538,7 +537,6 @@ namespace meow
                         if (sub_str_pix_num > 0)
                         {
                             txt_x_pos = calcXStrOffset(sub_str_pix_num);
-
                             _display.drawString(sub_str, _x_pos + x_offset + txt_x_pos, _y_pos + y_offset + y_pos);
 
                             y_pos += font_height + line_spacing;
