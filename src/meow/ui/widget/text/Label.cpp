@@ -340,6 +340,7 @@ namespace meow
         }
 
         ret_str = getSubStr(_text, start_pos, chars_counter);
+
         return pix_sum;
     }
 
@@ -364,13 +365,13 @@ namespace meow
             if (c >= 0 && c <= 127)
                 i += 0;
             else if ((c & 0xE0) == 0xC0)
-                i += 1;
+                ++i;
             else if ((c & 0xF0) == 0xE0)
                 i += 2;
             else if ((c & 0xF8) == 0xF0)
                 i += 3;
             else
-                return ""; // invalid utf8
+                ++i; // invalid utf8
         }
 
         if (q <= start + length || length == -1)
@@ -429,6 +430,8 @@ namespace meow
                     unicode = CHRS_NMBR - 1;
                 }
         }
+        else if (unicode < 32)
+            unicode = 0;
         else
             unicode -= 32;
 
