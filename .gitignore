@@ -4,6 +4,14 @@
 !README.md
 !LICENSE
 
-!*images/
-!*lib/TFT_eSPI/
-!*src/meow/
+!images/
+!images/**
+
+!src/
+!src/meow/
+!src/meow/**
+
+
+!lib/
+!lib/TFT_eSPI/
+!lib/TFT_eSPI/**
