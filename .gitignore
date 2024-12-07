@@ -1,8 +1,9 @@
 *
+
 !.gitignore
 !README.md
 !LICENSE
 
-!images/
-!lib/TFT_eSPI/
-!src/meow/
+!*images/
+!*lib/TFT_eSPI/
+!*src/meow/
