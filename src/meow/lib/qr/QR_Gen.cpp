@@ -18,13 +18,12 @@ uint16_t *QR_Gen::generateQR(const char *str, uint8_t pixel_prescaller, uint16_t
     if (pixel_prescaller == 0)
         pixel_prescaller = 1;
 
-    _image_width = qr_width * pixel_prescaller;
+    _image_width = (qr_width + 6) * pixel_prescaller;
 
     if (_image_width % 4)
         _image_width = (_image_width / 4) * 4;
 
-    uint32_t num_pixels = (qr_width * pixel_prescaller) * (qr_width * pixel_prescaller);
-    //
+    uint32_t num_pixels = _image_width * _image_width;
 
     uint16_t *result_image;
 
@@ -35,14 +34,12 @@ uint16_t *QR_Gen::generateQR(const char *str, uint8_t pixel_prescaller, uint16_t
     }
     else
         result_image = (uint16_t *)malloc(num_pixels * sizeof(uint16_t));
-    //
 
     if (!result_image)
     {
         log_e("Out of memory");
         return nullptr;
     }
-    //
 
     for (uint32_t i = 0; i < num_pixels; ++i)
         result_image[i] = back_color;
@@ -57,13 +54,17 @@ uint16_t *QR_Gen::generateQR(const char *str, uint8_t pixel_prescaller, uint16_t
             {
                 for (uint16_t dy = 0; dy < pixel_prescaller; ++dy)
                     for (uint16_t dx = 0; dx < pixel_prescaller; ++dx)
-                        result_image[(y * pixel_prescaller + dy) * _image_width + (x * pixel_prescaller + dx)] = front_color;
+                    {
+                        uint16_t dest_x = (x + 3) * pixel_prescaller + dx;
+                        uint16_t dest_y = (y + 3) * pixel_prescaller + dy;
+
+                        result_image[dest_y * _image_width + dest_x] = front_color;
+                    }
             }
 
             ++source_data;
         }
     }
-    //
 
     QRcode_free(qr);
     return result_image;
