@@ -12,9 +12,7 @@ namespace meow
     volatile bool GraphicsDriver::_has_frame{false};
     volatile bool GraphicsDriver::_take_screenshot{false};
 
-    TFT_eSprite *GraphicsDriver::_display_buf_ptr;
     TFT_eSprite *GraphicsDriver::_rend_buf_ptr;
-    TFT_eSprite *GraphicsDriver::_temp_buf_ptr;
 
     GraphicsDriver::GraphicsDriver()
     {
@@ -36,34 +34,27 @@ namespace meow
 
 #if defined(COLOR_16BIT)
         _flick_buf.setColorDepth(16);
-        _display_buf.setColorDepth(16);
         _renderer_buf.setColorDepth(16);
 #elif defined(COLOR_8BIT)
         _flick_buf.setColorDepth(8);
-        _display_buf.setColorDepth(8);
         _renderer_buf.setColorDepth(8);
 #elif defined(COLOR_1BIT)
         _flick_buf.setColorDepth(1);
-        _display_buf.setColorDepth(1);
         _renderer_buf.setColorDepth(1);
 #endif
         _flick_buf.setAttribute(PSRAM_ENABLE, true);
-        _display_buf.setAttribute(PSRAM_ENABLE, true);
         _renderer_buf.setAttribute(PSRAM_ENABLE, true);
         //
         _flick_buf.createSprite(_tft.width(), _tft.height(), 1);
-        _display_buf.createSprite(_tft.width(), _tft.height(), 1);
         _renderer_buf.createSprite(_tft.width(), _tft.height(), 1);
 
         if (_flick_buf.getPointer() == nullptr ||
-            _display_buf.getPointer() == nullptr ||
             _renderer_buf.getPointer() == nullptr)
         {
             log_e("Помилка створення буферів малювання");
             esp_restart();
         }
 
-        _display_buf_ptr = &_display_buf;
         _rend_buf_ptr = &_renderer_buf;
     }
 
@@ -116,7 +107,7 @@ namespace meow
             _is_buffer_changed = false;
 
             xSemaphoreTake(_sync_mutex, portMAX_DELAY);
-            _flick_buf.pushToSprite(_display_buf_ptr, 0, 0);
+            _flick_buf.pushToSprite(&_renderer_buf, 0, 0);
             xSemaphoreGive(_sync_mutex);
 
             _has_frame = true;
@@ -132,10 +123,6 @@ namespace meow
                 xSemaphoreTake(_sync_mutex, portMAX_DELAY);
 
                 _has_frame = false;
-                _temp_buf_ptr = _display_buf_ptr;
-                _display_buf_ptr = _rend_buf_ptr;
-                _rend_buf_ptr = _temp_buf_ptr;
-
                 _rend_buf_ptr->pushSprite(0, 0);
 
 #ifdef ENABLE_SCREENSHOTER

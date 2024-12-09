@@ -166,12 +166,9 @@ namespace meow
 #endif
                 bool _is_buffer_changed = false;
                 TFT_eSprite _flick_buf = TFT_eSprite(&_tft);
-                TFT_eSprite _display_buf = TFT_eSprite(&_tft);
                 TFT_eSprite _renderer_buf = TFT_eSprite(&_tft);
 
-                static TFT_eSprite *_display_buf_ptr;
                 static TFT_eSprite *_rend_buf_ptr;
-                static TFT_eSprite *_temp_buf_ptr;
 
                 volatile static xSemaphoreHandle _sync_mutex;
                 volatile static bool _has_frame;
