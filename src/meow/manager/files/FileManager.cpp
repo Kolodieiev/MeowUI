@@ -1,17 +1,17 @@
 #pragma GCC optimize("O3")
 #include "./FileManager.h"
 #include <SD.h>
-#include "../sd/SD_Manager.h"
+#include <dirent.h>
 
-#include "esp_system.h"
+#include "../sd/SD_Manager.h"
 #include "FileManager.h"
-#include "esp_task_wdt.h"
 
 namespace meow
 {
     const char FileManager::STR_DIR_PREFIX[] = "_D ";
     const char STR_TEMP_EXT[] = "_tmp";
     const char STR_DB_EXT[] = ".ldb";
+    const char STR_DELIMITER[] = "|";
 
     bool FileManager::hasConnection()
     {
@@ -181,30 +181,31 @@ namespace meow
     bool FileManager::rmDir(const char *path)
     {
         File root = SD.open(path);
-        File temp_f;
-        String f_path;
+        bool result = true;
 
-        bool result;
+        bool is_dir;
+        String file_name;
 
-        while (!_is_canceled && (temp_f = root.openNextFile()))
+        while (!_is_canceled)
         {
-            f_path = temp_f.path();
-            bool is_dir = temp_f.isDirectory();
-            temp_f.close();
+            file_name = root.getNextFileName(&is_dir).c_str();
+
+            if (file_name.isEmpty())
+                break;
 
             if (!is_dir)
             {
-                result = rmFile(f_path.c_str());
+                result = rmFile(file_name.c_str());
                 if (!result)
                     goto exit;
             }
             else
             {
-                result = rmDir(f_path.c_str());
+                result = rmDir(file_name.c_str());
 
                 if (!result)
                 {
-                    log_e("Помилка видалення каталога: %s", f_path);
+                    log_e("Помилка видалення каталога: %s", file_name.c_str());
                     goto exit;
                 }
             }
@@ -309,54 +310,6 @@ namespace meow
         db.close();
 
         return result;
-    }
-
-    std::vector<String> FileManager::readFilesFromSD(const char *dir_path, uint16_t start_pos, uint16_t size)
-    {
-        std::vector<String> result;
-
-        if (!dirExist(dir_path))
-            return result;
-
-        if (size == 0)
-            size = 50;
-
-        result.reserve(size);
-
-        File dir = SD.open(dir_path, FILE_READ);
-
-        File file;
-        uint16_t pos{0};
-        String temp;
-        while (pos != start_pos && (file = dir.openNextFile()))
-        {
-            file.close();
-            ++pos;
-        }
-
-        uint16_t i{0};
-        while ((file = dir.openNextFile()) && i < size)
-        {
-            result.emplace_back(file.name());
-            file.close();
-            ++i;
-        }
-
-        dir.close();
-
-        result.shrink_to_fit();
-        return result;
-    }
-
-    bool FileManager::strEndsWith(const char *str, const char *suffix)
-    {
-        size_t len = strlen(str);
-        size_t suffix_len = strlen(suffix);
-        if (suffix_len > len)
-            return false;
-
-        str += (len - suffix_len);
-        return strcmp(str, suffix) == 0;
     }
 
     void FileManager::copyFile()
@@ -503,62 +456,57 @@ namespace meow
 
         File dir = SD.open(_dir_path);
 
-        File file;
-        uint16_t counter{0};
         String file_name;
+        uint16_t counter{0};
 
-        while (!_is_canceled && (file = dir.openNextFile()))
+        bool is_dir;
+        while (!_is_canceled)
         {
+            file_name = basename(dir.getNextFileName(&is_dir).c_str());
+
+            if (file_name.isEmpty())
+                break;
+
             switch (_index_mode)
             {
             case INDX_MODE_DIR:
-                if (file.isDirectory())
+                if (is_dir)
                 {
-                    file_name = file.name();
-                    file_name += "|";
+                    file_name += STR_DELIMITER;
                     tmp_db.print(file_name);
                     ++counter;
                 }
                 break;
             case INDX_MODE_FILES:
-                if (!file.isDirectory() && !strEndsWith(file.name(), STR_TEMP_EXT) && !strEndsWith(file.name(), STR_DB_EXT))
+                if (!is_dir && !file_name.endsWith(STR_TEMP_EXT) && !file_name.endsWith(STR_DB_EXT))
                 {
-                    file_name = file.name();
-                    file_name += "|";
+                    file_name += STR_DELIMITER;
                     tmp_db.print(file_name);
                     ++counter;
                 }
                 break;
             case INDX_MODE_FILES_EXT:
-                if (!file.isDirectory())
+                if (!is_dir && file_name.endsWith(_file_ext))
                 {
-                    file_name = file.name();
-                    if (file_name.endsWith(_file_ext))
-                    {
-                        file_name += "|";
-                        tmp_db.print(file_name);
-                        ++counter;
-                    }
+                    file_name += STR_DELIMITER;
+                    tmp_db.print(file_name);
+                    ++counter;
                 }
                 break;
             case INDX_MODE_ALL:
-                file_name = "";
 
-                if (file.isDirectory())
-                    file_name = STR_DIR_PREFIX;
-                else if (strEndsWith(file.name(), STR_TEMP_EXT) || strEndsWith(file.name(), STR_DB_EXT))
-                    goto cont;
+                if (is_dir)
+                    file_name = STR_DIR_PREFIX + file_name;
+                else if (file_name.endsWith(STR_TEMP_EXT) || file_name.endsWith(STR_DB_EXT))
+                    break;
 
-                file_name += file.name();
-                file_name += "|";
+                file_name += STR_DELIMITER;
                 tmp_db.print(file_name);
                 ++counter;
 
-            cont:
                 break;
             }
 
-            file.close();
             vTaskDelay(1 / portTICK_PERIOD_MS);
         }
 

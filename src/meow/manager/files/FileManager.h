@@ -38,7 +38,6 @@ namespace meow
 
         uint16_t getDBSize(const char *db_path);
         std::vector<String> readFilesFromDB(const char *db_path, uint16_t start_pos, uint16_t size);
-        std::vector<String> readFilesFromSD(const char *dir_path, uint16_t start_pos, uint16_t size);
 
         inline bool isWorking() const { return _is_working; }
         inline bool isTaskSuccessfull() const { return _is_successfully; }
@@ -80,8 +79,6 @@ namespace meow
         bool rmDir(const char *path);
         void copyFile();
         void index();
-        //
-        static bool strEndsWith(const char *str, const char *suffix);
         //
         static void rmTask(void *params);
         static void copyFileTask(void *params);
