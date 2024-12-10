@@ -20,6 +20,11 @@ public:
   // Міняє місцями буфери малювання спрайтів.
   void swapBuffs8(TFT_eSprite &other);
 
+  // Швидке копіювання буферів малювання.
+  void fastCopy16(TFT_eSprite &to);
+  // Швидке копіювання буферів малювання.
+  void fastCopy8(TFT_eSprite &to);
+
   // Create a sprite of width x height pixels, return a pointer to the RAM area
   // Sketch can cast returned value to (uint16_t*) for 16 bit depth if needed
   // RAM required is:

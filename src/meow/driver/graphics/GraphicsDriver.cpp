@@ -107,7 +107,11 @@ namespace meow
             _is_buffer_changed = false;
 
             xSemaphoreTake(_sync_mutex, portMAX_DELAY);
-            _flick_buf.pushToSprite(&_renderer_buf, 0, 0);
+#if defined(COLOR_16BIT)
+            _flick_buf.fastCopy16(_renderer_buf);
+#else
+            _flick_buf.fastCopy8(_renderer_buf);
+#endif
             xSemaphoreGive(_sync_mutex);
 
             _has_frame = true;

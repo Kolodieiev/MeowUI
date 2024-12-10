@@ -66,6 +66,18 @@ void TFT_eSprite::swapBuffs8(TFT_eSprite &other)
   _swapBytes = swap_tmp;
 }
 
+void TFT_eSprite::fastCopy16(TFT_eSprite &to)
+{
+  memcpy(to._img, _img, _dwidth * _dheight * sizeof(uint16_t));
+  to._swapBytes = _swapBytes;
+}
+
+void TFT_eSprite::fastCopy8(TFT_eSprite &to)
+{
+  memcpy(to._img8, _img8, _dwidth * _dheight);
+  to._swapBytes = _swapBytes;
+}
+
 /***************************************************************************************
 ** Function name:           createSprite
 ** Description:             Create a sprite (bitmap) of defined width and height
