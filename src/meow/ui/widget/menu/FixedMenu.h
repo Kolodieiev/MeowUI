@@ -29,6 +29,15 @@ namespace meow
          *        true в разі успіху операції. Інакше false.
          */
         virtual bool focusDown() override;
+
+        /*!
+         * @brief
+         *       Встановити прапор зациклювання.
+         */
+        void setLoopState(bool state) { _is_loop_enbl = state; }
+
+    protected:
+        bool _is_loop_enbl = false;
     };
 
 }

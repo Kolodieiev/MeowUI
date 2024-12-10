@@ -4,32 +4,49 @@
 
 namespace meow
 {
-
     FixedMenu::FixedMenu(uint16_t widget_ID, GraphicsDriver &display) : Menu(widget_ID, display) {}
 
     bool FixedMenu::focusUp()
     {
         if (!_widgets.empty())
+        {
+            IWidget *item = _widgets[_cur_focus_pos];
+            item->removeFocus();
+            uint16_t cycles_count = getCyclesCount();
+
+            bool need_redraw = false;
+
             if (_cur_focus_pos > 0)
             {
-                IWidget *item = _widgets[_cur_focus_pos];
-                item->removeFocus();
-
-                _cur_focus_pos--;
-
-                uint16_t cycles_count = getCyclesCount();
+                --_cur_focus_pos;
 
                 if (_cur_focus_pos < _first_item_index)
                 {
-                    _first_item_index--;
-                    drawItems(_first_item_index, cycles_count);
+                    --_first_item_index;
+                    need_redraw = true;
                 }
-
-                item = _widgets[_cur_focus_pos];
-                item->setFocus();
-
-                return true;
             }
+            else if (_is_loop_enbl)
+            {
+                if (_widgets.size() > cycles_count)
+                {
+                    need_redraw = true;
+                    _first_item_index = _widgets.size() - cycles_count;
+                }
+                else
+                    _first_item_index = 0;
+
+                _cur_focus_pos = _widgets.size() - 1;
+            }
+
+            item = _widgets[_cur_focus_pos];
+            item->setFocus();
+
+            if (need_redraw)
+                drawItems(_first_item_index, cycles_count);
+
+            return true;
+        }
 
         return false;
     }
@@ -37,27 +54,39 @@ namespace meow
     bool FixedMenu::focusDown()
     {
         if (!_widgets.empty())
+        {
+            IWidget *item = _widgets[_cur_focus_pos];
+            item->removeFocus();
+            uint16_t cycles_count = getCyclesCount();
+
+            bool need_redraw = false;
+
             if (_cur_focus_pos < _widgets.size() - 1)
             {
-                IWidget *item = _widgets[_cur_focus_pos];
-                item->removeFocus();
-
-                _cur_focus_pos++;
-
-                uint16_t cycles_count = getCyclesCount();
+                ++_cur_focus_pos;
 
                 if (_cur_focus_pos > _first_item_index + cycles_count - 1)
                 {
-                    _first_item_index++;
-
-                    drawItems(_first_item_index, cycles_count);
+                    need_redraw = true;
+                    ++_first_item_index;
                 }
-
-                item = _widgets[_cur_focus_pos];
-                item->setFocus();
-
-                return true;
             }
+            else if (_is_loop_enbl)
+            {
+                _cur_focus_pos = 0;
+                _first_item_index = 0;
+
+                need_redraw = _widgets.size() > cycles_count;
+            }
+
+            item = _widgets[_cur_focus_pos];
+            item->setFocus();
+
+            if (need_redraw)
+                drawItems(_first_item_index, cycles_count);
+
+            return true;
+        }
 
         return false;
     }
@@ -79,6 +108,7 @@ namespace meow
             clone->_item_height = _item_height;
             clone->_item_width = _item_width;
             clone->_items_spacing = _items_spacing;
+            clone->_is_loop_enbl = _is_loop_enbl;
 
             for (const auto &widget_ptr : _widgets)
             {
@@ -90,10 +120,9 @@ namespace meow
         }
         catch (const std::bad_alloc &e)
         {
-            
+
             log_e("%s", e.what());
             esp_restart();
         }
     }
-
 }
