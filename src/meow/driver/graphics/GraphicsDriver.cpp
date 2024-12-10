@@ -151,7 +151,7 @@ namespace meow
                 xSemaphoreGive(_sync_mutex);
             }
 
-                    delay(1);
+            delay(1);
         }
     }
 
