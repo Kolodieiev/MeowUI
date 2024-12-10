@@ -161,7 +161,6 @@ private:
     int sendBytes(uint8_t *data, size_t len);
     void setDecoderItems();
     void computeAudioTime(uint16_t bytesDecoderIn);
-    void printDecodeError(int r);
     size_t readAudioHeader(uint32_t bytes);
     int read_ID3_Header(uint8_t *data, size_t len);
     bool setSampleRate(uint32_t hz);

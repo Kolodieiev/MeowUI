@@ -519,7 +519,7 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
         ID3version = 0;
         m_contentlength = getFileSize();
 
-        ++m_controlCounter;
+        m_controlCounter++;
         remainingHeaderBytes = 0;
         ehsz = 0;
         if (specialIndexOf(data, "ID3", 4) != 0)
@@ -550,10 +550,9 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
 
         return 10;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 1)
+    else if (m_controlCounter == 1)
     { // compute extended header size if exists
-        ++m_controlCounter;
+        m_controlCounter++;
         if (m_f_exthdr)
         {
             ehsz = bigEndian(data, 4);
@@ -562,12 +561,9 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
             return 4;
         }
         else
-        {
             return 0;
-        }
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 2)
+    else if (m_controlCounter == 2)
     { // skip extended header if exists
         if (ehsz > len)
         {
@@ -582,8 +578,7 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
             return ehsz;
         } // Throw it away
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 3)
+    else if (m_controlCounter == 3)
     { // read a ID3 frame, get the tag
         if (remainingHeaderBytes == 0)
         {
@@ -607,38 +602,30 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
         }
         return 4;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 4)
+    else if (m_controlCounter == 4)
     { // get the frame size
         m_controlCounter = 6;
 
         if (ID3version == 4)
-        {
             framesize = bigEndian(data, 4, 7); // << 7
-        }
         else
-        {
             framesize = bigEndian(data, 4); // << 8
-        }
+
         remainingHeaderBytes -= 4;
         uint8_t flag = *(data + 4); // skip 1st flag
         (void)flag;
-        remainingHeaderBytes--;
+        --remainingHeaderBytes;
         compressed = (*(data + 5)) & 0x80; // Frame is compressed using [#ZLIB zlib] with 4 bytes for 'decompressed
                                            // size' appended to the frame header.
-        remainingHeaderBytes--;
-        uint32_t decompsize = 0;
+        --remainingHeaderBytes;
         if (compressed)
         {
-            decompsize = bigEndian(data + 6, 4);
             remainingHeaderBytes -= 4;
-            (void)decompsize;
             return 6 + 4;
         }
         return 6;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 5)
+    else if (m_controlCounter == 5)
     { // If the frame is larger than 512 bytes, skip the rest
         if (framesize > len)
         {
@@ -653,55 +640,44 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
             return framesize;
         }
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 6)
-    {                         // Read the value
-        m_controlCounter = 5; // only read 256 bytes
-        char ch = *(data + 0);
+    else if (m_controlCounter == 6)
+    {                                       // Read the value
+        m_controlCounter = 5;               // only read 256 bytes
+        uint8_t encodingByte = *(data + 0); // ID3v2 Text-Encoding-Byte
         // $00 – ISO-8859-1 (LATIN-1, Identical to ASCII for values smaller than 0x80).
-        // $01 – UCS-2 encoded Unicode with BOM, in ID3v2.2 and ID3v2.3.
-        // $02 – UTF-16BE encoded Unicode without BOM, in ID3v2.4.
+        // $01 – UCS-2 encoded Unicode with BOM (Byte Order Mark), in ID3v2.2 and ID3v2.3.
+        // $02 – UTF-16BE encoded Unicode without BOM (Byte Order Mark) , in ID3v2.4.
         // $03 – UTF-8 encoded Unicode, in ID3v2.4.
 
-        if (startsWith(tag, "APIC"))
-        { // a image embedded in file, passing it to external function
+        if (startsWith(tag, "APIC") || startsWith(tag, "SYLT") || startsWith(tag, "TXXX") || startsWith(tag, "USLT"))
             return 0;
-        }
 
-        if ( // any lyrics embedded in file, passing it to external function
-            startsWith(tag, "SYLT") || startsWith(tag, "TXXX") || startsWith(tag, "USLT"))
-        {
+        if (framesize == 0)
             return 0;
-        }
-
         size_t fs = framesize;
-
         if (fs > 1024)
             fs = 1024;
-
+        uint16_t dataLength = fs - 1;
         framesize -= fs;
         remainingHeaderBytes -= fs;
 
         return fs;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    // --- section V2.2 only , greater Vers above ----
-    // see https://mutagen-specs.readthedocs.io/en/latest/id3/id3v2.2.html
-    if (m_controlCounter == 10)
-    { // frames in V2.2, 3bytes identifier, 3bytes size descriptor
-
+    else if (m_controlCounter == 10)
+    {
         if (universal_tmp > 0)
         {
-           if(universal_tmp > len) {
+            if (universal_tmp > len)
+            {
                 universal_tmp -= len;
                 return len;
             } // Throw it away
-            else {
+            else
+            {
                 uint32_t t = universal_tmp;
                 universal_tmp = 0;
                 return t;
-            }
+            } // Throw it away
         }
 
         frameid[0] = *(data + 0);
@@ -714,13 +690,6 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
         size_t dataLen = bigEndian(data + 3, 3);
         universal_tmp = dataLen;
         remainingHeaderBytes -= 3;
-        char value[256];
-        if (dataLen > 249)
-        {
-            dataLen = 249;
-        }
-        memcpy(value, (data + 7), dataLen);
-        value[dataLen + 1] = 0;
 
         remainingHeaderBytes -= universal_tmp;
         universal_tmp -= dataLen;
@@ -732,10 +701,7 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
 
         return 3 + 3 + dataLen;
     }
-    // -- end section V2.2 -----------
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 98)
+    else if (m_controlCounter == 98)
     { // skip all ID3 metadata (mostly spaces)
         if (remainingHeaderBytes > len)
         {
@@ -748,8 +714,7 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
             return remainingHeaderBytes;
         } // Throw it away
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (m_controlCounter == 99)
+    else if (m_controlCounter == 99)
     { //  exist another ID3tag?
         m_audioDataStart += id3Size;
         //    vTaskDelay(30);
@@ -767,11 +732,13 @@ int Audio::read_ID3_Header(uint8_t *data, size_t len)
 
             numID3Header = 0;
             totalId3Size = 0;
+
             return 0;
         }
     }
     return 0;
 }
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 uint32_t Audio::stopSong()
 {
@@ -816,94 +783,83 @@ void Audio::playChunk(bool i2s_only)
     int16_t validSamples = 0;
     static uint16_t count = 0;
     size_t i2s_bytesConsumed = 0;
-    int16_t *sample[2];
+    int16_t *sample[2] = {0};
     int16_t *s2;
-    int sampleSize = (m_bitsPerSample / 8);
+    int sampleSize = 4; // 2 bytes per sample (int16_t) * 2 channels
     esp_err_t err = ESP_OK;
+    int i = 0;
 
-    if (!i2s_only)
+    if (count > 0)
+        goto i2swrite;
+
+    if (getChannels() == 1)
     {
-        count = 0;
-        int i = 0;
-        validSamples = m_validSamples;
-        while (validSamples)
+        for (int i = m_validSamples - 1; i >= 0; --i)
         {
-            *sample = m_outBuff + i;
-            if (m_bitsPerSample == 16)
-            {
-                computeVUlevel(*sample);
-
-                // //---------- Filterchain, can commented out if not used-------------
-                // if (m_corr > 1)
-                // {
-                //     s2 = *sample;
-                //     s2[LEFTCHANNEL] /= m_corr;
-                //     s2[RIGHTCHANNEL] /= m_corr;
-                // }
-                // IIR_filterChain0(*sample);
-                // IIR_filterChain1(*sample);
-                // IIR_filterChain2(*sample);
-                // //------------------------------------------------------------------
-                Gain(*sample);
-                i += 2;
-            }
-            else
-            { // 8 bit per sample
-                Gain(*sample);
-                i += 1;
-            }
-
-            validSamples -= 1;
+            int16_t sample = m_outBuff[i];
+            m_outBuff[2 * i] = sample;
+            m_outBuff[2 * i + 1] = sample;
         }
+        //    m_validSamples *= 2;
     }
 
     validSamples = m_validSamples;
 
-    if (m_bitsPerSample == 16)
+    while (validSamples)
     {
+        *sample = m_outBuff + i;
+        computeVUlevel(*sample);
 
-#if (ESP_IDF_VERSION_MAJOR == 5)
-        err = i2s_channel_write(m_i2s_tx_handle, (int16_t *)m_outBuff + count, validSamples * (sampleSize * m_channels), &i2s_bytesConsumed, 20);
-#else
-        err = i2s_write((i2s_port_t)m_i2s_num, (int16_t *)m_outBuff + count, validSamples * (sampleSize * m_channels), &i2s_bytesConsumed, 20);
-#endif
-
-        if (err != ESP_OK)
-            goto exit;
-        m_validSamples -= i2s_bytesConsumed / (sampleSize * m_channels);
-        if (m_validSamples < 0)
+        //---------- Filterchain, can commented out if not used-------------
         {
-            m_validSamples = 0;
-        }
-        count += i2s_bytesConsumed / sampleSize;
-    }
-
-    if (m_bitsPerSample == 8)
-    { // most external DACs have 16...32 bit resolution, so convert 8 --> 16 bit
-        int16_t sample[2];
-        while (m_validSamples)
-        {
-            sample[0] = (m_outBuff[count] & 0xFF00);
-            sample[1] = (m_outBuff[count] & 0x00FF) << 8;
-            sample[0] += 0x8000;
-            sample[1] += 0x8000;
-
-#if (ESP_IDF_VERSION_MAJOR == 5)
-            err = i2s_channel_write(m_i2s_tx_handle, &sample, 4, &i2s_bytesConsumed, 20);
-#else
-            err = i2s_write((i2s_port_t)m_i2s_num, &sample, 4, &i2s_bytesConsumed, 20);
-#endif
-
-            if (err != ESP_OK)
-                goto exit;
-            m_validSamples -= 1;
-            if (m_validSamples <= 0)
+            if (m_corr > 1)
             {
-                m_validSamples = 0;
+                s2 = *sample;
+                s2[LEFTCHANNEL] /= m_corr;
+                s2[RIGHTCHANNEL] /= m_corr;
             }
-            count += 1;
+            IIR_filterChain0(*sample);
+            IIR_filterChain1(*sample);
+            IIR_filterChain2(*sample);
         }
+        //------------------------------------------------------------------
+        if (m_f_forceMono && m_channels == 2)
+        {
+            int32_t xy = ((*sample)[RIGHTCHANNEL] + (*sample)[LEFTCHANNEL]) / 2;
+            (*sample)[RIGHTCHANNEL] = (int16_t)xy;
+            (*sample)[LEFTCHANNEL] = (int16_t)xy;
+        }
+        Gain(*sample);
+
+        if (m_f_internalDAC)
+        {
+            s2 = *sample;
+            s2[LEFTCHANNEL] += 0x8000;
+            s2[RIGHTCHANNEL] += 0x8000;
+        }
+        i += 2;
+        validSamples -= 1;
     }
+
+i2swrite:
+
+    validSamples = m_validSamples;
+
+    err = i2s_write((i2s_port_t)m_i2s_num, (int16_t *)m_outBuff + count, validSamples * sampleSize, &i2s_bytesConsumed, 10);
+
+    if (!(err == ESP_OK || err == ESP_ERR_TIMEOUT))
+        goto exit;
+    m_validSamples -= i2s_bytesConsumed / sampleSize;
+    count += i2s_bytesConsumed / 2;
+    if (m_validSamples < 0)
+    {
+        m_validSamples = 0;
+    }
+    if (m_validSamples == 0)
+    {
+        count = 0;
+    }
+
     return;
 exit:
     if (err == ESP_OK)
@@ -1069,25 +1025,16 @@ void Audio::processLocalFile()
             return;
         } // loop
     exit:
-        char *afn = NULL;
-        if (audiofile)
-            afn = strdup(audiofile.name()); // store temporary the name
         m_f_running = false;
         audiofile.close();
 
         MP3Decoder_FreeBuffers();
 
-        if (afn)
-        {
-            free(afn);
-            afn = NULL;
-        }
-
         m_audioCurrentTime = 0;
         m_audioFileDuration = 0;
         m_resumeFilePos = -1;
         m_haveNewFilePos = 0;
-        
+
         return;
     }
     if (byteCounter == audiofile.size())
@@ -1116,6 +1063,9 @@ void Audio::playAudioData()
         return; // guard
 
     int bytesDecoded = sendBytes(InBuff.getReadPtr(), InBuff.getMaxBlockSize());
+
+    if (!m_f_running)
+        return;
 
     if (bytesDecoded < 0)
     { // no syncword found or decode error, try next chunk
@@ -1238,9 +1188,7 @@ int Audio::sendBytes(uint8_t *data, size_t len)
     //                 < 0: there has been an error
 
     if (m_decodeError < 0)
-    { // Error, skip the frame...
-
-        printDecodeError(m_decodeError);
+    {                        // Error, skip the frame...
         m_f_playing = false; // seek for new syncword
         return 1;            // skip one byte and seek for the next sync word
     }
@@ -1337,58 +1285,6 @@ void Audio::computeAudioTime(uint16_t bytesDecoderIn)
     }
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-void Audio::printDecodeError(int r)
-{
-    const char *e;
-
-    switch (r)
-    {
-    case ERR_MP3_NONE:
-        e = "NONE";
-        break;
-    case ERR_MP3_INDATA_UNDERFLOW:
-        e = "INDATA_UNDERFLOW";
-        break;
-    case ERR_MP3_MAINDATA_UNDERFLOW:
-        e = "MAINDATA_UNDERFLOW";
-        break;
-    case ERR_MP3_FREE_BITRATE_SYNC:
-        e = "FREE_BITRATE_SYNC";
-        break;
-    case ERR_MP3_OUT_OF_MEMORY:
-        e = "OUT_OF_MEMORY";
-        break;
-    case ERR_MP3_NULL_POINTER:
-        e = "NULL_POINTER";
-        break;
-    case ERR_MP3_INVALID_FRAMEHEADER:
-        e = "INVALID_FRAMEHEADER";
-        break;
-    case ERR_MP3_INVALID_SIDEINFO:
-        e = "INVALID_SIDEINFO";
-        break;
-    case ERR_MP3_INVALID_SCALEFACT:
-        e = "INVALID_SCALEFACT";
-        break;
-    case ERR_MP3_INVALID_HUFFCODES:
-        e = "INVALID_HUFFCODES";
-        break;
-    case ERR_MP3_INVALID_DEQUANTIZE:
-        e = "INVALID_DEQUANTIZE";
-        break;
-    case ERR_MP3_INVALID_IMDCT:
-        e = "INVALID_IMDCT";
-        break;
-    case ERR_MP3_INVALID_SUBBAND:
-        e = "INVALID_SUBBAND";
-        break;
-    default:
-        e = "ERR_UNKNOWN";
-    }
-
-    log_e("MP3 decode error %d : %s", r, e);
-}
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bool Audio::setPinout(uint8_t BCLK, uint8_t LRC, uint8_t DOUT, int8_t MCLK)
 {
@@ -1812,11 +1708,11 @@ void Audio::computeLimit()
     double l = 1, r = 1, v = 1; // assume 100%
 
     /* balance is left -16...+16 right */
-    if (m_balance < 0)
+    if (m_balance > 0)
     {
         r -= (double)abs(m_balance) / 16;
     }
-    else if (m_balance > 0)
+    else if (m_balance < 0)
     {
         l -= (double)abs(m_balance) / 16;
     }
@@ -1847,20 +1743,8 @@ void Audio::computeLimit()
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void Audio::Gain(int16_t *sample)
 {
-    /* important: these multiplications must all be signed ints, or the result will be invalid */
-    if (m_bitsPerSample == I2S_BITS_PER_SAMPLE_16BIT)
-    {
-        sample[LEFTCHANNEL] *= m_limit_left;
-        sample[RIGHTCHANNEL] *= m_limit_right;
-    }
-    if (m_bitsPerSample == I2S_BITS_PER_SAMPLE_8BIT)
-    {
-        uint8_t *s = reinterpret_cast<uint8_t *>(sample);
-        int8_t l1 = (s[0] - 128) * m_limit_left;
-        int8_t l2 = (s[1] - 128) * m_limit_right;
-        s[0] = 128 + l1;
-        s[1] = 128 + l2;
-    }
+    sample[LEFTCHANNEL] *= m_limit_left;
+    sample[RIGHTCHANNEL] *= m_limit_right;
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 uint32_t Audio::inBufferFilled()
