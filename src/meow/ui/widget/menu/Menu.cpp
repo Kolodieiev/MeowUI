@@ -40,12 +40,12 @@ namespace meow
         return item->getText();
     }
 
-    IWidget *Menu::getCurrentItem()
+    MenuItem *Menu::getCurrentItem()
     {
-        if (_widgets.size() == 0)
+        if (_widgets.empty())
             return nullptr;
 
-        return _widgets[_cur_focus_pos];
+        return static_cast<MenuItem *>(_widgets[_cur_focus_pos]);
     }
 
     bool Menu::addItem(MenuItem *item)

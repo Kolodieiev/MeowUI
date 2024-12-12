@@ -97,7 +97,7 @@ namespace meow
          * @return
          *        Вказівник на віджет, якщо розмір меню > 0, nullptr інакше.
          */
-        IWidget *getCurrentItem();
+        MenuItem *getCurrentItem();
 
         /*!
          * @brief
