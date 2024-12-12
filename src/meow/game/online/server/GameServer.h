@@ -30,9 +30,9 @@ namespace meow
         void sendBroadcast(const char *data, size_t len);
         void sendMessage(uint32_t client_addr, const char *data, size_t len);
         //
-        void onClientConfirmation(ClientConfirmHandler handler, void *arg);
-        void onClientDisconnected(ClientDisconnectHandler handler, void *arg);
-        void onGameAction(ClientActionHandler handler, void *arg);
+        void setClientConfirmHandler(ClientConfirmHandler handler, void *arg);
+        void setClientDisconnHandler(ClientDisconnectHandler handler, void *arg);
+        void setGameActionHandler(ClientActionHandler handler, void *arg);
 
     private:
         bool _in_lobby{false};
@@ -53,7 +53,7 @@ namespace meow
         void dataHandler(AsyncClient *client, void *data, size_t len);
         void ackHandler(AsyncClient *client, size_t len, uint32_t time);
         void sendToClient(AsyncClientWrapper *client_wrap, const char *data, size_t len);
-        void clientConfHandler(bool result, AsyncClient *client);
+        void clientConfirmHandler(bool result, AsyncClient *client);
         //
         void setClientName(AsyncClient *client, void *data, size_t len);
         void callClientActionHandler(AsyncClient *client, void *data, size_t len);

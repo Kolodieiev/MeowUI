@@ -17,15 +17,17 @@ namespace meow
         MenuItem *clone(uint16_t id) const override;
 
         // Зображення не буде видалено автоматично.
-        void setImg(Image *img);
+        void setIco(Image *img);
         void setLbl(Label *lbl);
+        Label *getLabel() const { return _label; }
+        Image *getIco() const { return _ico; }
         String getText() const;
 
     protected:
         const uint8_t ITEM_PADDING{5};
         using IWidget::setVisibility;
 
-        Image *_image{nullptr};
+        Image *_ico{nullptr};
         Label *_label{nullptr};
     };
 }

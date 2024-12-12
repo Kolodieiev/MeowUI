@@ -25,8 +25,8 @@ namespace meow
     {
         if (!_is_changed)
         {
-            if (_image)
-                _image->onDraw();
+            if (_ico)
+                _ico->onDraw();
             if (_label)
                 _label->onDraw();
             return;
@@ -38,20 +38,20 @@ namespace meow
 
         uint8_t img_width{0};
 
-        if (_image)
+        if (_ico)
         {
-            _image->setParent(this);
-            img_width = _image->getWidth() + ITEM_PADDING;
-            _image->setPos(ITEM_PADDING, (_height - _image->getHeight()) * 0.5);
+            _ico->setParent(this);
+            img_width = _ico->getWidth() + ITEM_PADDING;
+            _ico->setPos(ITEM_PADDING, (_height - _ico->getHeight()) * 0.5);
 
             uint16_t bk_color = _back_color;
 
             if (_has_focus && _need_change_back)
-                _image->setBackColor(_focus_back_color);
+                _ico->setBackColor(_focus_back_color);
 
-            _image->setBackColor(bk_color);
+            _ico->setBackColor(bk_color);
 
-            _image->onDraw();
+            _ico->onDraw();
         }
 
         if (_label)
@@ -81,8 +81,8 @@ namespace meow
 
         clone->_id = id;
 
-        if (_image)
-            clone->setImg(_image->clone(_image->getID()));
+        if (_ico)
+            clone->setIco(_ico->clone(_ico->getID()));
 
         if (_label)
             clone->setLbl(_label->clone(_label->getID()));
@@ -90,11 +90,11 @@ namespace meow
         return clone;
     }
 
-    void MenuItem::setImg(Image *img)
+    void MenuItem::setIco(Image *img)
     {
-        delete _image;
+        delete _ico;
 
-        _image = img;
+        _ico = img;
         _is_changed = true;
     }
 

@@ -89,7 +89,7 @@ namespace meow
         }
     }
 
-    void GameServer::clientConfHandler(bool result, AsyncClient *client)
+    void GameServer::clientConfirmHandler(bool result, AsyncClient *client)
     {
         if (!result)
             removeClient(client);
@@ -135,7 +135,7 @@ namespace meow
     void GameServer::onConfirmationResult(bool result, AsyncClient *client, void *server)
     {
         GameServer *g_server = static_cast<GameServer *>(server);
-        g_server->clientConfHandler(result, client);
+        g_server->clientConfirmHandler(result, client);
     }
 
 #pragma endregion "static"
@@ -300,7 +300,7 @@ namespace meow
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
         {
             if (std::strcmp((*it)->getName(), "") != 0)
-                names.emplace_back((*it)->getName());
+                names.push_back((*it)->getName());
         }
 
         return names;
@@ -389,19 +389,19 @@ namespace meow
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    void GameServer::onClientConfirmation(ClientConfirmHandler handler, void *arg)
+    void GameServer::setClientConfirmHandler(ClientConfirmHandler handler, void *arg)
     {
         _client_confirm_handler = handler;
         _client_confirm_arg = arg;
     }
 
-    void GameServer::onClientDisconnected(ClientDisconnectHandler handler, void *arg)
+    void GameServer::setClientDisconnHandler(ClientDisconnectHandler handler, void *arg)
     {
         _client_disconn_handler = handler;
         _client_disconn_arg = arg;
     }
 
-    void GameServer::onGameAction(ClientActionHandler handler, void *arg)
+    void GameServer::setGameActionHandler(ClientActionHandler handler, void *arg)
     {
         _client_action_handler = handler;
         _client_action_arg = arg;

@@ -14,8 +14,8 @@ namespace meow
     {
         if (!_is_changed)
         {
-            if (_image)
-                _image->onDraw();
+            if (_ico)
+                _ico->onDraw();
             if (_label)
                 _label->onDraw();
             if (_toggle)
@@ -38,17 +38,17 @@ namespace meow
             _toggle->onDraw();
         }
 
-        if (_image)
+        if (_ico)
         {
-            img_width = _image->getWidth() + ITEM_PADDING;
-            _image->setPos(ITEM_PADDING, (_height - _image->getHeight()) * 0.5);
+            img_width = _ico->getWidth() + ITEM_PADDING;
+            _ico->setPos(ITEM_PADDING, (_height - _ico->getHeight()) * 0.5);
 
             if (_has_focus)
-                _image->setFocus();
+                _ico->setFocus();
             else
-                _image->removeFocus();
+                _ico->removeFocus();
 
-            _image->onDraw();
+            _ico->onDraw();
         }
 
         if (_label)
@@ -78,8 +78,8 @@ namespace meow
 
         clone->_id = id;
 
-        if (_image)
-            clone->setImg(_image->clone(_image->getID()));
+        if (_ico)
+            clone->setIco(_ico->clone(_ico->getID()));
 
         if (_label)
             clone->setLbl(_label->clone(_label->getID()));
