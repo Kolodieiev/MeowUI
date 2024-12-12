@@ -71,23 +71,26 @@ namespace meow
 
     MenuItem *MenuItem::clone(uint16_t id) const
     {
-        MenuItem *clone = new MenuItem(*this);
-
-        if (!clone)
+        try
         {
-            log_e("Помилка клонування");
+            MenuItem *clone = new MenuItem(*this);
+
+            clone->_id = id;
+
+            if (_ico)
+                clone->setIco(_ico->clone(_ico->getID()));
+
+            if (_label)
+                clone->setLbl(_label->clone(_label->getID()));
+
+            return clone;
+        }
+        catch (const std::bad_alloc &e)
+        {
+
+            log_e("%s", e.what());
             esp_restart();
         }
-
-        clone->_id = id;
-
-        if (_ico)
-            clone->setIco(_ico->clone(_ico->getID()));
-
-        if (_label)
-            clone->setLbl(_label->clone(_label->getID()));
-
-        return clone;
     }
 
     void MenuItem::setIco(Image *img)

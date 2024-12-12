@@ -68,26 +68,29 @@ namespace meow
 
     ToggleItem *ToggleItem::clone(uint16_t id) const
     {
-        ToggleItem *clone = new ToggleItem(*this);
-
-        if (!clone)
+        try
         {
-            log_e("Помилка клонування");
+            ToggleItem *clone = new ToggleItem(*this);
+
+            clone->_id = id;
+
+            if (_ico)
+                clone->setIco(_ico->clone(_ico->getID()));
+
+            if (_label)
+                clone->setLbl(_label->clone(_label->getID()));
+
+            if (_toggle)
+                clone->setToggle(_toggle->clone(_toggle->getID()));
+
+            return clone;
+        }
+        catch (const std::bad_alloc &e)
+        {
+
+            log_e("%s", e.what());
             esp_restart();
         }
-
-        clone->_id = id;
-
-        if (_ico)
-            clone->setIco(_ico->clone(_ico->getID()));
-
-        if (_label)
-            clone->setLbl(_label->clone(_label->getID()));
-
-        if (_toggle)
-            clone->setToggle(_toggle->clone(_toggle->getID()));
-
-        return clone;
     }
 
     void ToggleItem::setToggle(ToggleSwitch *toggle)
