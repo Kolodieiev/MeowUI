@@ -9,6 +9,8 @@ namespace meow
 
     KeyboardRow *KeyboardRow::clone(uint16_t id) const
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         try
         {
             KeyboardRow *clone = new KeyboardRow(id, _display);
@@ -30,6 +32,7 @@ namespace meow
                 clone->addWidget(item);
             }
 
+            xSemaphoreGive(_widg_mutex);
             return clone;
         }
         catch (const std::bad_alloc &e)
@@ -51,6 +54,8 @@ namespace meow
 
     bool KeyboardRow::focusUp()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (_cur_focus_pos > 0)
         {
             IWidget *btn = getFocusBtn();
@@ -58,14 +63,19 @@ namespace meow
             --_cur_focus_pos;
             btn = getFocusBtn();
             btn->setFocus();
+
+            xSemaphoreGive(_widg_mutex);
             return true;
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     bool KeyboardRow::focusDown()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_widgets.empty() && _cur_focus_pos < _widgets.size() - 1)
         {
             IWidget *btn = getFocusBtn();
@@ -73,14 +83,19 @@ namespace meow
             ++_cur_focus_pos;
             btn = getFocusBtn();
             btn->setFocus();
+
+            xSemaphoreGive(_widg_mutex);
             return true;
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     void KeyboardRow::setFocus(uint16_t pos)
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         IWidget *btn = getFocusBtn();
 
         btn->removeFocus();
@@ -92,6 +107,8 @@ namespace meow
 
         btn = getFocusBtn();
         btn->setFocus();
+
+        xSemaphoreGive(_widg_mutex);
     }
 
     void KeyboardRow::removeFocus()
@@ -121,10 +138,12 @@ namespace meow
 
     void KeyboardRow::onDraw()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_is_changed)
         {
-            if (_visibility != INVISIBLE)
-                for (uint16_t i{0}; _is_enabled && i < _widgets.size(); ++i)
+            if (_visibility != INVISIBLE && _is_enabled)
+                for (uint16_t i{0}; i < _widgets.size(); ++i)
                     _widgets[i]->onDraw();
         }
         else
@@ -134,13 +153,17 @@ namespace meow
             if (_visibility == INVISIBLE)
             {
                 hide();
+                xSemaphoreGive(_widg_mutex);
                 return;
             }
 
             clear();
 
             if (_widgets.empty())
+            {
+                xSemaphoreGive(_widg_mutex);
                 return;
+            }
 
             uint16_t step{0};
 
@@ -160,5 +183,7 @@ namespace meow
                 x += _btn_width + step;
             }
         }
+
+        xSemaphoreGive(_widg_mutex);
     }
 }

@@ -8,6 +8,8 @@ namespace meow
 
     bool FixedMenu::focusUp()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_widgets.empty())
         {
             IWidget *item = _widgets[_cur_focus_pos];
@@ -45,14 +47,18 @@ namespace meow
             if (need_redraw)
                 drawItems(_first_item_index, cycles_count);
 
+            xSemaphoreGive(_widg_mutex);
             return true;
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     bool FixedMenu::focusDown()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_widgets.empty())
         {
             IWidget *item = _widgets[_cur_focus_pos];
@@ -85,14 +91,18 @@ namespace meow
             if (need_redraw)
                 drawItems(_first_item_index, cycles_count);
 
+            xSemaphoreGive(_widg_mutex);
             return true;
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     FixedMenu *FixedMenu::clone(uint16_t id) const
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         try
         {
             FixedMenu *clone = new FixedMenu(id, IWidgetContainer::_display);
@@ -116,11 +126,11 @@ namespace meow
                 clone->addWidget(item);
             }
 
+            xSemaphoreGive(_widg_mutex);
             return clone;
         }
         catch (const std::bad_alloc &e)
         {
-
             log_e("%s", e.what());
             esp_restart();
         }

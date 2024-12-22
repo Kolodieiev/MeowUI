@@ -10,10 +10,12 @@ namespace meow
 
     void EmptyLayout::onDraw()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_is_changed)
         {
-            if (_visibility != INVISIBLE)
-                for (uint16_t i{0}; _is_enabled && i < _widgets.size(); ++i)
+            if (_visibility != INVISIBLE && _is_enabled)
+                for (uint16_t i{0}; i < _widgets.size(); ++i)
                     _widgets[i]->onDraw();
         }
         else
@@ -23,6 +25,7 @@ namespace meow
             if (_visibility == INVISIBLE)
             {
                 hide();
+                xSemaphoreGive(_widg_mutex);
                 return;
             }
 
@@ -31,10 +34,14 @@ namespace meow
             for (uint16_t i{0}; i < _widgets.size(); ++i)
                 _widgets[i]->forcedDraw();
         }
+
+        xSemaphoreGive(_widg_mutex);
     }
 
     EmptyLayout *EmptyLayout::clone(uint16_t id) const
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         try
         {
             EmptyLayout *clone = new EmptyLayout(id, IWidgetContainer::_display);
@@ -53,6 +60,7 @@ namespace meow
                 clone->addWidget(item);
             }
 
+            xSemaphoreGive(_widg_mutex);
             return clone;
         }
         catch (const std::bad_alloc &e)

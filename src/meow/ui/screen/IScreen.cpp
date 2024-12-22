@@ -21,11 +21,11 @@ namespace meow
 
             update();
 
-            if (_screen_enabled && !_is_locked)
+            if (_screen_enabled)
             {
-                _is_locked = true;
+                xSemaphoreTake(_layout_mutex, portMAX_DELAY);
                 _layout->onDraw();
-                _is_locked = false;
+                xSemaphoreGive(_layout_mutex);
 
 #ifdef DOUBLE_BUFFERRING
                 _display.pushBuffer();
@@ -38,6 +38,7 @@ namespace meow
 
     IScreen::IScreen(GraphicsDriver &display) : _display{display}
     {
+        _layout_mutex = xSemaphoreCreateMutex();
         _layout = new EmptyLayout(1, _display);
         _layout->setBackColor(TFT_YELLOW);
         _layout->setWidth(_display.width());
@@ -60,15 +61,12 @@ namespace meow
         if (_layout == layout)
             return;
 
-        while (_is_locked)
-            vTaskDelay(1);
-
-        _is_locked = true;
+        xSemaphoreTake(_layout_mutex, portMAX_DELAY);
 
         delete _layout;
         _layout = layout;
 
-        _is_locked = false;
+        xSemaphoreGive(_layout_mutex);
     }
 
     void IScreen::openScreenByID(ScreenID screen_ID)

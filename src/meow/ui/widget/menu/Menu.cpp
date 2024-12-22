@@ -7,12 +7,7 @@ namespace meow
 
     IWidget *Menu::findItemByID(uint16_t itemID) const
     {
-        IWidget *widget = findWidgetByID(itemID);
-
-        if (widget == nullptr)
-            return nullptr;
-        else
-            return widget;
+        return findWidgetByID(itemID);
     }
 
     void Menu::deleteWidgets()
@@ -55,12 +50,14 @@ namespace meow
 
     void Menu::onDraw()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_is_changed)
         {
-            if (_visibility != INVISIBLE)
+            if (_visibility != INVISIBLE && _is_enabled)
             {
                 uint16_t cycles_count = getCyclesCount();
-                for (uint16_t i{_first_item_index}; _is_enabled && i < _first_item_index + cycles_count; ++i)
+                for (uint16_t i{_first_item_index}; i < _first_item_index + cycles_count; ++i)
                     _widgets[i]->onDraw();
             }
         }
@@ -71,12 +68,14 @@ namespace meow
             if (_visibility == INVISIBLE)
             {
                 hide();
+                xSemaphoreGive(_widg_mutex);
                 return;
             }
 
             if (_widgets.size() == 0)
             {
                 clear();
+                xSemaphoreGive(_widg_mutex);
                 return;
             }
 
@@ -93,6 +92,7 @@ namespace meow
 
             drawItems(_first_item_index, cyclesCount);
         }
+        xSemaphoreGive(_widg_mutex);
     }
 
     void Menu::drawItems(uint16_t start, uint16_t count)

@@ -4,15 +4,16 @@
 
 namespace meow
 {
-
     IWidgetContainer::IWidgetContainer(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display)
     {
         _is_container = true;
+        _widg_mutex = xSemaphoreCreateMutex();
     }
 
     IWidgetContainer::~IWidgetContainer()
     {
         deleteWidgets();
+        vSemaphoreDelete(_widg_mutex);
     }
 
     bool IWidgetContainer::addWidget(IWidget *widget_ptr)
@@ -31,8 +32,10 @@ namespace meow
             esp_restart();
         }
 
-        for (uint16_t i{0}; i < _widgets.size(); ++i)
-            if (_widgets[i]->getID() == search_ID)
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
+        for (const auto &widget : _widgets)
+            if (widget->getID() == search_ID)
             {
                 log_e("WidgetID повинен бути унікальним.");
                 esp_restart();
@@ -42,72 +45,98 @@ namespace meow
         _widgets.push_back(widget_ptr);
         _is_changed = true;
 
+        xSemaphoreGive(_widg_mutex);
         return true;
     }
 
     bool IWidgetContainer::deleteWidgetByID(uint16_t widget_ID)
     {
-        auto widgets_it{_widgets.begin()};
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-        for (uint16_t i{0}; i < _widgets.size(); ++i)
+        for (auto i_b = _widgets.begin(), i_e = _widgets.end(); i_b < i_e; ++i_b)
         {
-            if (_widgets[i]->getID() == widget_ID)
+            if ((*i_b)->getID() == widget_ID)
             {
-                delete _widgets[i];
-                _widgets.erase(widgets_it + i);
+                delete *i_b;
+                _widgets.erase(i_b);
                 _is_changed = true;
-                _widgets.shrink_to_fit();
+
+                xSemaphoreGive(_widg_mutex);
                 return true;
             }
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     IWidget *IWidgetContainer::findWidgetByID(uint16_t widget_ID) const
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         for (const auto &widget_ptr : _widgets)
             if (widget_ptr->getID() == widget_ID)
+            {
+                xSemaphoreGive(_widg_mutex);
                 return widget_ptr;
+            }
 
+        xSemaphoreGive(_widg_mutex);
         return nullptr;
     }
 
     IWidget *IWidgetContainer::getWidgetByIndx(uint16_t widget_indx) const
     {
-        if (_widgets.size() > widget_indx)
-            return _widgets[widget_indx];
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
+        if (_widgets.size() > widget_indx)
+        {
+            xSemaphoreGive(_widg_mutex);
+            return _widgets[widget_indx];
+        }
+
+        xSemaphoreGive(_widg_mutex);
         return nullptr;
     }
 
     IWidget *IWidgetContainer::getWidgetByCoords(uint16_t x, uint16_t y) const
     {
-        for (const auto &widget_ptr : _widgets)
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
+        for (const auto &widget : _widgets)
         {
-            if (widget_ptr->hasIntersectWithCoords(x, y))
+            if (widget->hasIntersectWithCoords(x, y))
             {
-                if (widget_ptr->isContainer())
+                if (widget->isContainer())
                 {
-                    IWidgetContainer *container = (IWidgetContainer *)widget_ptr;
+                    IWidgetContainer *container = (IWidgetContainer *)widget;
+                    xSemaphoreGive(_widg_mutex);
                     return container->getWidgetByCoords(x, y);
                 }
                 else
-                    return widget_ptr;
+                {
+                    xSemaphoreGive(_widg_mutex);
+                    return widget;
+                }
             }
         }
 
+        xSemaphoreGive(_widg_mutex);
         return (IWidget *)this;
     }
 
     void IWidgetContainer::deleteWidgets()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         for (const auto &widget_ptr : _widgets)
             delete widget_ptr;
 
         _widgets.clear();
 
         _is_changed = true;
+
+        xSemaphoreGive(_widg_mutex);
     }
 
 }

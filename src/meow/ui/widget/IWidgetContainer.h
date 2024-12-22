@@ -83,23 +83,18 @@ namespace meow
          * @brief
          *      Розблоковує перерисовку віджетів, що знаходяться всередині цього контейнера.
          */
-        void enable()
-        {
-            _is_enabled = true;
-        }
+        void enable() { _is_enabled = true; }
 
         /*!
          * @brief
          *        Блокує перерисовку віджетів, що знаходяться всередині цього контейнера.
          */
-        void disable()
-        {
-            _is_enabled = false;
-        }
+        void disable() { _is_enabled = false; }
 
         bool isEnabled() const { return _is_enabled; }
 
     protected:
+        SemaphoreHandle_t _widg_mutex;
         bool _is_enabled{true};
         std::vector<IWidget *> _widgets;
     };

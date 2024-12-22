@@ -8,6 +8,8 @@ namespace meow
 
     bool DynamicMenu::focusUp()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_widgets.empty())
         {
             if (_cur_focus_pos > 0)
@@ -28,6 +30,7 @@ namespace meow
                 item = _widgets[_cur_focus_pos];
                 item->setFocus();
 
+                xSemaphoreGive(_widg_mutex);
                 return true;
             }
             else
@@ -44,16 +47,21 @@ namespace meow
                     _cur_focus_pos = _widgets.size() - 1;
 
                     _widgets[_cur_focus_pos]->setFocus();
+
+                    xSemaphoreGive(_widg_mutex);
                     return true;
                 }
             }
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
     bool DynamicMenu::focusDown()
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         if (!_widgets.empty())
         {
             if (_cur_focus_pos < _widgets.size() - 1)
@@ -75,6 +83,7 @@ namespace meow
                 item = _widgets[_cur_focus_pos];
                 item->setFocus();
 
+                xSemaphoreGive(_widg_mutex);
                 return true;
             }
             else
@@ -91,11 +100,14 @@ namespace meow
                     _cur_focus_pos = _first_item_index;
 
                     _widgets[_cur_focus_pos]->setFocus();
+
+                    xSemaphoreGive(_widg_mutex);
                     return true;
                 }
             }
         }
 
+        xSemaphoreGive(_widg_mutex);
         return false;
     }
 
@@ -106,6 +118,8 @@ namespace meow
 
     DynamicMenu *DynamicMenu::clone(uint16_t id) const
     {
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
         try
         {
             DynamicMenu *clone = new DynamicMenu(_loader, id, IWidgetContainer::_display);
@@ -128,6 +142,7 @@ namespace meow
                 clone->addWidget(item);
             }
 
+            xSemaphoreGive(_widg_mutex);
             return clone;
         }
         catch (const std::bad_alloc &e)
