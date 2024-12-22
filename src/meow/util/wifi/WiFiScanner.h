@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include <WiFi.h>
+
 #include <vector>
 
 namespace meow
@@ -10,6 +11,7 @@ namespace meow
     class WiFiScanner
     {
     public:
+        WiFiScanner();
         bool startScan();
         std::vector<String> getScanResult() const;
         void setOnDoneHandler(WiFiScanDoneHandler handler, void *args);
@@ -20,6 +22,7 @@ namespace meow
 
         void callOnDoneHandler();
 
-        static void waitFinishTask(void *params);
+        static WiFiScanner *_instance;
+        static void onEvent(WiFiEvent_t event);
     };
 }

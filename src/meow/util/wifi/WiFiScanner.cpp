@@ -1,10 +1,19 @@
 #include "WiFiScanner.h"
 
+meow::WiFiScanner *meow::WiFiScanner::_instance;
+
+meow::WiFiScanner::WiFiScanner()
+{
+    _instance = this;
+}
+
 bool meow::WiFiScanner::startScan()
 {
     WiFi.disconnect();
     WiFi.mode(WIFI_STA);
     delay(100);
+    WiFi.onEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
+
     int16_t result_code = WiFi.scanNetworks(true);
     if (result_code == WIFI_SCAN_FAILED)
     {
@@ -12,26 +21,12 @@ bool meow::WiFiScanner::startScan()
         return false;
     }
 
-    BaseType_t task_result = xTaskCreatePinnedToCore(waitFinishTask, "waitFinishTask", (1024 / 2) * 10, this, 10, NULL, 0);
-
-    if (task_result == pdPASS)
-    {
-        log_i("waitFinishTask is working now");
-        return true;
-    }
-    else
-    {
-        WiFi.disconnect(true);
-        WiFi.mode(WIFI_OFF);
-        log_e("waitFinishTask was not running");
-        return false;
-    }
+    return true;
 }
 
 std::vector<String> meow::WiFiScanner::getScanResult() const
 {
     std::vector<String> result_vec;
-
     int16_t scan_result = WiFi.scanComplete();
 
     for (uint16_t i = 0; i < scan_result; ++i)
@@ -56,16 +51,8 @@ void meow::WiFiScanner::callOnDoneHandler()
         WiFi.scanDelete();
 }
 
-void meow::WiFiScanner::waitFinishTask(void *params)
+void meow::WiFiScanner::onEvent(WiFiEvent_t event)
 {
-    WiFiScanner *this_ptr = static_cast<WiFiScanner *>(params);
-
-    while (WiFi.scanComplete() < 0)
-    {
-        vTaskDelay(100 / portTICK_PERIOD_MS);
-    }
-
-    this_ptr->callOnDoneHandler();
-
-    vTaskDelete(NULL);
+    WiFi.removeEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
+    _instance->callOnDoneHandler();
 }
