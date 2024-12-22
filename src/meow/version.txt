@@ -1,5 +1,1 @@
-1.0.12
-
-xSemaphoreTake(_widg_mutex, portMAX_DELAY); 
-
-xSemaphoreGive(_widg_mutex); 
+1.0.13
