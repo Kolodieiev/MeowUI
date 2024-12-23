@@ -86,6 +86,10 @@ namespace meow
 
         log_i("Від'єднано від сервера");
 
+        _server_data_handler = nullptr;
+        _server_connected_handler = nullptr;
+        _server_disconn_handler = nullptr;
+
         _client.close();
 
         if (_check_task_handler)
@@ -109,6 +113,14 @@ namespace meow
         }
 
         _client.sendTo(packet, _server_ip, SERVER_PORT);
+    }
+
+    void GameClient::send(UdpPacket::Command cmd, void *data, size_t data_size)
+    {
+        UdpPacket pack(data_size);
+        pack.setCommand(cmd);
+        pack.setData(data);
+        sendPacket(pack);
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------

@@ -108,3 +108,8 @@ bool meow::UdpPacket::isDataEquals(const char *data, size_t start_pos, size_t da
 
     return std::memcmp(&_buffer[start_pos], data, data_len) == 0;
 }
+
+bool meow::UdpPacket::isDataEquals(const uint8_t *data, size_t start_pos, size_t data_len)
+{
+    return isDataEquals(reinterpret_cast<const char *>(data), start_pos, data_len);
+}

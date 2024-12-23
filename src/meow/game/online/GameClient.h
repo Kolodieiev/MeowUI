@@ -27,10 +27,12 @@ namespace meow
         };
 
         void setName(const char *name) { _name = name; }
+        const char *getName() const { return _name.c_str(); }
         void setServerID(const char *id) { _server_id = id; }
         bool connect(const char *host_ip = "192.168.4.1");
         void disconnect();
         void sendPacket(UdpPacket &packet);
+        void send(UdpPacket::Command cmd, void *data, size_t data_size);
 
         ClientStatus getStatus() const { return _status; }
         //
@@ -38,7 +40,7 @@ namespace meow
         void setConnectHandler(ServerConnectedHandler conn_handler, void *arg);
         void setDisconnHandler(ServerDisconnHandler disconn_handler, void *arg);
 
-    private:
+    protected:
         static const uint16_t SERVER_PORT = 777;
         static const uint16_t CLIENT_PORT = 777;
         static const uint16_t PACKET_QUEUE_SIZE = 6;

@@ -36,6 +36,7 @@ namespace meow
         uint16_t getRemotePort() const { return _port; }
         //
         bool isDataEquals(const char *data, size_t start_pos = 0, size_t data_len = 0);
+        bool isDataEquals(const uint8_t *data, size_t start_pos = 0, size_t data_len = 0);
 
     private:
         using AsyncUDPMessage::flush;
