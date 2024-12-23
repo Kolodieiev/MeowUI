@@ -18,8 +18,14 @@ namespace meow
 
     // ------------------------------------------------------------------------------------------------------------------------------
 
-    bool GameServer::begin(const char *ssid, const char *pwd, bool is_local, uint8_t max_connection, uint8_t wifi_chan)
+    bool GameServer::begin(const char *server_name, const char *pwd, bool is_local, uint8_t max_connection, uint8_t wifi_chan)
     {
+        if (!server_name || !pwd)
+        {
+            log_e("Некоректні параметри");
+            return false;
+        }
+
         if (_server_id.isEmpty())
         {
             log_e("Не встановлено server_id");
@@ -30,7 +36,7 @@ namespace meow
 
         if (is_local)
         {
-            if (!WiFi.softAP(ssid, pwd, wifi_chan, 0, _max_connection))
+            if (!WiFi.softAP(server_name, pwd, wifi_chan, 0, _max_connection))
                 return false;
 
             delay(100);
@@ -50,6 +56,8 @@ namespace meow
         }
 
         log_i("Game server address: %s", _server_ip.c_str());
+
+        _server_name = server_name;
 
         _server.onPacket(onPacket, this);
         _server.listen(SERVER_PORT);
@@ -96,6 +104,10 @@ namespace meow
 
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
+        _client_data_handler = nullptr;
+        _client_confirm_handler = nullptr;
+        _client_disconn_handler = nullptr;
+
         _server.close();
 
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
@@ -121,12 +133,16 @@ namespace meow
 
     // ------------------------------------------------------------------------------------------------------------------------------
 
+    void GameServer::openLobby()
+    {
+        _in_lobby = true;
+        log_i("Лоббі відкрито");
+    }
+
     void GameServer::closeLobby()
     {
         _in_lobby = false;
-
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
-
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
         {
             if (!it->second->isConfirmed())
@@ -136,6 +152,7 @@ namespace meow
             }
         }
         xSemaphoreGive(_client_mutex);
+        log_i("Лоббі закрито");
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------
@@ -150,18 +167,71 @@ namespace meow
         xSemaphoreGive(_client_mutex);
     }
 
+    void GameServer::sendBroadcast(UdpPacket::Command cmd, void *data, size_t data_size)
+    {
+        UdpPacket pack(data_size);
+        pack.setCommand(cmd);
+        pack.setData(data);
+        sendBroadcast(pack);
+    }
+
     void GameServer::sendPacket(ClientWrapper *cl_wrap, UdpPacket &packet)
     {
+        if (!cl_wrap)
+            return;
+
         _server.sendTo(packet, cl_wrap->getIP(), cl_wrap->getPort());
+    }
+
+    void GameServer::sendPacket(IPAddress ip, UdpPacket &packet)
+    {
+        ClientWrapper *cl_wrap = findClient(ip);
+        sendPacket(cl_wrap, packet);
+    }
+
+    void GameServer::send(IPAddress ip, UdpPacket::Command cmd, void *data, size_t data_size)
+    {
+        UdpPacket pack(data_size);
+        pack.setCommand(cmd);
+        pack.setData(data);
+        sendPacket(ip, pack);
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------
 
     void GameServer::removeClient(ClientWrapper *cl_wrap)
     {
+        if (!cl_wrap)
+            return;
+
+        removeClient(cl_wrap->getIP());
+    }
+
+    void GameServer::removeClient(const char *client_name)
+    {
+        if (!client_name)
+            return;
+
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
-        uint32_t ip = cl_wrap->getIP();
+        for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
+            if (it->second->hasName(client_name))
+            {
+                delete it->second;
+                _clients.erase(it);
+                break;
+            }
+
+        xSemaphoreGive(_client_mutex);
+    }
+
+    void GameServer::removeClient(IPAddress ip)
+    {
+        uint32_t cl_ip = ip;
+        if (cl_ip == 0)
+            return;
+
+        xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
             if (it->first == ip)
@@ -176,6 +246,10 @@ namespace meow
 
     ClientWrapper *GameServer::findClient(IPAddress ip) const
     {
+        uint32_t cl_ip = ip;
+        if (cl_ip == 0)
+            return nullptr;
+
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
         auto it = _clients.find(ip);
@@ -195,7 +269,7 @@ namespace meow
         return findClient(cl_wrap->getIP());
     }
 
-    ClientWrapper *GameServer::findClientByName(const char *name) const
+    ClientWrapper *GameServer::findClient(const char *name) const
     {
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
@@ -270,6 +344,12 @@ namespace meow
         if (cl_wrap->isConfirmed())
             return;
 
+        if (packet->dataLen() > 20 || _server_name.equals(packet->getData()) || findClient(packet->getData()))
+        {
+            sendNameRespMsg(cl_wrap, false);
+            return;
+        }
+
         if (_is_busy)
         {
             sendBusyMsg(cl_wrap);
@@ -278,26 +358,19 @@ namespace meow
 
         _is_busy = true;
 
-        if (packet->dataLen() > 20 || findClientByName(packet->getData()))
-        {
-            sendNameRespMsg(cl_wrap, false);
-            _is_busy = false;
-            return;
-        }
-
         cl_wrap->setName(packet->getData());
         callClientConfirmHandler(cl_wrap, onConfirmationResult);
     }
 
     void GameServer::handleData(ClientWrapper *cl_wrap, UdpPacket *packet)
     {
-        if (!_server_data_handler)
+        if (!_client_data_handler)
             return;
 
         if (!cl_wrap->isConfirmed())
             removeClient(cl_wrap);
         else
-            _server_data_handler(cl_wrap, packet, _server_data_arg);
+            _client_data_handler(cl_wrap, packet, _client_data_arg);
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------
@@ -480,8 +553,8 @@ namespace meow
 
     void GameServer::setDataHandler(ClientDataHandler handler, void *arg)
     {
-        _server_data_handler = handler;
-        _server_data_arg = arg;
+        _client_data_handler = handler;
+        _client_data_arg = arg;
     }
 
 #pragma endregion set_handler

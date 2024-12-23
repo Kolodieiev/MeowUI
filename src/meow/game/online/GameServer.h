@@ -24,15 +24,22 @@ namespace meow
         ~GameServer();
 
         void setServerID(const char *id) { _server_id = id; };
-        bool begin(const char *ssid, const char *pwd, bool is_local = true, uint8_t max_connection = 1, uint8_t wifi_chan = 6);
+        bool begin(const char *server_name, const char *pwd, bool is_local = true, uint8_t max_connection = 1, uint8_t wifi_chan = 6);
         void stop();
         //
-        void openLobby() { _in_lobby = true; }
+        void openLobby();
         void closeLobby();
+        bool isOpen() const { return _in_lobby; }
+        bool isFull() const { return _max_connection == _cur_clients_size; }
         //
         void removeClient(ClientWrapper *cl_wrap);
+        void removeClient(const char *client_name);
+        void removeClient(IPAddress ip);
         void sendBroadcast(UdpPacket &packet);
+        void sendBroadcast(UdpPacket::Command cmd, void *data, size_t data_size);
         void sendPacket(ClientWrapper *cl_wrap, UdpPacket &packet);
+        void sendPacket(IPAddress ip, UdpPacket &packet);
+        void send(IPAddress ip, UdpPacket::Command cmd, void *data, size_t data_size);
         //
         void setConfirmHandler(ClientConfirmHandler handler, void *arg);
         void setDisconnHandler(ClientDisconnHandler handler, void *arg);
@@ -41,7 +48,9 @@ namespace meow
         const std::unordered_map<uint32_t, ClientWrapper *> *getClients() { return &_clients; }
         const char *getServerIP() const { return _server_ip.c_str(); }
 
-    private:
+        const char *getName() const { return _server_name.c_str(); }
+
+    protected:
         static const uint16_t SERVER_PORT = 777;
         static const uint16_t PACKET_QUEUE_SIZE = 30;
 
@@ -55,6 +64,7 @@ namespace meow
         static QueueHandle_t _packet_queue;
         SemaphoreHandle_t _client_mutex;
 
+        String _server_name;
         String _server_id;
         String _server_ip;
         bool _in_lobby{false};
@@ -66,14 +76,14 @@ namespace meow
         void *_client_confirm_arg{nullptr};
         ClientDisconnHandler _client_disconn_handler{nullptr};
         void *_client_disconn_arg{nullptr};
-        ClientDataHandler _server_data_handler{nullptr};
-        void *_server_data_arg{nullptr};
+        ClientDataHandler _client_data_handler{nullptr};
+        void *_client_data_arg{nullptr};
 
         bool _is_busy{false};
         //
         ClientWrapper *findClient(IPAddress ip) const;
         ClientWrapper *findClient(ClientWrapper *cl_wrap) const;
-        ClientWrapper *findClientByName(const char *name) const;
+        ClientWrapper *findClient(const char *name) const;
         //
         void handlePacket(UdpPacket *packet);
         static void packetHandlerTask(void *arg);
