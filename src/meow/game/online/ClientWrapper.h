@@ -33,7 +33,7 @@ namespace meow
             return _ip == cl_wrap->getIP();
         };
 
-    private:
+    protected:
         IPAddress _ip;
         uint16_t _port;
 
