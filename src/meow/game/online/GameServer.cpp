@@ -117,13 +117,24 @@ namespace meow
         xSemaphoreGive(_client_mutex);
 
         if (_ping_task_handler)
+        {
             vTaskDelete(_ping_task_handler);
+            _ping_task_handler = nullptr;
+        }
+
         if (_packet_task_handler)
+        {
             vTaskDelete(_packet_task_handler);
+            _packet_task_handler = nullptr;
+        }
 
         vSemaphoreDelete(_client_mutex);
+
         if (_packet_queue)
+        {
             vQueueDelete(_packet_queue);
+            _packet_queue = nullptr;
+        }
 
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
@@ -180,7 +191,7 @@ namespace meow
         if (!cl_wrap)
             return;
 
-        _server.sendTo(packet, cl_wrap->getIP(), cl_wrap->getPort());
+        _server.writeTo(packet.raw(), packet.length(), cl_wrap->getIP(), cl_wrap->getPort());
     }
 
     void GameServer::sendPacket(IPAddress ip, UdpPacket &packet)
@@ -334,7 +345,7 @@ namespace meow
         UdpPacket resp_msg{1};
         resp_msg.setCommand(UdpPacket::CMD_HANDSHAKE);
         resp_msg.setData(&result);
-        _server.sendTo(resp_msg, packet->getRemoteIP(), packet->getRemotePort());
+        _server.writeTo(resp_msg.raw(), resp_msg.length(), packet->getRemoteIP(), packet->getRemotePort());
     }
 
     void GameServer::handleName(ClientWrapper *cl_wrap, UdpPacket *packet)
@@ -377,7 +388,7 @@ namespace meow
 
     void GameServer::handlePacket(UdpPacket *packet)
     {
-        UdpPacket::Command cmd = static_cast<UdpPacket::Command>(packet->data()[0]);
+        UdpPacket::Command cmd = packet->getCommand();
         ClientWrapper *cl_wrap = findClient(packet->getRemoteIP());
 
         if (!cl_wrap)

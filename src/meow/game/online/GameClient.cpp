@@ -93,11 +93,22 @@ namespace meow
         _client.close();
 
         if (_check_task_handler)
+        {
             vTaskDelete(_check_task_handler);
+            _check_task_handler = nullptr;
+        }
+
         if (_packet_task_handler)
+        {
             vTaskDelete(_packet_task_handler);
+            _packet_task_handler = nullptr;
+        }
+
         if (_packet_queue)
+        {
             vQueueDelete(_packet_queue);
+            _packet_queue = nullptr;
+        }
 
         _is_freed = true;
     }
@@ -112,7 +123,7 @@ namespace meow
             return;
         }
 
-        _client.sendTo(packet, _server_ip, SERVER_PORT);
+        _client.writeTo(packet.raw(), packet.length(), _server_ip, SERVER_PORT);
     }
 
     void GameClient::send(UdpPacket::Command cmd, void *data, size_t data_size)
