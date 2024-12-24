@@ -47,10 +47,10 @@ namespace meow
         virtual void init() = 0;
 
         // Повертає образ об'єкта, який можна перенести між сценами або зберегти до файлу
-        virtual IObjShape *getShape() = 0;
+        virtual IObjShape *serialize() = 0;
 
         // Повертає об'єкту властивості із образу
-        virtual void reborn(IObjShape *shape) = 0;
+        virtual void deserialize(IObjShape *shape) = 0;
 
         // Службовий метод, що відповідає за відрисовку спрайту об'єкта. Не обов'язковий до перевантаження
         virtual void onDraw();
