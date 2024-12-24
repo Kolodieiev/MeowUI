@@ -2,7 +2,7 @@
 #include "UdpPacket.h"
 #include <cstring>
 
-meow::UdpPacket::UdpPacket(AsyncUDPPacket &packet) : AsyncUDPMessage(packet.length() < 2 ? 2 : packet.length() + 1)
+meow::UdpPacket::UdpPacket(AsyncUDPPacket &packet) : DataStream(packet.length() < 2 ? 2 : packet.length() + 1)
 {
     try
     {
@@ -10,7 +10,7 @@ meow::UdpPacket::UdpPacket(AsyncUDPPacket &packet) : AsyncUDPMessage(packet.leng
         _buffer[_size - 1] = '\0';
 
         --_size;
-        _index = _size;
+        _index = 1;
 
         memcpy(_buffer, packet.data(), _size);
 
@@ -24,7 +24,7 @@ meow::UdpPacket::UdpPacket(AsyncUDPPacket &packet) : AsyncUDPMessage(packet.leng
     }
 }
 
-meow::UdpPacket::UdpPacket(size_t data_len) : AsyncUDPMessage(data_len + 2)
+meow::UdpPacket::UdpPacket(size_t data_len) : DataStream(data_len + 2)
 {
     try
     {
@@ -32,7 +32,7 @@ meow::UdpPacket::UdpPacket(size_t data_len) : AsyncUDPMessage(data_len + 2)
         _buffer[_size - 1] = '\0';
 
         --_size; // Hide \0
-        _index = _size;
+        _index = 1;
     }
     catch (std::bad_alloc e)
     {
@@ -41,14 +41,14 @@ meow::UdpPacket::UdpPacket(size_t data_len) : AsyncUDPMessage(data_len + 2)
     }
 }
 
-meow::UdpPacket::UdpPacket(void *raw_data, size_t len) : AsyncUDPMessage(len < 2 ? 2 : len + 1)
+meow::UdpPacket::UdpPacket(void *raw_data, size_t len) : DataStream(len < 2 ? 2 : len + 1)
 {
     try
     {
         _buffer[_size - 1] = '\0';
 
         --_size; // Hide \0
-        _index = _size;
+        _index = 1;
 
         memcpy(_buffer, (const uint8_t *)raw_data, _size);
     }

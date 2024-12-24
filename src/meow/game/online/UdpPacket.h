@@ -2,10 +2,11 @@
 #pragma GCC optimize("O3")
 #include <Arduino.h>
 #include <AsyncUDP.h>
+#include "../DataStream.h"
 
 namespace meow
 {
-    class UdpPacket : public AsyncUDPMessage
+    class UdpPacket : public DataStream
     {
     public:
         enum Command : uint8_t
@@ -38,11 +39,10 @@ namespace meow
         bool isDataEquals(const char *data, size_t start_pos = 0, size_t data_len = 0);
         bool isDataEquals(const uint8_t *data, size_t start_pos = 0, size_t data_len = 0);
 
-    private:
-        using AsyncUDPMessage::flush;
-        using AsyncUDPMessage::space;
-        using AsyncUDPMessage::write;
+        void flush() { _index = 1; }
 
+    private:
+        using DataStream::flush;
         IPAddress _ip;
         uint16_t _port{0};
     };
