@@ -32,7 +32,7 @@ namespace meow
         virtual void update() = 0;
 
         // Метод-обробник тригерів сцени
-        virtual void onTriggered(int16_t id) {}
+        virtual void onTrigger(int16_t id) {}
         //
         IGameScene(const IGameScene &rhs) = delete;
         IGameScene &operator=(const IGameScene &rhs) = delete;

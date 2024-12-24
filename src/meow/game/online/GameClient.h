@@ -36,9 +36,9 @@ namespace meow
 
         ClientStatus getStatus() const { return _status; }
         //
-        void setDataHandler(ServerDataHandler data_handler, void *arg);
-        void setConnectHandler(ServerConnectedHandler conn_handler, void *arg);
-        void setDisconnHandler(ServerDisconnHandler disconn_handler, void *arg);
+        void onData(ServerDataHandler data_handler, void *arg);
+        void onConnect(ServerConnectedHandler conn_handler, void *arg);
+        void onDisconnect(ServerDisconnHandler disconn_handler, void *arg);
 
     protected:
         static const uint16_t SERVER_PORT = 777;

@@ -35,7 +35,7 @@ namespace meow
                 if (obj->isTriggered())
                 {
                     obj->resetTrigger();
-                    onTriggered(obj->getTriggerID());
+                    onTrigger(obj->getTriggerID());
                 }
 
                 if (_game_map.isInView(obj->_x_global, obj->_y_global, obj->_sprite.width, obj->_sprite.height))

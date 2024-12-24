@@ -27,9 +27,9 @@ namespace meow
         bool begin(const char *server_name, const char *pwd, bool is_local = true, uint8_t max_connection = 1, uint8_t wifi_chan = 6);
         void stop();
         //
-        void openLobby();
-        void closeLobby();
-        bool isOpen() const { return _in_lobby; }
+        void open();
+        void close();
+        bool isOpen() const { return _is_open; }
         bool isFull() const { return _max_connection == _cur_clients_size; }
         //
         void removeClient(ClientWrapper *cl_wrap);
@@ -41,9 +41,9 @@ namespace meow
         void sendPacket(IPAddress ip, UdpPacket &packet);
         void send(IPAddress ip, UdpPacket::Command cmd, void *data, size_t data_size);
         //
-        void setConfirmHandler(ClientConfirmHandler handler, void *arg);
-        void setDisconnHandler(ClientDisconnHandler handler, void *arg);
-        void setDataHandler(ClientDataHandler handler, void *arg);
+        void onConfirmation(ClientConfirmHandler handler, void *arg);
+        void onDisconnect(ClientDisconnHandler handler, void *arg);
+        void onData(ClientDataHandler handler, void *arg);
 
         const std::unordered_map<uint32_t, ClientWrapper *> *getClients() { return &_clients; }
         const char *getServerIP() const { return _server_ip.c_str(); }
@@ -67,7 +67,7 @@ namespace meow
         String _server_name;
         String _server_id;
         String _server_ip;
-        bool _in_lobby{false};
+        bool _is_open{false};
 
         AsyncUDP _server;
         std::unordered_map<uint32_t, ClientWrapper *> _clients;

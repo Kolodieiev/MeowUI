@@ -133,15 +133,15 @@ namespace meow
 
     // ------------------------------------------------------------------------------------------------------------------------------
 
-    void GameServer::openLobby()
+    void GameServer::open()
     {
-        _in_lobby = true;
-        log_i("Лоббі відкрито");
+        _is_open = true;
+        log_i("Сервер відкрито");
     }
 
-    void GameServer::closeLobby()
+    void GameServer::close()
     {
-        _in_lobby = false;
+        _is_open = false;
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
         {
@@ -152,7 +152,7 @@ namespace meow
             }
         }
         xSemaphoreGive(_client_mutex);
-        log_i("Лоббі закрито");
+        log_i("Сервер закрито");
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------
@@ -382,7 +382,7 @@ namespace meow
 
         if (!cl_wrap)
         {
-            if (_in_lobby && _clients.size() < _max_connection)
+            if (_is_open && _clients.size() < _max_connection)
             {
                 log_i("Клієнт приєднався");
 
@@ -539,19 +539,19 @@ namespace meow
 
 #pragma region set_handler
 
-    void GameServer::setConfirmHandler(ClientConfirmHandler handler, void *arg)
+    void GameServer::onConfirmation(ClientConfirmHandler handler, void *arg)
     {
         _client_confirm_handler = handler;
         _client_confirm_arg = arg;
     }
 
-    void GameServer::setDisconnHandler(ClientDisconnHandler handler, void *arg)
+    void GameServer::onDisconnect(ClientDisconnHandler handler, void *arg)
     {
         _client_disconn_handler = handler;
         _client_disconn_arg = arg;
     }
 
-    void GameServer::setDataHandler(ClientDataHandler handler, void *arg)
+    void GameServer::onData(ClientDataHandler handler, void *arg)
     {
         _client_data_handler = handler;
         _client_data_arg = arg;
