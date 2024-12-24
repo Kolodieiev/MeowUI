@@ -13,12 +13,12 @@ namespace meow
         void update();
         void reset();
 
-        inline uint8_t getID() const { return _pin_id; }
-        inline bool isHolded() const { return _is_holded; }
-        inline bool isPressed() const { return _is_pressed; }
-        inline bool isReleased() const { return _is_released; }
+        uint8_t getID() const { return _pin_id; }
+        bool isHolded() const { return _is_holded; }
+        bool isPressed() const { return _is_pressed; }
+        bool isReleased() const { return _is_released; }
 
-        inline bool operator<(const Pin &other)
+        bool operator<(const Pin &other)
         {
             return _pin_id < other.getID();
         }

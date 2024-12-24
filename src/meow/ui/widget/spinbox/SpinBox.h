@@ -40,7 +40,7 @@ namespace meow
          *       Мінімальне значення.
          */
         void setMin(float min);
-        inline float getMin() const { return _min; }
+        float getMin() const { return _min; }
 
         /*!
          * @brief
@@ -49,7 +49,7 @@ namespace meow
          *       Максимальне значення.
          */
         void setMax(float max);
-        inline float getMax() const { return _max; }
+        float getMax() const { return _max; }
 
         /*!
          * @brief
@@ -58,7 +58,7 @@ namespace meow
          *       Поточне значення.
          */
         void setValue(float value);
-        inline float getValue() const { return _value; }
+        float getValue() const { return _value; }
 
         /*!
          * @brief
@@ -67,7 +67,7 @@ namespace meow
          *
          */
         void setType(SpinType spin_type);
-        inline SpinType getType() const { return _spin_type; }
+        SpinType getType() const { return _spin_type; }
 
     private:
         using Label::isTicker;

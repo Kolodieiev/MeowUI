@@ -39,9 +39,9 @@ namespace meow
         uint16_t getDBSize(const char *db_path);
         std::vector<String> readFilesFromDB(const char *db_path, uint16_t start_pos, uint16_t size);
 
-        inline bool isWorking() const { return _is_working; }
-        inline bool isTaskSuccessfull() const { return _is_successfully; }
-        inline uint8_t getCopyProgress() const { return _copy_progress; }
+        bool isWorking() const { return _is_working; }
+        bool isTaskSuccessfull() const { return _is_successfully; }
+        uint8_t getCopyProgress() const { return _copy_progress; }
 
     protected:
         enum IndexMode : uint8_t

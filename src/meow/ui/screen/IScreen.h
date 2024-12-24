@@ -24,8 +24,8 @@ namespace meow
         //
         void tick();
         //
-        inline ScreenID getNextScreenID() const { return _next_screen_ID; }
-        inline bool isReleased() const { return _is_released; }
+        ScreenID getNextScreenID() const { return _next_screen_ID; }
+        bool isReleased() const { return _is_released; }
 
     protected:
         SemaphoreHandle_t _layout_mutex;
@@ -43,7 +43,7 @@ namespace meow
         virtual void loop() = 0;
         //
         void setLayout(IWidgetContainer *layout);
-        inline IWidgetContainer *getLayout() const { return _layout; }
+        IWidgetContainer *getLayout() const { return _layout; }
         void openScreenByID(ScreenID screen_ID);
 
         // Повертає х-координату, на якій віджет буде встановлено по центру відносно екрану.

@@ -28,7 +28,7 @@ namespace meow
         int16_t angle{0};    // Кут повороту спрайта
 
         // Зкидає лічильник кадрів, та лічильник поточної анімації
-        inline void reset()
+        void reset()
         {
             anim_pos_counter = 0;
             anim_pos = 0;

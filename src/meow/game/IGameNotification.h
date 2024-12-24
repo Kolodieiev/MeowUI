@@ -31,9 +31,9 @@ namespace meow
         IGameNotification(const IGameNotification &rhs) = delete;
         IGameNotification &operator=(const IGameNotification &rhs) = delete;
 
-        inline void show() { _notification->show(); }
-        inline void hide() { _notification->hide(); }
-        inline bool isHidden() const { return _notification->isHidden(); }
+        void show() { _notification->show(); }
+        void hide() { _notification->hide(); }
+        bool isHidden() const { return _notification->isHidden(); }
 
     protected:
         GraphicsDriver &_display;

@@ -23,9 +23,9 @@ namespace meow
 
         void setLabels(Label *title, Label *msg, Label *left_btn, Label *right_btn);
 
-        inline void show() { _is_hidden = false; }
-        inline void hide() { _is_hidden = true; }
-        inline bool isHidden() const { return _is_hidden; }
+        void show() { _is_hidden = false; }
+        void hide() { _is_hidden = true; }
+        bool isHidden() const { return _is_hidden; }
 
     private:
         using IWidget::getFocusBackColor;

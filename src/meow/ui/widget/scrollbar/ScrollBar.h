@@ -57,13 +57,13 @@ namespace meow
          * @param  orientation
          *       Може мати значення: ORIENTATION_VERTICAL / ORIENTATION_HORIZONTAL.
          */
-        inline void setOrientation(Orientation orientation)
+        void setOrientation(Orientation orientation)
         {
             _orientation = orientation;
             _is_changed = true;
         }
 
-        inline Orientation getOrientation() const { return _orientation; }
+        Orientation getOrientation() const { return _orientation; }
 
         /*!
          * @brief
@@ -71,14 +71,14 @@ namespace meow
          * @param  color
          *       Колір слайдера.
          */
-        inline void setSliderColor(uint16_t color)
+        void setSliderColor(uint16_t color)
         {
             _slider_color = color;
             _is_changed = true;
         }
 
-        inline uint16_t getValue() const { return _cur_value; }
-        inline uint16_t getMax() const { return _max_value; }
+        uint16_t getValue() const { return _cur_value; }
+        uint16_t getMax() const { return _max_value; }
 
     private:
         uint16_t _max_value{1};

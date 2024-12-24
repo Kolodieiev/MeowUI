@@ -11,7 +11,7 @@ namespace meow
         bool begin();
         void end();
 
-        inline bool hasError() const { return _has_error; }
+        bool hasError() const { return _has_error; }
 
         bool hasConnection(uint8_t addr) const;
 

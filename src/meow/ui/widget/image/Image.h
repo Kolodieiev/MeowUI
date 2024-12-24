@@ -19,14 +19,14 @@ namespace meow
         virtual void onDraw() override;
         virtual Image *clone(uint16_t id) const override;
 
-        inline void setTransparentColor(uint16_t color)
+        void setTransparentColor(uint16_t color)
         {
             _is_transparent = true;
             _transparent_color = color;
             _is_changed = true;
         }
 
-        inline void clearTransparency()
+        void clearTransparency()
         {
             _is_transparent = false;
             _is_changed = true;

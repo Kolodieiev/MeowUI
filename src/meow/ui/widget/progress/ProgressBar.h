@@ -38,7 +38,7 @@ namespace meow
          * @param  color
          *       Колір полоси прогресу.
          */
-        inline void setProgressColor(uint16_t color)
+        void setProgressColor(uint16_t color)
         {
             _progress_color = color;
             _is_changed = true;
@@ -51,12 +51,12 @@ namespace meow
          * @param  orientation
          *       Може мати значення: ORIENTATION_VERTICAL / ORIENTATION_HORIZONTAL.
          */
-        inline void setOrientation(Orientation orientation)
+        void setOrientation(Orientation orientation)
         {
             _orientation = orientation;
             _is_changed = true;
         }
-        inline Orientation getOrientation() const { return _orientation; }
+        Orientation getOrientation() const { return _orientation; }
 
         /*!
          * @brief
@@ -64,8 +64,8 @@ namespace meow
          */
         void reset();
 
-        inline uint16_t getProgress() const { return _progress; }
-        inline uint16_t getMax() const { return _max; }
+        uint16_t getProgress() const { return _progress; }
+        uint16_t getMax() const { return _max; }
 
     private:
         uint16_t _progress{1};

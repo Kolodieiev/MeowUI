@@ -42,7 +42,7 @@ namespace meow
             _item_height = height > 0 ? height : 1;
             _is_changed = true;
         }
-        inline uint16_t getItemHeight() const { return _item_height; }
+        uint16_t getItemHeight() const { return _item_height; }
 
         /*!
          * @brief
@@ -56,7 +56,7 @@ namespace meow
             _item_width = width > 0 ? width : 1;
             _is_changed = true;
         }
-        inline uint16_t getItemsWidth() const { return _item_width; }
+        uint16_t getItemsWidth() const { return _item_width; }
 
         /*!
          * @brief
@@ -64,12 +64,12 @@ namespace meow
          * @param  orientation
          *       Може мати значення: ORIENTATION_VERTICAL / ORIENTATION_HORIZONTAL.
          */
-        inline void setOrientation(const Orientation orientation)
+        void setOrientation(const Orientation orientation)
         {
             _orientation = orientation;
             _is_changed = true;
         }
-        inline Orientation getOrientation() const { return _orientation; }
+        Orientation getOrientation() const { return _orientation; }
 
         /*!
          * @return
@@ -103,8 +103,8 @@ namespace meow
          * @brief
          *        Встановити відступи між елементами меню.
          */
-        inline void setItemsSpacing(uint16_t items_spacing) { _items_spacing = items_spacing; }
-        inline uint16_t getItemsSpacing() const { return _items_spacing; }
+        void setItemsSpacing(uint16_t items_spacing) { _items_spacing = items_spacing; }
+        uint16_t getItemsSpacing() const { return _items_spacing; }
 
         bool addItem(MenuItem *item);
 

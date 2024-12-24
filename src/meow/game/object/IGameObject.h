@@ -1,4 +1,5 @@
 #pragma once
+#pragma GCC optimize("O3")
 #include <Arduino.h>
 #include <list>
 #include <vector>
@@ -63,12 +64,12 @@ namespace meow
         BodyDescription _body{};     // Структура, що описує характеристики твердого тіла об'єкта
         SpriteDescription _sprite{}; // Структура, яка описує спрайт об'єкта та його стани
 
-        inline const char *getName() const { return _name; }
-        inline int16_t getTriggerID() const { return _trigger_ID; }
-        inline bool isTriggered() const { return _is_triggered; }
-        inline void resetTrigger() { _is_triggered = false; }
-        inline bool isDestroyed() const { return _is_destroyed; }
-        inline uint8_t getLayer() const { return _layer; }
+        const char *getName() const { return _name; }
+        int16_t getTriggerID() const { return _trigger_ID; }
+        bool isTriggered() const { return _is_triggered; }
+        void resetTrigger() { _is_triggered = false; }
+        bool isDestroyed() const { return _is_destroyed; }
+        uint8_t getLayer() const { return _layer; }
 
         // Метод, що дозволяє фільтрувати типи об'єктів. instanceof не підтримується
         int16_t getClassID() const { return _class_ID; }

@@ -30,8 +30,8 @@ namespace meow
          * @param  type
          *      Тип поля. Може бути TYPE_TEXT, TYPE_PASSWORD.
          */
-        inline void setType(FieldType type) { _type = type; }
-        inline FieldType getType() const { return _type; }
+        void setType(FieldType type) { _type = type; }
+        FieldType getType() const { return _type; }
 
         /*!
          * @brief Видалити останній символ із рядка, що зберігається в цьому віджеті.

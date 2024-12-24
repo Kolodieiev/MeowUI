@@ -18,7 +18,7 @@ namespace meow
                 uint16_t height() { return _tft.height(); }
 
                 // ---------------------------------------------------------------------
-                inline void fillRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
+                void fillRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -28,7 +28,7 @@ namespace meow
 #endif
                 }
 
-                inline void fillRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
+                void fillRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -38,7 +38,7 @@ namespace meow
 #endif
                 }
 
-                inline void drawRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
+                void drawRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -48,7 +48,7 @@ namespace meow
 #endif
                 }
 
-                inline void drawRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
+                void drawRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t radius, uint32_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -59,7 +59,7 @@ namespace meow
                 }
 
                 //
-                inline void fillTriangle(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t color)
+                void fillTriangle(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -70,7 +70,7 @@ namespace meow
                 }
 
                 //
-                inline void setTextFont(uint8_t font_ID)
+                void setTextFont(uint8_t font_ID)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -80,7 +80,7 @@ namespace meow
 #endif
                 }
 
-                inline void setTextSize(uint8_t size)
+                void setTextSize(uint8_t size)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -90,7 +90,7 @@ namespace meow
 #endif
                 }
 
-                inline void setTextColor(uint16_t color)
+                void setTextColor(uint16_t color)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -100,7 +100,7 @@ namespace meow
 #endif
                 }
 
-                inline int16_t drawString(const char *string, int32_t x, int32_t y)
+                int16_t drawString(const char *string, int32_t x, int32_t y)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -110,7 +110,7 @@ namespace meow
 #endif
                 }
 
-                inline int16_t drawString(const String &string, int32_t x, int32_t y)
+                int16_t drawString(const String &string, int32_t x, int32_t y)
                 {
 #ifdef DOUBLE_BUFFERRING
                         _is_buffer_changed = true;
@@ -120,12 +120,12 @@ namespace meow
 #endif
                 }
 
-                inline TFT_eSPI *getTFT() { return &_tft; }
+                TFT_eSPI *getTFT() { return &_tft; }
 
                 void pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data);
 
 #ifdef DOUBLE_BUFFERRING
-                inline void pushSprite(TFT_eSprite &sprite, int32_t x, int32_t y)
+                void pushSprite(TFT_eSprite &sprite, int32_t x, int32_t y)
                 {
                         _is_buffer_changed = true;
                         sprite.pushToSprite(&_flick_buf, x, y);

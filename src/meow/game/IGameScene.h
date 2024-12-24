@@ -1,4 +1,5 @@
 #pragma once
+#pragma GCC optimize("O3")
 #include <Arduino.h>
 //
 #include <list>
@@ -24,6 +25,7 @@ namespace meow
                                                                                                    _game_map{GameMap(display)},
                                                                                                    _stored_objs{stored_objs}
         {
+
         }
 
         virtual ~IGameScene() = 0;
@@ -38,11 +40,11 @@ namespace meow
         IGameScene &operator=(const IGameScene &rhs) = delete;
         //
         // Службовий метод, необхідний екрану для перевірки стану гри
-        inline bool isFinished() const { return _is_finished; }
+        bool isFinished() const { return _is_finished; }
         // Службовий метод, необхідний екрану для перевірки стану сцени
-        inline bool isReleased() const { return _is_released; }
+        bool isReleased() const { return _is_released; }
         // Службовий метод, який повідомляє екрану ідентифікатор наступої сцени, яка повинна бути відкрита після поточної
-        inline uint8_t getNextSceneID() const { return _next_scene_ID; }
+        uint8_t getNextSceneID() const { return _next_scene_ID; }
         //
     protected:
         // Прапор встановлення сцени на паузу
@@ -75,7 +77,7 @@ namespace meow
         std::vector<IObjShape *> &_stored_objs;
 
         // Знищити поточну сцену і відкрити наступну із вказаним ідентифікатором
-        inline void openSceneByID(uint16_t scene_ID)
+        void openSceneByID(uint16_t scene_ID)
         {
             _next_scene_ID = scene_ID;
             _is_released = true;

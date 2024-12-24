@@ -17,13 +17,13 @@ namespace meow
          * @brief
          *      Повертає поточний стан перемикача. false == вимкнений.
          */
-        inline bool isOn() const { return _is_on; }
+        bool isOn() const { return _is_on; }
 
         /*!
          * @brief
          *     Встановити стан перемикача у "Ввімкнений".
          */
-        inline void on()
+        void on()
         {
             _is_on = true;
             _is_changed = true;
@@ -33,7 +33,7 @@ namespace meow
          * @brief
          *     Встановити стан перемикача у "Вимкнений".
          */
-        inline void off()
+        void off()
         {
             _is_on = false;
             _is_changed = true;
@@ -43,45 +43,45 @@ namespace meow
          * @brief
          *     Встановити колір фону важелю.
          */
-        inline void setLeverColor(uint16_t color)
+        void setLeverColor(uint16_t color)
         {
             _lever_color = color;
             _is_changed = true;
         }
-        inline uint16_t getLeverColor() const { return _lever_color; }
+        uint16_t getLeverColor() const { return _lever_color; }
 
         /*!
          * @brief
          *     Встановити колір фону перемикача у стані "Увімкнений".
          */
-        inline void setOnColor(uint16_t color)
+        void setOnColor(uint16_t color)
         {
             _on_color = color;
             _is_changed = true;
         }
-        inline uint16_t getOnColor() const { return _on_color; }
+        uint16_t getOnColor() const { return _on_color; }
 
         /*!
          * @brief
          *     Встановити колір фону перемикача у стані "Ввимкнений".
          */
-        inline void setOffColor(uint16_t color)
+        void setOffColor(uint16_t color)
         {
             _off_color = color;
             _is_changed = true;
         }
-        inline uint16_t getOffColor() const { return _off_color; }
+        uint16_t getOffColor() const { return _off_color; }
 
         /*!
          * @brief
          *     Встановити положення перемикача горизонтальне/вертикальне.
          */
-        inline void setOrientation(Orientation orientation)
+        void setOrientation(Orientation orientation)
         {
             _orientation = orientation;
             _is_changed = true;
         }
-        inline Orientation getOrientation() const { return _orientation; }
+        Orientation getOrientation() const { return _orientation; }
 
     private:
         using IWidget::getBackColor;

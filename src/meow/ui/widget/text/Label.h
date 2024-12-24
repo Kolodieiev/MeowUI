@@ -37,7 +37,7 @@ namespace meow
         void updateWidthToFit(uint16_t add_width_value = 0);
 
         void setText(const String &text);
-        inline String getText() const
+        String getText() const
         {
             return _text;
         }
@@ -64,7 +64,7 @@ namespace meow
          * @brief
          *      Встановити колір тексту.
          */
-        inline void setTextColor(uint16_t textColor)
+        void setTextColor(uint16_t textColor)
         {
             _text_color = textColor;
             _is_changed = true;
@@ -78,7 +78,7 @@ namespace meow
          *      Наразі може мати значення тільки 2 або 4.
          */
         void setFontID(uint8_t font_ID);
-        inline uint8_t getFontID() const { return _font_ID; }
+        uint8_t getFontID() const { return _font_ID; }
 
         /*!
          * @brief
@@ -87,7 +87,7 @@ namespace meow
          * @param  gravity
          *       Може мати значення: GRAVITY_TOP / GRAVITY_CENTER / GRAVITY_BOTTOM.
          */
-        inline void setGravity(const Gravity gravity)
+        void setGravity(const Gravity gravity)
         {
             _text_gravity = gravity;
             _is_changed = true;
@@ -100,7 +100,7 @@ namespace meow
          * @param  alignment
          *       Може мати значення: ALIGN_START / ALIGN_CENTER / ALIGN_END.
          */
-        inline void setAlign(const Alignment alignment)
+        void setAlign(const Alignment alignment)
         {
             _text_alignment = alignment;
             _is_changed = true;
@@ -112,7 +112,7 @@ namespace meow
          * @param  offset
          *       Значення зміщення тексту.
          */
-        inline void setTextOffset(uint8_t offset)
+        void setTextOffset(uint8_t offset)
         {
             _text_offset = offset;
             _is_changed = true;
@@ -121,7 +121,7 @@ namespace meow
         /*!
          * @return Кількість символів в тексті, що зберігається в данному віджеті.
          */
-        inline uint16_t getTextLength() const { return _text_len; }
+        uint16_t getTextLength() const { return _text_len; }
 
         /*!
          * @brief
@@ -131,10 +131,10 @@ namespace meow
          *       Логічне значення перемикача.
          */
         void setTicker(bool state);
-        inline bool isTicker() const { return _temp_is_ticker; }
+        bool isTicker() const { return _temp_is_ticker; }
 
         void setTickerInFocus(bool state);
-        inline bool isTickerInFocus() const { return _temp_is_ticker_in_focus; }
+        bool isTickerInFocus() const { return _temp_is_ticker_in_focus; }
 
         /*!
          * @return Висоту шрифту в пікселях для данного віджета.
@@ -158,7 +158,7 @@ namespace meow
          *       false - Текст буде відображатися в один рядок.
          */
         void setMultiline(bool state);
-        inline bool isMultiline() const { return _is_multiline; }
+        bool isMultiline() const { return _is_multiline; }
 
     protected:
         bool _is_multiline{false};

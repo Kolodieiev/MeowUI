@@ -10,14 +10,14 @@ namespace meow
         WavTrack(uint8_t *data_buf, uint32_t data_size) : _data_buf{data_buf}, _data_size{data_size} {}
 
         void play();
-        inline void stop() { _is_playing = false; }
+        void stop() { _is_playing = false; }
         int16_t getNextSample();
 
-        inline void setOnRepeat(bool repeate) { _on_repeate = repeate; }
-        inline bool isPlaying() const { return _is_playing; };
+        void setOnRepeat(bool repeate) { _on_repeate = repeate; }
+        bool isPlaying() const { return _is_playing; };
 
         void setVolume(uint8_t volume);
-        inline uint8_t getVolume() const { return _volume * MAX_VOLUME; }
+        uint8_t getVolume() const { return _volume * MAX_VOLUME; }
 
         // Встановити коефіцієнт фільтрації шуму. По замовченню встановлено 1. Без фільтрації.
         void setFiltrationLvl(uint16_t lvl) { _filtration_lvl = lvl; }
