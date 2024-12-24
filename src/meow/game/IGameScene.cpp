@@ -1,4 +1,5 @@
 #include "IGameScene.h"
+#pragma GCC optimize("O3")
 #include <algorithm>
 
 namespace meow

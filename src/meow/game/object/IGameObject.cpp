@@ -1,3 +1,4 @@
+#pragma GCC optimize("O3")
 #include "IGameObject.h"
 #include <cmath>
 
