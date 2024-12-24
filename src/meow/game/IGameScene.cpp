@@ -4,6 +4,20 @@
 
 namespace meow
 {
+    IGameScene::IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs) : _display{display},
+                                                                                                           _input{input},
+                                                                                                           _game_map{GameMap(display)},
+                                                                                                           _stored_objs{stored_objs}
+    {
+        _obj_mutex = xSemaphoreCreateMutex();
+
+        if (!_obj_mutex)
+        {
+            log_e("Не вдалося створити _obj_mutex");
+            esp_restart();
+        }
+    }
+
     IGameScene::~IGameScene()
     {
         for (auto &&it : _game_objs)
@@ -17,6 +31,8 @@ namespace meow
     {
         if (_is_paused)
             return;
+
+        takeLock();
 
         _game_map.setCameraPos(_main_obj->_x_global, _main_obj->_y_global);
         _game_map.onDraw();
@@ -83,6 +99,8 @@ namespace meow
 
         for (auto it = view_obj.begin(), last_it = view_obj.end(); it != last_it; ++it)
             (*it)->onDraw();
+
+        giveLock();
 
         _game_UI->onDraw();
     }

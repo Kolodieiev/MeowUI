@@ -20,13 +20,7 @@ namespace meow
     class IGameScene
     {
     public:
-        IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs) : _display{display},
-                                                                                                   _input{input},
-                                                                                                   _game_map{GameMap(display)},
-                                                                                                   _stored_objs{stored_objs}
-        {
-
-        }
+        IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs);
 
         virtual ~IGameScene() = 0;
 
@@ -47,6 +41,13 @@ namespace meow
         uint8_t getNextSceneID() const { return _next_scene_ID; }
         //
     protected:
+        // Мютекс для синхронізації доступу до об'єктів
+        SemaphoreHandle_t _obj_mutex;
+        // Взяти блокування доступу до об'єктів
+        void takeLock() { xSemaphoreTake(_obj_mutex, portMAX_DELAY); }
+        // Повернути блокування доступу до об'єктів
+        void giveLock() { xSemaphoreGive(_obj_mutex); }
+
         // Прапор встановлення сцени на паузу
         bool _is_paused{false};
         // Прапор, який вказує, що поточна сцена готова звільнити своє місце для наступної сцени
