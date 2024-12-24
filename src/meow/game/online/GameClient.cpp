@@ -194,7 +194,7 @@ namespace meow
 
     void GameClient::onPacket(void *arg, AsyncUDPPacket &packet)
     {
-        if (packet.length() > 100 || packet.length() == 0)
+        if (packet.length() > 1000 || packet.length() == 0)
         {
             log_e("Некоректний пакет");
             return;
