@@ -13,14 +13,13 @@
 #include "./IGameMenu.h"
 #include "./gmap/GameMap.h"
 #include "./object/IGameObject.h"
-#include "./object/IObjShape.h"
 
 namespace meow
 {
     class IGameScene
     {
     public:
-        IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs);
+        IGameScene(GraphicsDriver &display, Input &input, DataStream &stored_objs);
 
         virtual ~IGameScene() = 0;
 
@@ -29,7 +28,11 @@ namespace meow
 
         // Метод-обробник тригерів сцени
         virtual void onTrigger(int16_t id) {}
-        //
+        // Повертає загальний розмір корисних даних усіх об'єктів
+        size_t getObjsSize();
+        // Записує усі об'єкти на сцені в DataStream
+        void serialize(DataStream &ds);
+
         IGameScene(const IGameScene &rhs) = delete;
         IGameScene &operator=(const IGameScene &rhs) = delete;
         //
@@ -39,7 +42,7 @@ namespace meow
         bool isReleased() const { return _is_released; }
         // Службовий метод, який повідомляє екрану ідентифікатор наступої сцени, яка повинна бути відкрита після поточної
         uint8_t getNextSceneID() const { return _next_scene_ID; }
-        //
+
     protected:
         // Мютекс для синхронізації доступу до об'єктів
         SemaphoreHandle_t _obj_mutex;
@@ -75,7 +78,7 @@ namespace meow
         ResManager _res_manager;
 
         // Контейнер для перенесення відбитків об'єктів до наступної сцени.
-        std::vector<IObjShape *> &_stored_objs;
+        DataStream &_stored_objs;
 
         // Знищити поточну сцену і відкрити наступну із вказаним ідентифікатором
         void openSceneByID(uint16_t scene_ID)

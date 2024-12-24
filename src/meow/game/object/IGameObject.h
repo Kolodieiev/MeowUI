@@ -8,7 +8,7 @@
 #include "../../driver/audio/wav/WavManager.h"
 #include "../../game/ResManager.h"
 //
-#include "IObjShape.h"
+#include "../DataStream.h"
 //
 #include "../gmap/GameMap.h"
 //
@@ -19,7 +19,6 @@
 
 namespace meow
 {
-
     class IGameObject
     {
     public:
@@ -46,11 +45,14 @@ namespace meow
         // Метод, в якому рекомендується ралізовувати ініціалізацію об'єкта
         virtual void init() = 0;
 
-        // Повертає образ об'єкта, який можна перенести між сценами або зберегти до файлу
-        virtual IObjShape *serialize() = 0;
+        // Метод повинен повертати реальний розмір даних, які будуть серіалізовані
+        virtual size_t getDataSize() const = 0;
 
-        // Повертає об'єкту властивості із образу
-        virtual void deserialize(IObjShape *shape) = 0;
+        // Серіалізує об'єкт в DataStream
+        virtual void serialize(DataStream &ds) = 0;
+
+        // Десеріаізує об'єкт із DataStream
+        virtual void deserialize(DataStream &ds) = 0;
 
         // Службовий метод, що відповідає за відрисовку спрайту об'єкта. Не обов'язковий до перевантаження
         virtual void onDraw();
@@ -64,7 +66,7 @@ namespace meow
         BodyDescription _body{};     // Структура, що описує характеристики твердого тіла об'єкта
         SpriteDescription _sprite{}; // Структура, яка описує спрайт об'єкта та його стани
 
-        const char *getName() const { return _name; }
+        const char *getName() const { return _name.c_str(); }
         int16_t getTriggerID() const { return _trigger_ID; }
         bool isTriggered() const { return _is_triggered; }
         void resetTrigger() { _is_triggered = false; }
@@ -73,13 +75,16 @@ namespace meow
 
         // Метод, що дозволяє фільтрувати типи об'єктів. instanceof не підтримується
         int16_t getClassID() const { return _class_ID; }
-
+        //
+        uint32_t getObjId() const { return _obj_id; }
+        //
     protected:
-        int16_t _class_ID{-1};     // Ідентифікатор типу об'єкта
-        int16_t _trigger_ID{-1};   // Ідентифіктор тригера
+        uint32_t _obj_id{0};
+        uint8_t _class_ID{0};      // Ідентифікатор типу об'єкта
+        uint8_t _trigger_ID{0};    // Ідентифіктор тригера
         bool _is_triggered{false}; // Прапор спрацювання тригера об'єкта
 
-        const char *_name{nullptr}; // Ім'я об'єкта, може не використовуватися
+        String _name; // Ім'я об'єкта, може не використовуватися
 
         bool _is_destroyed{false}; // Прапор знищення об'єкта іншими об'єктами
         uint8_t _layer{0};         // Шар сортування об'єкта по осі Z. Чим більше значення, тим вище шар

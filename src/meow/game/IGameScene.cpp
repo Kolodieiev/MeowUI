@@ -4,10 +4,10 @@
 
 namespace meow
 {
-    IGameScene::IGameScene(GraphicsDriver &display, Input &input, std::vector<IObjShape *> &stored_objs) : _display{display},
-                                                                                                           _input{input},
-                                                                                                           _game_map{GameMap(display)},
-                                                                                                           _stored_objs{stored_objs}
+    IGameScene::IGameScene(GraphicsDriver &display, Input &input, DataStream &stored_objs) : _display{display},
+                                                                                             _input{input},
+                                                                                             _game_map{GameMap(display)},
+                                                                                             _stored_objs{stored_objs}
     {
         _obj_mutex = xSemaphoreCreateMutex();
 
@@ -105,4 +105,21 @@ namespace meow
         _game_UI->onDraw();
     }
 
+    size_t IGameScene::getObjsSize()
+    {
+        size_t sum{0};
+        takeLock();
+        for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
+            sum += (*it)->getDataSize();
+        giveLock();
+        return sum;
+    }
+
+    void IGameScene::serialize(DataStream &ds)
+    {
+        takeLock();
+        for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
+            (*it)->serialize(ds);
+        giveLock();
+    }
 }
