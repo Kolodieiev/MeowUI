@@ -10,8 +10,8 @@ namespace meow
         DataStream(size_t size);
         ~DataStream();
         void resize(size_t size);
-        size_t read(char *out, size_t len = 1);
-        size_t write(const char *data, size_t len = 1);
+        size_t read(void *out, size_t len = 1);
+        size_t write(void *data, size_t len = 1);
         size_t space();
         uint8_t *raw() { return _buffer; }
         size_t length() const { return _size; }

@@ -29,7 +29,7 @@ namespace meow
         }
     }
 
-    size_t DataStream::read(char *out, size_t len)
+    size_t DataStream::read(void *out, size_t len)
     {
         if (!_buffer)
             return 0;
@@ -42,7 +42,7 @@ namespace meow
         return len;
     }
 
-    size_t DataStream::write(const char *data, size_t len)
+    size_t DataStream::write(void *data, size_t len)
     {
         if (!_buffer)
             return 0;
