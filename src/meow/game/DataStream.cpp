@@ -5,10 +5,21 @@ namespace meow
 {
     DataStream::DataStream(size_t size)
     {
+        resize(size);
+    }
+
+    DataStream::~DataStream()
+    {
+        delete[] _buffer;
+    }
+
+    void DataStream::resize(size_t size)
+    {
         _index = 0;
         _size = size;
         try
         {
+            delete[] _buffer;
             _buffer = new uint8_t[size];
         }
         catch (std::bad_alloc e)
@@ -16,11 +27,6 @@ namespace meow
             log_e("%s", e.what());
             esp_restart();
         }
-    }
-
-    DataStream::~DataStream()
-    {
-        delete _buffer;
     }
 
     size_t DataStream::read(char *out, size_t len)
