@@ -1,14 +1,14 @@
 #pragma once
 #pragma GCC optimize("O3")
 #include <Arduino.h>
-#include <list>
-#include <vector>
+#include <unordered_map>
 //
 #include "../../driver/graphics/GraphicsDriver.h"
 #include "../../driver/audio/wav/WavManager.h"
 #include "../../game/ResManager.h"
 //
 #include "../DataStream.h"
+#include "../IdGen.h"
 //
 #include "../gmap/GameMap.h"
 //
@@ -37,7 +37,7 @@ namespace meow
                     ResManager &res,
                     WavManager &audio,
                     GameMap &game_map,
-                    std::list<IGameObject *> &game_objs);
+                    std::unordered_map<uint32_t, IGameObject *> &game_objs);
         virtual ~IGameObject() = 0;
 
         // Метод, в якому рекомендується ралізовувати логіку поведінки об'єкта
@@ -89,10 +89,10 @@ namespace meow
         bool _is_destroyed{false}; // Прапор знищення об'єкта іншими об'єктами
         uint8_t _layer{0};         // Шар сортування об'єкта по осі Z. Чим більше значення, тим вище шар
         //
-        ResManager &_res;                     // Менеджер ресурсів
-        WavManager &_audio;                   // Менеджер аудіо
-        GameMap &_game_map;                   // ігрова мапа
-        std::list<IGameObject *> &_game_objs; // ігрові об'єкти, які достпуні на сцені
+        ResManager &_res;                                        // Менеджер ресурсів
+        WavManager &_audio;                                      // Менеджер аудіо
+        GameMap &_game_map;                                      // ігрова мапа
+        std::unordered_map<uint32_t, IGameObject *> &_game_objs; // ігрові об'єкти, які достпуні на сцені
         GraphicsDriver &_display;
 
         // Створити спрайт об'єкта. Якщо пам'яті недостатньо, буде викликано перезавантаження esp

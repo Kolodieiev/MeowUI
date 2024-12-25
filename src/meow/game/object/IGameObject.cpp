@@ -4,12 +4,11 @@
 
 namespace meow
 {
-
   IGameObject::IGameObject(GraphicsDriver &display,
                            ResManager &res,
                            WavManager &audio,
                            GameMap &game_map,
-                           std::list<IGameObject *> &game_objs)
+                           std::unordered_map<uint32_t, IGameObject *> &game_objs)
       : _display{display},
         _res{res},
         _audio{audio},
@@ -164,8 +163,8 @@ namespace meow
 
     for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
     {
-      if (*it != this && (*it)->hasIntersectWithPoint(x, y))
-        objs.push_back(*it);
+      if (it->second != this && it->second->hasIntersectWithPoint(x, y))
+        objs.push_back(it->second);
     }
 
     return objs;
@@ -176,8 +175,8 @@ namespace meow
     std::list<IGameObject *> objs;
     for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
     {
-      if (*it != this && (*it)->hasCollisionWithCircle(x_mid, y_mid, radius))
-        objs.push_back(*it);
+      if (it->second != this && it->second->hasCollisionWithCircle(x_mid, y_mid, radius))
+        objs.push_back(it->second);
     }
 
     return objs;
@@ -211,8 +210,8 @@ namespace meow
     std::list<IGameObject *> objs;
     for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
     {
-      if (*it != this && (*it)->hasCollisionWithRect(x_start, y_start, width, height))
-        objs.push_back(*it);
+      if (it->second != this && it->second->hasCollisionWithRect(x_start, y_start, width, height))
+        objs.push_back(it->second);
     }
 
     return objs;
@@ -242,7 +241,7 @@ namespace meow
     IGameObject *obj;
     for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
     {
-      obj = *it;
+      obj = it->second;
 
       if (obj != this && obj->_body.is_rigid)
       {

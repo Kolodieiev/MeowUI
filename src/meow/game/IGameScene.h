@@ -2,7 +2,7 @@
 #pragma GCC optimize("O3")
 #include <Arduino.h>
 //
-#include <list>
+#include <unordered_map>
 //
 #include "../driver/graphics/GraphicsDriver.h"
 #include "../driver/input/Input.h"
@@ -13,6 +13,7 @@
 #include "./IGameMenu.h"
 #include "./gmap/GameMap.h"
 #include "./object/IGameObject.h"
+#include "./IdGen.h"
 
 namespace meow
 {
@@ -59,7 +60,7 @@ namespace meow
         // Самий нижній шар сцени
         GameMap _game_map;
         // Список усіх ігрових об'єктів на сцені, які повинні взаємодіяти один з одним
-        std::list<IGameObject *> _game_objs;
+        std::unordered_map<uint32_t, IGameObject *> _game_objs;
         // Драйвер графіки
         GraphicsDriver &_display;
         // Ввід

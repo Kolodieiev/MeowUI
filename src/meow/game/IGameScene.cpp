@@ -20,8 +20,8 @@ namespace meow
 
     IGameScene::~IGameScene()
     {
-        for (auto &&it : _game_objs)
-            delete it;
+        for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
+            delete it->second;
 
         delete _game_UI;
         delete _game_menu;
@@ -42,11 +42,10 @@ namespace meow
 
         for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
         {
-            obj = *it;
+            obj = it->second;
 
             if (!obj->isDestroyed())
             {
-
                 obj->update();
 
                 if (obj->isTriggered())
@@ -86,7 +85,7 @@ namespace meow
             }
             else
             {
-                delete (*it);
+                delete it->second;
                 _game_objs.erase(it);
             }
         }
@@ -110,7 +109,7 @@ namespace meow
         size_t sum{0};
         takeLock();
         for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
-            sum += (*it)->getDataSize();
+            sum += it->second->getDataSize();
         giveLock();
         return sum;
     }
@@ -119,7 +118,7 @@ namespace meow
     {
         takeLock();
         for (auto it = _game_objs.begin(), last_it = _game_objs.end(); it != last_it; ++it)
-            (*it)->serialize(ds);
+            it->second->serialize(ds);
         giveLock();
     }
 }
