@@ -20,18 +20,10 @@ namespace meow
     {
     public:
         IGameScene(GraphicsDriver &display, Input &input, DataStream &stored_objs);
-
         virtual ~IGameScene() = 0;
 
         // Метод, що викликається керуючим екраном кожний кадр
         virtual void update() = 0;
-
-        // Метод-обробник тригерів сцени
-        virtual void onTrigger(int16_t id) {}
-        // Повертає загальний розмір корисних даних усіх об'єктів
-        size_t getObjsSize();
-        // Записує усі об'єкти на сцені в DataStream
-        void serialize(DataStream &ds);
 
         IGameScene(const IGameScene &rhs) = delete;
         IGameScene &operator=(const IGameScene &rhs) = delete;
@@ -100,6 +92,16 @@ namespace meow
                 log_e("%s", e.what());
                 esp_restart();
             }
+        }
+
+        // Повертає загальний розмір корисних даних усіх об'єктів
+        size_t getObjsSize();
+        // Записує усі об'єкти на сцені в DataStream
+        void serialize(DataStream &ds);
+        // Метод-обробник тригерів сцени
+        virtual void onTrigger(uint8_t id)
+        {
+            log_i("Викликано тригер: %d", id);
         }
     };
 
