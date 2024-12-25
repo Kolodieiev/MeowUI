@@ -29,13 +29,28 @@ namespace meow
         }
     }
 
+    size_t DataStream::getBytes(void *out, size_t len)
+    {
+        if (!_buffer)
+            return 0;
+
+        size_t s = space();
+        if (len > s)
+            len = s;
+
+        memcpy(out, _buffer + _index, len);
+
+        return len;
+    }
+
     size_t DataStream::read(void *out, size_t len)
     {
         if (!_buffer)
             return 0;
 
-        if (len > _size)
-            len = _size;
+        size_t s = space();
+        if (len > s)
+            len = s;
 
         memcpy(out, _buffer + _index, len);
         _index += len;
