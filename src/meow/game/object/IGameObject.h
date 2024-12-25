@@ -67,7 +67,7 @@ namespace meow
         SpriteDescription _sprite{}; // Структура, яка описує спрайт об'єкта та його стани
 
         const char *getName() const { return _name.c_str(); }
-        int16_t getTriggerID() const { return _trigger_ID; }
+        uint8_t getTriggerID() const { return _trigger_ID; }
         bool isTriggered() const { return _is_triggered; }
         void resetTrigger() { _is_triggered = false; }
         bool isDestroyed() const { return _is_destroyed; }
