@@ -8,7 +8,9 @@ namespace meow
 
     GameServer::GameServer()
     {
-        WiFi.mode(WIFI_MODE_STA); // Виправлення помилки assert failed: tcpip_api_call (Invalid mbox)
+        // Виправлення помилки assert failed: tcpip_api_call (Invalid mbox)
+        if (WiFi.getMode() == WIFI_MODE_NULL)
+            WiFi.mode(WIFI_MODE_STA);
     }
 
     GameServer::~GameServer()
