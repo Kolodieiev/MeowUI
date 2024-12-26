@@ -64,7 +64,7 @@ void meow::UdpPacket::setCMD(Command cmd)
     _buffer[0] = cmd;
 }
 
-meow::UdpPacket::Command meow::UdpPacket::getCommand()
+meow::UdpPacket::Command meow::UdpPacket::getCMD()
 {
     return static_cast<Command>(_buffer[0]);
 }

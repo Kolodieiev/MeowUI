@@ -162,7 +162,7 @@ namespace meow
 
     void GameClient::handlePacket(UdpPacket *packet)
     {
-        switch (packet->getCommand())
+        switch (packet->getCMD())
         {
         case UdpPacket::CMD_DATA:
             callDataHandler(packet);

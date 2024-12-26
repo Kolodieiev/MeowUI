@@ -388,7 +388,7 @@ namespace meow
 
     void GameServer::handlePacket(UdpPacket *packet)
     {
-        UdpPacket::Command cmd = packet->getCommand();
+        UdpPacket::Command cmd = packet->getCMD();
         ClientWrapper *cl_wrap = findClient(packet->getRemoteIP());
 
         if (!cl_wrap)

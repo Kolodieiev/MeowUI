@@ -24,7 +24,7 @@ namespace meow
         UdpPacket(void *raw_data, size_t len);
 
         void setCMD(Command cmd);
-        Command getCommand();
+        Command getCMD();
         //
         void setData(void *data);
         const char *getData(uint16_t data_pos = 0);
