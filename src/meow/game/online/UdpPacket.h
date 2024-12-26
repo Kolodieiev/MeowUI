@@ -30,7 +30,7 @@ namespace meow
         //
         size_t dataLen() { return _size - 1; }
         //
-        void printToLog();
+        void printToLog(bool char_like = true);
         //
         IPAddress getRemoteIP() const { return _ip; }
         uint16_t getRemotePort() const { return _port; }

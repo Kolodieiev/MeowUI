@@ -85,13 +85,22 @@ const char *meow::UdpPacket::getData(uint16_t data_pos)
     return (const char *)&_buffer[1 + data_pos];
 }
 
-void meow::UdpPacket::printToLog()
+void meow::UdpPacket::printToLog(bool char_like)
 {
     log_i("Command: %d", _buffer[0]);
     log_i("Data size: %zu", _size);
     log_i("Data:");
-    for (size_t i = 1; i < _size; ++i)
-        log_i("%c", _buffer[i]);
+
+    if (char_like)
+    {
+        for (size_t i = 1; i < _size; ++i)
+            log_i("%c", _buffer[i]);
+    }
+    else
+    {
+        for (size_t i = 1; i < _size; ++i)
+            log_i("%#04x", _buffer[i]);
+    }
 }
 
 bool meow::UdpPacket::isDataEquals(const char *data, size_t start_pos, size_t data_len)
