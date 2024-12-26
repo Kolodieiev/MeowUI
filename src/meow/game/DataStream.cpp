@@ -29,16 +29,17 @@ namespace meow
         }
     }
 
-    size_t DataStream::getBytes(void *out, size_t len)
+    size_t DataStream::extractBytes(void *out, size_t start_pos, size_t len)
     {
-        if (!_buffer)
+        if (!_buffer || start_pos >= _size)
             return 0;
 
-        size_t s = space();
-        if (len > s)
-            len = s;
+        size_t available = _size - start_pos;
 
-        memcpy(out, _buffer + _index, len);
+        if (len > available)
+            len = available;
+
+        memcpy(out, _buffer + start_pos, len);
 
         return len;
     }
@@ -54,6 +55,20 @@ namespace meow
 
         memcpy(out, _buffer + _index, len);
         _index += len;
+        return len;
+    }
+
+    size_t DataStream::drop(size_t len)
+    {
+        if (!_buffer)
+            return 0;
+
+        size_t s = space();
+        if (len > s)
+            len = s;
+
+        _index += len;
+
         return len;
     }
 

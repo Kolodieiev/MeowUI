@@ -10,8 +10,9 @@ namespace meow
         DataStream(size_t size);
         ~DataStream();
         void resize(size_t size);
-        size_t getBytes(void *out, size_t len = 1);
+        size_t extractBytes(void *out, size_t start_pos = 0, size_t len = 1);
         size_t read(void *out, size_t len = 1);
+        size_t drop(size_t len = 1);
         size_t write(void *data, size_t len = 1);
         size_t write(uint8_t data);
         size_t write(uint16_t data);
