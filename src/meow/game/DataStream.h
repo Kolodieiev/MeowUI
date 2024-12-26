@@ -13,6 +13,9 @@ namespace meow
         size_t getBytes(void *out, size_t len = 1);
         size_t read(void *out, size_t len = 1);
         size_t write(void *data, size_t len = 1);
+        size_t write(uint8_t data);
+        size_t write(uint16_t data);
+        size_t write(uint32_t data);
         size_t space();
         uint8_t *raw() { return _buffer; }
         size_t length() const { return _size; }

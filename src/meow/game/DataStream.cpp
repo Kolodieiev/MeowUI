@@ -71,6 +71,21 @@ namespace meow
         return len;
     }
 
+    size_t DataStream::write(uint8_t data)
+    {
+        return write(&data, sizeof(data));
+    }
+
+    size_t DataStream::write(uint16_t data)
+    {
+        return write(&data, sizeof(data));
+    }
+
+    size_t DataStream::write(uint32_t data)
+    {
+        return write(&data, sizeof(data));
+    }
+
     size_t DataStream::space()
     {
         if (!_buffer)
