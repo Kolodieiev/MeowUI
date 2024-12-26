@@ -32,6 +32,9 @@ namespace meow
         if (_is_paused)
             return;
 
+        if (!_main_obj)
+            return;
+
         takeLock();
 
         _game_map.setCameraPos(_main_obj->_x_global, _main_obj->_y_global);
