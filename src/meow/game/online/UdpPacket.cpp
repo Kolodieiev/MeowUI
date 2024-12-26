@@ -6,7 +6,7 @@ meow::UdpPacket::UdpPacket(AsyncUDPPacket &packet) : DataStream(packet.length() 
 {
     try
     {
-        _buffer[0] = CMD_NONE;
+        _buffer[0] = CMD_DATA;
         _buffer[_size - 1] = '\0';
 
         --_size;
@@ -28,7 +28,7 @@ meow::UdpPacket::UdpPacket(size_t data_len) : DataStream(data_len + 2)
 {
     try
     {
-        _buffer[0] = CMD_NONE;
+        _buffer[0] = CMD_DATA;
         _buffer[_size - 1] = '\0';
 
         --_size; // Hide \0

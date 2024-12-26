@@ -11,10 +11,9 @@ namespace meow
     public:
         enum Command : uint8_t
         {
-            CMD_NONE = 0,
+            CMD_DATA = 0,
             CMD_HANDSHAKE,
             CMD_NAME,
-            CMD_DATA,
             CMD_BUSY,
             CMD_PING,
         };
