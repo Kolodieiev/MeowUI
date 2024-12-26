@@ -298,10 +298,7 @@ namespace meow
     void GameClient::callDataHandler(UdpPacket *packet)
     {
         if (_server_data_handler)
-        {
-            log_i("Викликаю data_handler");
             _server_data_handler(packet, _server_data_arg);
-        }
     }
 
     void GameClient::callConnectHandler()
