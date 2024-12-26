@@ -52,8 +52,14 @@ namespace meow
 
         _last_act_time = millis();
 
-        _packet_queue = xQueueCreate(PACKET_QUEUE_SIZE, sizeof(UdpPacket *));
+        _udp_mutex = xSemaphoreCreateMutex();
+        if (!_udp_mutex)
+        {
+            log_e("Не вдалося створити _udp_mutex");
+            esp_restart();
+        }
 
+        _packet_queue = xQueueCreate(PACKET_QUEUE_SIZE, sizeof(UdpPacket *));
         if (!_packet_queue)
         {
             log_e("Не вдалося створити _packet_queue");
@@ -61,7 +67,7 @@ namespace meow
         }
 
         xTaskCreatePinnedToCore(checkConnectTask, "checkConnectTask", (1024 / 2) * 4, this, 10, &_check_task_handler, 1);
-        xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 4, this, 10, &_packet_task_handler, 1);
+        xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 10, this, 10, &_packet_task_handler, 1);
 
         if (_check_task_handler == NULL)
         {
@@ -112,6 +118,9 @@ namespace meow
             _packet_queue = nullptr;
         }
 
+        if (_udp_mutex)
+            vSemaphoreDelete(_udp_mutex);
+
         _is_freed = true;
     }
 
@@ -125,7 +134,9 @@ namespace meow
             return;
         }
 
+        xSemaphoreTake(_udp_mutex, portMAX_DELAY);
         _client.writeTo(packet.raw(), packet.length(), _server_ip, SERVER_PORT);
+        xSemaphoreGive(_udp_mutex);
     }
 
     void GameClient::send(UdpPacket::Command cmd, void *data, size_t data_size)

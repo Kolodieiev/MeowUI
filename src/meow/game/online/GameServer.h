@@ -63,6 +63,7 @@ namespace meow
         TaskHandle_t _packet_task_handler = NULL;
         static QueueHandle_t _packet_queue;
         SemaphoreHandle_t _client_mutex;
+        SemaphoreHandle_t _udp_mutex;
 
         String _server_name;
         String _server_id;

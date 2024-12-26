@@ -65,10 +65,17 @@ namespace meow
         _server.listen(SERVER_PORT);
 
         _client_mutex = xSemaphoreCreateMutex();
+        _udp_mutex = xSemaphoreCreateMutex();
 
         if (!_client_mutex)
         {
             log_e("Не вдалося створити _client_mutex");
+            esp_restart();
+        }
+
+        if (!_udp_mutex)
+        {
+            log_e("Не вдалося створити _udp_mutex");
             esp_restart();
         }
 
@@ -81,7 +88,7 @@ namespace meow
         }
 
         xTaskCreatePinnedToCore(pingClientTask, "pingClientTask", (1024 / 2) * 4, this, 10, &_ping_task_handler, 1);
-        xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 4, this, 10, &_packet_task_handler, 1);
+        xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 10, this, 10, &_packet_task_handler, 1);
 
         if (_ping_task_handler == NULL)
         {
@@ -130,7 +137,10 @@ namespace meow
             _packet_task_handler = nullptr;
         }
 
-        vSemaphoreDelete(_client_mutex);
+        if (_client_mutex)
+            vSemaphoreDelete(_client_mutex);
+        if (_udp_mutex)
+            vSemaphoreDelete(_udp_mutex);
 
         if (_packet_queue)
         {
@@ -193,7 +203,9 @@ namespace meow
         if (!cl_wrap)
             return;
 
+        xSemaphoreTake(_udp_mutex, portMAX_DELAY);
         _server.writeTo(packet.raw(), packet.length(), cl_wrap->getIP(), cl_wrap->getPort());
+        xSemaphoreGive(_udp_mutex);
     }
 
     void GameServer::sendPacket(IPAddress ip, UdpPacket &packet)

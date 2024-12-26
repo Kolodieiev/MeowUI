@@ -54,6 +54,7 @@ namespace meow
         ClientStatus _status{STATUS_DISCONNECTED};
         TaskHandle_t _check_task_handler = NULL;
         TaskHandle_t _packet_task_handler = NULL;
+        SemaphoreHandle_t _udp_mutex;
         static QueueHandle_t _packet_queue;
         //
         unsigned long _last_act_time;
