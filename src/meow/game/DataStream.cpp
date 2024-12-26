@@ -29,7 +29,7 @@ namespace meow
         }
     }
 
-    size_t DataStream::extractBytes(void *out, size_t start_pos, size_t len)
+    size_t DataStream::extractBytes(void *out, size_t start_pos, size_t len) const
     {
         if (!_buffer || start_pos >= _size)
             return 0;
