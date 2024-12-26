@@ -59,7 +59,7 @@ meow::UdpPacket::UdpPacket(void *raw_data, size_t len) : DataStream(len < 2 ? 2 
     }
 }
 
-void meow::UdpPacket::setCommand(Command cmd)
+void meow::UdpPacket::setCMD(Command cmd)
 {
     _buffer[0] = cmd;
 }

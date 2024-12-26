@@ -23,7 +23,7 @@ namespace meow
         UdpPacket(size_t data_len);
         UdpPacket(void *raw_data, size_t len);
 
-        void setCommand(Command cmd);
+        void setCMD(Command cmd);
         Command getCommand();
         //
         void setData(void *data);

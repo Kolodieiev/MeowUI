@@ -129,7 +129,7 @@ namespace meow
     void GameClient::send(UdpPacket::Command cmd, void *data, size_t data_size)
     {
         UdpPacket pack(data_size);
-        pack.setCommand(cmd);
+        pack.setCMD(cmd);
         pack.setData(data);
         sendPacket(pack);
     }
@@ -141,7 +141,7 @@ namespace meow
         log_i("Розпізнавання...");
 
         UdpPacket packet(_server_id.length());
-        packet.setCommand(UdpPacket::CMD_HANDSHAKE);
+        packet.setCMD(UdpPacket::CMD_HANDSHAKE);
         packet.setData((void *)_server_id.c_str());
 
         sendPacket(packet);
@@ -152,7 +152,7 @@ namespace meow
         log_i("Авторизація...");
 
         UdpPacket packet(_name.length());
-        packet.setCommand(UdpPacket::CMD_NAME);
+        packet.setCMD(UdpPacket::CMD_NAME);
         packet.setData((void *)_name.c_str());
 
         sendPacket(packet);
@@ -260,7 +260,7 @@ namespace meow
         _last_act_time = millis();
 
         UdpPacket packet(1);
-        packet.setCommand(UdpPacket::CMD_PING);
+        packet.setCMD(UdpPacket::CMD_PING);
 
         sendPacket(packet);
     }

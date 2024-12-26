@@ -181,7 +181,7 @@ namespace meow
     void GameServer::sendBroadcast(UdpPacket::Command cmd, void *data, size_t data_size)
     {
         UdpPacket pack(data_size);
-        pack.setCommand(cmd);
+        pack.setCMD(cmd);
         pack.setData(data);
         sendBroadcast(pack);
     }
@@ -203,7 +203,7 @@ namespace meow
     void GameServer::send(IPAddress ip, UdpPacket::Command cmd, void *data, size_t data_size)
     {
         UdpPacket pack(data_size);
-        pack.setCommand(cmd);
+        pack.setCMD(cmd);
         pack.setData(data);
         sendPacket(ip, pack);
     }
@@ -312,7 +312,7 @@ namespace meow
             log_i("Відхилено");
 
         UdpPacket packet(1);
-        packet.setCommand(UdpPacket::CMD_NAME);
+        packet.setCMD(UdpPacket::CMD_NAME);
         packet.setData(&resp);
 
         sendPacket(cl_wrap, packet);
@@ -324,7 +324,7 @@ namespace meow
 
         uint8_t data = 1;
         UdpPacket packet(1);
-        packet.setCommand(UdpPacket::CMD_BUSY);
+        packet.setCMD(UdpPacket::CMD_BUSY);
         packet.setData(&data);
 
         sendPacket(cl_wrap, packet);
@@ -343,7 +343,7 @@ namespace meow
             result = 1;
 
         UdpPacket resp_msg{1};
-        resp_msg.setCommand(UdpPacket::CMD_HANDSHAKE);
+        resp_msg.setCMD(UdpPacket::CMD_HANDSHAKE);
         resp_msg.setData(&result);
         _server.writeTo(resp_msg.raw(), resp_msg.length(), packet->getRemoteIP(), packet->getRemotePort());
     }
@@ -471,7 +471,7 @@ namespace meow
         xSemaphoreTake(_client_mutex, portMAX_DELAY);
 
         UdpPacket ping(1);
-        ping.setCommand(UdpPacket::CMD_PING);
+        ping.setCMD(UdpPacket::CMD_PING);
 
         for (auto it = _clients.begin(), last_it = _clients.end(); it != last_it; ++it)
         {
