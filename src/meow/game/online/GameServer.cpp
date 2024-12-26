@@ -469,12 +469,15 @@ namespace meow
             return;
         }
 
-        UdpPacket *pack = new UdpPacket(packet);
-
-        if (!xQueueSend(_packet_queue, &pack, portMAX_DELAY) == pdPASS)
+        if (_packet_queue)
         {
-            log_e("Черга _packet_queue переповнена");
-            delete pack;
+            UdpPacket *pack = new UdpPacket(packet);
+
+            if (!xQueueSend(_packet_queue, &pack, portMAX_DELAY) == pdPASS)
+            {
+                log_e("Черга _packet_queue переповнена");
+                delete pack;
+            }
         }
     }
 
