@@ -145,7 +145,7 @@ namespace meow
         while (_must_work)
         {
             _server->handleClient();
-            vTaskDelay(1);
+            taskYIELD();
         }
 
         _is_working = false;
@@ -210,7 +210,7 @@ namespace meow
                     html += "</a>";
                 }
                 file.close();
-                vTaskDelay(1);
+                taskYIELD();
             }
             html += FOOT_HTML;
             _server->sendHeader("Cache-Control", "no-cache");
@@ -269,7 +269,7 @@ namespace meow
             if (input_file)
             {
                 input_file.write(uploadfile.buf, uploadfile.currentSize);
-                vTaskDelay(1);
+                taskYIELD();
             }
         }
         else if (uploadfile.status == UPLOAD_FILE_END || uploadfile.status == UPLOAD_FILE_ABORTED)
