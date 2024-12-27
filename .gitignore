@@ -15,3 +15,7 @@
 !lib/
 !lib/TFT_eSPI/
 !lib/TFT_eSPI/**
+
+!include/
+!include/meowui_setup/
+!include/meowui_setup/**
