@@ -38,7 +38,10 @@ namespace meow
                 std::vector<MenuItem *> temp_vec = _loader->loadPrev(getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID());
                 if (!temp_vec.empty())
                 {
+                    xSemaphoreGive(_widg_mutex);
                     deleteWidgets();
+                    xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
                     _widgets.reserve(temp_vec.size());
                     for (uint16_t i{0}; i < temp_vec.size(); ++i)
                         _widgets.push_back(temp_vec[i]);
@@ -91,7 +94,10 @@ namespace meow
                 std::vector<MenuItem *> temp_vec = _loader->loadNext(getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID());
                 if (!temp_vec.empty())
                 {
+                    xSemaphoreGive(_widg_mutex);
                     deleteWidgets();
+                    xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+
                     _widgets.reserve(temp_vec.size());
                     for (uint16_t i{0}; i < temp_vec.size(); ++i)
                         _widgets.push_back(temp_vec[i]);
