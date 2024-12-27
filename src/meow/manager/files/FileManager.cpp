@@ -1,7 +1,9 @@
 #pragma GCC optimize("O3")
 #include "./FileManager.h"
 #include <SD.h>
-#include <dirent.h>
+#include <sys/stat.h>
+#include <cstring>
+#include <errno.h>
 
 #include "../sd/SD_Manager.h"
 #include "FileManager.h"
@@ -12,6 +14,7 @@ namespace meow
     const char STR_TEMP_EXT[] = "_tmp";
     const char STR_DB_EXT[] = ".ldb";
     const char STR_DELIMITER[] = "|";
+    const char MOUNT_POINT[] = "/sd";
 
     bool FileManager::hasConnection()
     {
@@ -148,7 +151,11 @@ namespace meow
         if (!is_dir)
             result = rmFile(_rm_path.c_str());
         else
-            result = rmDir(_rm_path.c_str());
+        {
+            String full_path = MOUNT_POINT;
+            full_path += _rm_path;
+            result = rmDir(full_path.c_str());
+        }
 
         if (!result)
             log_e("Помилка видалення: %s", _rm_path.c_str());
@@ -178,46 +185,88 @@ namespace meow
         return result;
     }
 
+    uint8_t FileManager::getEntryType(const char *path, dirent *entry)
+    {
+        if (entry->d_type != DT_UNKNOWN)
+            return entry->d_type;
+        else
+        {
+            // Якщо тип невідомий, уточнюємо через stat
+            String full_path = path;
+            full_path += "/";
+            full_path += entry->d_name;
+
+            struct stat st;
+            if (stat(full_path.c_str(), &st) == 0)
+            {
+                if (S_ISREG(st.st_mode))
+                    return DT_REG;
+                else if (S_ISDIR(st.st_mode))
+                    return DT_DIR;
+            }
+
+            return DT_UNKNOWN;
+        }
+    }
+
     bool FileManager::rmDir(const char *path)
     {
-        File root = SD.open(path);
-        bool result = true;
+        errno = 0;
+        bool result = false;
 
-        bool is_dir;
-        String file_name;
+        DIR *dir = opendir(path);
+        dirent *dir_entry{nullptr};
+
+        if (!dir)
+            goto exit;
 
         while (!_is_canceled)
         {
-            file_name = root.getNextFileName(&is_dir).c_str();
-
-            if (file_name.isEmpty())
+            dir_entry = readdir(dir);
+            if (!dir_entry)
+            {
+                if (!errno)
+                    result = true;
                 break;
-
-            if (!is_dir)
-            {
-                result = rmFile(file_name.c_str());
-                if (!result)
-                    goto exit;
             }
-            else
-            {
-                result = rmDir(file_name.c_str());
 
-                if (!result)
+            if (std::strcmp(dir_entry->d_name, ".") != 0 && std::strcmp(dir_entry->d_name, "..") != 0)
+            {
+                uint8_t entr_type = getEntryType(path, dir_entry);
+
+                if (entr_type == DT_REG)
                 {
-                    log_e("Помилка видалення каталога: %s", file_name.c_str());
+                    result = rmFile(dir_entry->d_name);
+                    if (!result)
+                        goto exit;
+                }
+                else if (entr_type == DT_DIR)
+                {
+                    result = rmDir(dir_entry->d_name);
+
+                    if (!result)
+                        goto exit;
+                }
+                else
+                {
+                    log_e("Невідомий тип або не вдалося прочитати: %s", path);
                     goto exit;
                 }
             }
 
-            vTaskDelay(1);
+            taskYIELD();
         }
 
     exit:
-        root.close();
+        closedir(dir);
 
-        if (!_is_canceled && result)
-            result = SD.rmdir(path);
+        if (result)
+        {
+            if (!_is_canceled)
+                result = SD.rmdir(path);
+        }
+        else
+            log_e("Помилка під час видалення: %s", path);
 
         return result;
     }
@@ -377,7 +426,7 @@ namespace meow
             if (cycles_counter > 10)
             {
                 cycles_counter = 0;
-                vTaskDelay(1);
+                taskYIELD();
             }
             ++cycles_counter;
         }
@@ -431,15 +480,15 @@ namespace meow
 
     void FileManager::index()
     {
+        // TODO переписати чи хай буде?
         String tmp_db_path = _db_path;
         tmp_db_path += STR_TEMP_EXT;
 
-        bool tmp_exist = fileExist(tmp_db_path.c_str(), true);
-
-        if (tmp_exist)
+        if (fileExist(tmp_db_path.c_str(), true))
         {
             if (!rmFile(tmp_db_path.c_str()))
             {
+                log_e("Файл заблоковано %s", tmp_db_path);
                 doFinish();
                 return;
             }
@@ -454,7 +503,15 @@ namespace meow
             return;
         }
 
-        File dir = SD.open(_dir_path);
+        DIR *dir = opendir(_dir_path.c_str());
+        dirent *dir_entry{nullptr};
+
+        if (!dir)
+        {
+            log_e("Помилка відкриття директорії %s", _dir_path.c_str());
+            doFinish();
+            return;
+        }
 
         String file_name;
         uint16_t counter{0};
@@ -462,10 +519,25 @@ namespace meow
         bool is_dir;
         while (!_is_canceled)
         {
-            file_name = basename(dir.getNextFileName(&is_dir).c_str());
-
-            if (file_name.isEmpty())
+            dir_entry = readdir(dir);
+            if (!dir_entry)
                 break;
+
+            if (std::strcmp(dir_entry->d_name, ".") != 0 && std::strcmp(dir_entry->d_name, "..") != 0)
+            {
+                uint8_t entr_type = getEntryType(_dir_path.c_str(), dir_entry);
+
+                if (entr_type == DT_REG)
+                    is_dir = false;
+                else if (entr_type == DT_DIR)
+                    is_dir = true;
+                else
+                    continue;
+            }
+            else
+                continue;
+
+            file_name = dir_entry->d_name;
 
             switch (_index_mode)
             {
@@ -494,7 +566,6 @@ namespace meow
                 }
                 break;
             case INDX_MODE_ALL:
-
                 if (is_dir)
                     file_name = STR_DIR_PREFIX + file_name;
                 else if (file_name.endsWith(STR_TEMP_EXT) || file_name.endsWith(STR_DB_EXT))
@@ -507,10 +578,10 @@ namespace meow
                 break;
             }
 
-            vTaskDelay(1 / portTICK_PERIOD_MS);
+            taskYIELD();
         }
 
-        dir.close();
+        closedir(dir);
         tmp_db.close();
 
         if (!_is_canceled)
@@ -540,7 +611,7 @@ namespace meow
                 {
                     bytes_read = tmp_db.read(buffer, buf_size);
                     db.write(buffer, bytes_read);
-                    vTaskDelay(1);
+                    taskYIELD();
                 }
 
                 db.close();
@@ -569,9 +640,10 @@ namespace meow
             return false;
 
         _index_mode = mode;
-        _dir_path = dir_path;
+        _dir_path = MOUNT_POINT;
+        _dir_path += dir_path;
         _db_path = db_path;
-        _task_finished_callback = on_finish;
+        _task_finished_callback = on_finish; // TODO Додати аргумент для виклику через this
 
         _is_canceled = false;
         _is_successfully = false;

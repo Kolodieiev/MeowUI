@@ -2,6 +2,7 @@
 #pragma GCC optimize("O3")
 #include <Arduino.h>
 #include <vector>
+#include <dirent.h>
 
 namespace meow
 {
@@ -85,5 +86,7 @@ namespace meow
         static void indexTask(void *params);
         //
         void doFinish();
+        //
+        uint8_t getEntryType(const char *path, dirent *entry);
     };
 }
