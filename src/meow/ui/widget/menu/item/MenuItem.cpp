@@ -34,7 +34,8 @@ namespace meow
 
         _is_changed = false;
 
-        clear();
+        if (!_is_transparent)
+            clear();
 
         uint8_t img_width{0};
 
@@ -121,5 +122,6 @@ namespace meow
         _label->setChangingBack(_need_change_back);
         _label->setChangingBorder(false);
         _label->setGravity(GRAVITY_CENTER);
+        _label->setTransparency(_is_transparent);
     }
 }

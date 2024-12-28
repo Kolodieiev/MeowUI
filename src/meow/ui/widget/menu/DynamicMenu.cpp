@@ -141,6 +141,7 @@ namespace meow
             clone->_item_height = _item_height;
             clone->_item_width = _item_width;
             clone->_items_spacing = _items_spacing;
+            clone->_is_transparent = _is_transparent;
 
             for (const auto &widget_ptr : _widgets)
             {

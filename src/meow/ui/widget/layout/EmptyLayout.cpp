@@ -24,12 +24,14 @@ namespace meow
 
             if (_visibility == INVISIBLE)
             {
-                hide();
+                if (!_is_transparent)
+                    hide();
                 xSemaphoreGive(_widg_mutex);
                 return;
             }
 
-            clear();
+            if (!_is_transparent)
+                clear();
 
             for (uint16_t i{0}; i < _widgets.size(); ++i)
                 _widgets[i]->forcedDraw();
@@ -53,6 +55,7 @@ namespace meow
             clone->_back_color = _back_color;
             clone->_border_color = _border_color;
             clone->_corner_radius = _corner_radius;
+            clone->_is_transparent = _is_transparent;
 
             for (const auto &widget_ptr : _widgets)
             {

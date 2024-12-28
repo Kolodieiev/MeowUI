@@ -465,14 +465,16 @@ namespace meow
 
         if (_visibility == INVISIBLE)
         {
-            hide();
+            if (!_is_transparent)
+                hide();
             return;
         }
 
         if (_temp_is_ticker_in_focus && !_has_focus)
             _first_draw_char_pos = 0;
 
-        clear();
+        if (!_is_transparent)
+            clear();
 
         if (_temp_width != 0)
         {

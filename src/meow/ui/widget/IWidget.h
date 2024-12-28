@@ -221,13 +221,26 @@ namespace meow
          * @return
          *      true у разі, якщо віджет являється контейнером для інших віджетів, інакше false.
          */
-        bool isContainer()const {return _is_container;}
+        bool isContainer() const { return _is_container; }
+
+        /**
+         * @brief Встановити прозорість віджета.
+         *
+         * @param state
+         * true - фон віджета повністю прозорий. Необхідно самостійно перемальовувати зображення під віджетом.
+         * false - повністю непрозорий.
+         */
+        void setTransparency(bool state) { _is_transparent = state; }
+
+        /// @return Стан прапору, який вказує, чи є віджет прозорим.
+        bool isTransparent() const { return _is_transparent; }
 
     protected:
         uint16_t _id{0};
         bool _is_container{false};
         bool _is_changed{true};
         bool _has_border{false};
+        bool _is_transparent{false};
 
         uint16_t _x_pos{0};
         uint16_t _y_pos{0};

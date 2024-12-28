@@ -25,6 +25,7 @@ namespace meow
             clone->_corner_radius = _corner_radius;
             clone->_btn_height = _btn_height;
             clone->_btn_width = _btn_width;
+            clone->_is_transparent = _is_transparent;
 
             for (const auto &widget_ptr : _widgets)
             {
@@ -152,12 +153,14 @@ namespace meow
 
             if (_visibility == INVISIBLE)
             {
-                hide();
+                if (!_is_transparent)
+                    hide();
                 xSemaphoreGive(_widg_mutex);
                 return;
             }
 
-            clear();
+            if (!_is_transparent)
+                clear();
 
             if (_widgets.empty())
             {

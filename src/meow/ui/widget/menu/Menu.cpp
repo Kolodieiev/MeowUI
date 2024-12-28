@@ -67,14 +67,16 @@ namespace meow
 
             if (_visibility == INVISIBLE)
             {
-                hide();
+                if (!_is_transparent)
+                    hide();
                 xSemaphoreGive(_widg_mutex);
                 return;
             }
 
             if (_widgets.size() == 0)
             {
-                clear();
+                if (!_is_transparent)
+                    clear();
                 xSemaphoreGive(_widg_mutex);
                 return;
             }
@@ -97,7 +99,8 @@ namespace meow
 
     void Menu::drawItems(uint16_t start, uint16_t count)
     {
-        clear();
+        if (!_is_transparent)
+            clear();
 
         if (_widgets.size() == 0)
             return;

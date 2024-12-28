@@ -27,6 +27,8 @@ namespace meow
         void setWidgets(IWidget *start, IWidget *middle, IWidget *last);
 
     private:
+        using IWidget::isTransparent;
+        using IWidget::setTransparency;
         IWidget *_first{nullptr};
         IWidget *_middle{nullptr};
         IWidget *_last{nullptr};

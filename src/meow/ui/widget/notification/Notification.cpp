@@ -51,7 +51,8 @@ namespace meow
         if (_is_hidden)
             return;
 
-        clear();
+        if (!_is_transparent)
+            clear();
 
         _title_lbl->setWidth(_width - 4);
         _msg_lbl->setWidth(_width - 4);

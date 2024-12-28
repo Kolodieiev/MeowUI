@@ -81,6 +81,9 @@ namespace meow
         uint16_t getMax() const { return _max_value; }
 
     private:
+        using IWidget::isTransparent;
+        using IWidget::setTransparency;
+
         uint16_t _max_value{1};
         uint16_t _cur_value{0};
 

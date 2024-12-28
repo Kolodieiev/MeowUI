@@ -9,7 +9,7 @@ namespace meow
     {
     public:
         ToggleSwitch(uint16_t widget_ID, GraphicsDriver &display) : IWidget(widget_ID, display) {}
-        virtual ~ToggleSwitch(){};
+        virtual ~ToggleSwitch() {};
         virtual void onDraw() override;
         virtual ToggleSwitch *clone(uint16_t id) const override;
 
@@ -85,7 +85,9 @@ namespace meow
 
     private:
         using IWidget::getBackColor;
+        using IWidget::isTransparent;
         using IWidget::setBackColor;
+        using IWidget::setTransparency;
 
         Orientation _orientation{ORIENTATION_HORIZONTAL};
         bool _is_on{false};

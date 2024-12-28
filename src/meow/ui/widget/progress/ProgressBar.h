@@ -68,6 +68,9 @@ namespace meow
         uint16_t getMax() const { return _max; }
 
     private:
+        using IWidget::isTransparent;
+        using IWidget::setTransparency;
+        
         uint16_t _progress{1};
         uint16_t _max{1};
         uint16_t _progress_color{0xFFFF};

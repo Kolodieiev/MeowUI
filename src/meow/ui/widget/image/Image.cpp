@@ -25,14 +25,14 @@ namespace meow
             clone->_border_color = _border_color;
             clone->_corner_radius = _corner_radius;
             clone->_is_transparent = _is_transparent;
-            clone->_transparent_color = _transparent_color;
             clone->_img_ptr = _img_ptr;
             clone->_img_buf = TFT_eSprite(_display.getTFT());
             clone->_img_buf.setSwapBytes(true);
             clone->_img_buf.setColorDepth(16);
             clone->_img_buf.setAttribute(PSRAM_ENABLE, true);
             clone->_img_buf.createSprite(_width, _height, 1);
-            clone->_skip_clear = _skip_clear;
+            clone->_has_transp_color = _has_transp_color;
+            clone->_transparent_color = _transparent_color;
 
             if (!clone->_img_buf.getPointer())
             {
@@ -97,11 +97,12 @@ namespace meow
 
         if (_visibility == INVISIBLE)
         {
-            hide();
+            if (!_is_transparent)
+                hide();
             return;
         }
 
-        if (!_skip_clear)
+        if (!_is_transparent)
             clear();
 
         uint16_t x_offset{0};
@@ -115,7 +116,7 @@ namespace meow
 
         if (_img_ptr != nullptr)
         {
-            if (!_is_transparent)
+            if (!_has_transp_color)
                 _display.pushSprite(_img_buf, _x_pos + x_offset, _y_pos + y_offset);
             else
                 _display.pushSprite(_img_buf, _x_pos + x_offset, _y_pos + y_offset, _transparent_color);
@@ -160,11 +161,13 @@ namespace meow
 
         if (_visibility == INVISIBLE)
         {
-            hide();
+            if (!_is_transparent)
+                hide();
             return;
         }
 
-        clear();
+        if (!_is_transparent)
+            clear();
 
         uint16_t x_offset{0};
         uint16_t y_offset{0};
@@ -177,7 +180,7 @@ namespace meow
 
         if (_img_ptr != nullptr)
         {
-            if (!_is_transparent)
+            if (!_has_transp_color)
                 _display.pushImage(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _img_ptr);
             else
                 _display.pushImage(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _img_ptr, _transparent_color);

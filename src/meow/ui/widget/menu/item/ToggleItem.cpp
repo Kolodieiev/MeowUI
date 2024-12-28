@@ -25,7 +25,8 @@ namespace meow
 
         _is_changed = false;
 
-        clear();
+        if (!_is_transparent)
+            clear();
 
         uint8_t img_width{0};
         uint8_t toggle_width{0};
