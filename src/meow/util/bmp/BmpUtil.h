@@ -1,4 +1,5 @@
 #pragma once
+#pragma GCC optimize("O3")
 #include <Arduino.h>
 #include "./src_not_found.h"
 #include "./BmpHeader.h"
@@ -6,7 +7,6 @@
 
 namespace meow
 {
-
     class BmpUtil
     {
 
@@ -21,5 +21,4 @@ namespace meow
         bool validateHeader(const BmpHeader &bmp_header);
         BmpData srcNotFound();
     };
-
 }

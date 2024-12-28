@@ -1,3 +1,4 @@
+#pragma GCC optimize("O3")
 #include "WavUtil.h"
 namespace meow
 {
