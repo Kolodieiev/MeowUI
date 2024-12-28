@@ -20,9 +20,9 @@ namespace meow
             _spi_map.insert({bus_num, spi});
             return true;
         }
-        catch (const std::bad_alloc &ignored)
+        catch (const std::bad_alloc &e)
         {
-            log_e("Bad alloc error");
+            log_e("%s", e.what());
             return false;
         }
     }
