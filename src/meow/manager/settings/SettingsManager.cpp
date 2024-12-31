@@ -1,5 +1,4 @@
 #include "SettingsManager.h"
-#include <SD.h>
 #include "../sd/SD_Manager.h"
 
 namespace meow
@@ -10,6 +9,7 @@ namespace meow
     bool SettingsManager::set(const char *pref_name, const char *value)
     {
         String path = getPrefFilePath(pref_name);
+
         if (path.isEmpty())
             return false;
 
@@ -19,6 +19,7 @@ namespace meow
     String SettingsManager::get(const char *pref_name)
     {
         String path = getPrefFilePath(pref_name);
+
         if (path.isEmpty())
             return "";
 
@@ -50,11 +51,17 @@ namespace meow
     {
         if (!dirExist(DATA_ROOT))
             if (!createDir(DATA_ROOT))
+            {
+                log_e("Помилка створення %s", DATA_ROOT);
                 return "";
+            }
 
         if (!dirExist(PREF_ROOT))
             if (!createDir(PREF_ROOT))
+            {
+                log_e("Помилка створення %s", PREF_ROOT);
                 return "";
+            }
 
         String path = PREF_ROOT;
         path += "/";

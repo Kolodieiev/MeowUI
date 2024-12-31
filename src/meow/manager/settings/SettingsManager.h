@@ -7,7 +7,7 @@ namespace meow
     class SettingsManager : private FileManager
     {
     public:
-        using FileManager::hasConnection;
+        using FileManager::isSdMounted;
         bool set(const char *pref_name, const char *value);
         String get(const char *pref_name);
         String getPrefFilePath(const char *pref_name);
