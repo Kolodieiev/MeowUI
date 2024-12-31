@@ -350,7 +350,6 @@ private:
     bool m_f_loop = false;             // Set if audio file should loop
     bool m_f_forceMono = false;        // if true stereo -> mono
     bool m_f_internalDAC = false;      // false: output vis I2S, true output via internal DAC
-    bool m_f_psramFound = false;       // set in constructor, result of psramInit()
     uint8_t m_f_channelEnabled = 3;    // internal DAC, both channels
     uint32_t m_audioFileDuration = 0;
     float m_audioCurrentTime = 0;

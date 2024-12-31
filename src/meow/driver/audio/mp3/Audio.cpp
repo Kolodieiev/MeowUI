@@ -186,8 +186,7 @@ Audio::Audio(bool internalDAC /* = false */, uint8_t channelEnabled /* = I2S_SLO
 #define __malloc_heap_psram(size) \
     heap_caps_malloc_prefer(size, 2, MALLOC_CAP_DEFAULT | MALLOC_CAP_SPIRAM, MALLOC_CAP_DEFAULT | MALLOC_CAP_INTERNAL)
 
-    m_f_psramFound = psramInit();
-    if(m_f_psramFound) m_ibuffSize = 4096; else m_ibuffSize = 512 + 64;
+    if(psramInit()) m_ibuffSize = 4096; else m_ibuffSize = 512 + 64;
     m_outBuff = (int16_t*)__malloc_heap_psram(m_outbuffSize);
 
     if(!m_outBuff) 
