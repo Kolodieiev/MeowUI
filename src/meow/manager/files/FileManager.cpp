@@ -287,7 +287,8 @@ namespace meow
         String full_path;
         makeFullPath(full_path, _rm_path.c_str());
 
-        bool is_dir = dirExist(_rm_path.c_str());
+        bool is_dir = dirExist(_rm_path.c_str(), true);
+
         if (!is_dir)
             result = rmFile(full_path.c_str());
         else
@@ -386,7 +387,7 @@ namespace meow
 
     bool FileManager::startRemoving(const char *path)
     {
-        if (_task_handler != NULL)
+        if (_task_handler)
         {
             log_e("Вже працює інша задача");
             return false;
@@ -402,7 +403,7 @@ namespace meow
         if (result == pdPASS)
         {
             _is_working = true;
-            log_i("rmTask is working now. Path %s", path);
+            log_i("rmTask is working now");
             return true;
         }
         else
@@ -545,7 +546,7 @@ namespace meow
             return false;
         }
 
-        if (_task_handler != NULL)
+        if (_task_handler)
         {
             log_e("Вже працює інша задача");
             return false;
@@ -677,8 +678,9 @@ namespace meow
 
         if (_task_handler)
         {
-            vTaskDelete(_task_handler);
-            _task_handler = NULL;
+            TaskHandle_t temp_handler = _task_handler;
+            _task_handler = nullptr;
+            vTaskDelete(temp_handler);
         }
     }
 
