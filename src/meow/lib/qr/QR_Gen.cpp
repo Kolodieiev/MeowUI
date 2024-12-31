@@ -27,7 +27,7 @@ uint16_t *QR_Gen::generateQR(const char *str, uint8_t pixel_prescaller, uint16_t
 
     uint16_t *result_image;
 
-    if (psramFound() && psramInit())
+    if (psramInit())
     {
         result_image = (uint16_t *)ps_malloc(num_pixels * sizeof(uint16_t));
         _in_psram = true;
