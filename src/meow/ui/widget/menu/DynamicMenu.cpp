@@ -4,7 +4,7 @@
 
 namespace meow
 {
-    DynamicMenu::DynamicMenu(IItemsLoader *loader, uint16_t widget_ID, GraphicsDriver &display) : Menu(widget_ID, display), _loader{loader} {}
+    DynamicMenu::DynamicMenu(uint16_t widget_ID, GraphicsDriver &display) : Menu(widget_ID, display) {}
 
     bool DynamicMenu::focusUp()
     {
@@ -33,9 +33,11 @@ namespace meow
                 xSemaphoreGive(_widg_mutex);
                 return true;
             }
-            else
+            else if (_prev_items_load_handler)
             {
-                std::vector<MenuItem *> temp_vec = _loader->loadPrev(getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID());
+                std::vector<MenuItem *> temp_vec;
+                _prev_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _prev_items_load_arg);
+
                 if (!temp_vec.empty())
                 {
                     xSemaphoreGive(_widg_mutex);
@@ -89,9 +91,11 @@ namespace meow
                 xSemaphoreGive(_widg_mutex);
                 return true;
             }
-            else
+            else if (_next_items_load_handler)
             {
-                std::vector<MenuItem *> temp_vec = _loader->loadNext(getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID());
+                std::vector<MenuItem *> temp_vec;
+                _next_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _next_items_load_arg);
+
                 if (!temp_vec.empty())
                 {
                     xSemaphoreGive(_widg_mutex);
@@ -128,7 +132,7 @@ namespace meow
 
         try
         {
-            DynamicMenu *clone = new DynamicMenu(_loader, id, IWidgetContainer::_display);
+            DynamicMenu *clone = new DynamicMenu(id, IWidgetContainer::_display);
 
             clone->_has_border = _has_border;
             clone->_x_pos = _x_pos;
