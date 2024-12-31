@@ -1,69 +1,66 @@
 #pragma GCC optimize("O3")
 #include "BmpUtil.h"
-#include <SD.h>
+#include "../../manager/files/FileManager.h"
 
 namespace meow
 {
     BmpData BmpUtil::loadBmp(const char *path_to_bmp)
     {
-        File bmp_file = SD.open(path_to_bmp, "r");
-        if (!bmp_file)
-        {
-            log_e("Помилка читання файлу: %s", path_to_bmp);
-            return srcNotFound();
-        }
+        FileManager f_mgr;
 
-        if (bmp_file.isDirectory())
-        {
-            bmp_file.close();
-            log_e("Помилка. Файл не може бути каталогом: %s", path_to_bmp);
+        if (!f_mgr.fileExist(path_to_bmp))
             return srcNotFound();
-        }
+
+        FILE *f = f_mgr.getFileDescriptor(path_to_bmp, "r");
+
+        if (!f)
+            return srcNotFound();
 
         BmpHeader bmp_header;
-        bmp_file.read((uint8_t *)&bmp_header, 54);
+
+        size_t read = f_mgr.readFromFile(f, &bmp_header, BMP_HEADER_SIZE);
+
         if (!validateHeader(bmp_header))
         {
-            bmp_file.close();
+            f_mgr.closeFile(f);
             log_e("Помилка валідації файлу: %s", path_to_bmp);
             return srcNotFound();
         }
 
-        if (!psramFound() || !psramInit())
+        if (!psramInit())
         {
-            bmp_file.close();
+            f_mgr.closeFile(f);
             log_e("Помилка ініціалізації PSRAM");
             return srcNotFound();
         }
         //
         bool is_flipped = bmp_header.height > 0;
-        int32_t height = std::abs(bmp_header.height);
-        bmp_header.height = height;
-        int32_t width = bmp_header.width;
+
+        uint16_t width = static_cast<uint16_t>(bmp_header.width);
+        uint16_t height = static_cast<uint16_t>(std::abs(bmp_header.height));
+
         //
-        uint32_t data_size = width * height * 2;
+        size_t data_size = static_cast<size_t>(width * height * 2);
         //
         uint8_t *data = (uint8_t *)ps_malloc(data_size);
         if (!data)
         {
-            bmp_file.close();
-            log_e("Помилка виділення %lu байт PSRAM памяті", data_size);
+            f_mgr.closeFile(f);
+            log_e("Помилка виділення %zu байт PSRAM", data_size);
             return srcNotFound();
         }
 
-        bmp_file.seek(bmp_header.data_offset);
-
-        size_t bytes_read = bmp_file.read(data, data_size);
+        size_t bytes_read = f_mgr.readFromFile(f, data, data_size, bmp_header.data_offset);
 
         if (bytes_read != data_size)
         {
             log_e("Помилка читання файлу: %s", path_to_bmp);
             free(data);
-            bmp_file.close();
+            f_mgr.closeFile(f);
             return srcNotFound();
         }
 
-        bmp_file.close();
+        f_mgr.closeFile(f);
 
         uint16_t *data_temp = (uint16_t *)data;
 
@@ -72,7 +69,7 @@ namespace meow
             uint16_t temp;
             uint32_t d_size = width * height;
 
-            for (uint32_t i = 0; i < d_size * 0.5; ++i)
+            for (uint32_t i = 0; i < d_size / 2; ++i)
             {
                 temp = data_temp[i];
                 data_temp[i] = data_temp[d_size - i - 1];
@@ -93,9 +90,8 @@ namespace meow
         }
 
         BmpData bmp_data;
-
-        bmp_data.width = bmp_header.width;
-        bmp_data.height = bmp_header.height;
+        bmp_data.width = width;
+        bmp_data.height = height;
         bmp_data.is_loaded = true;
         bmp_data.data_ptr = (uint16_t *)data;
 
@@ -136,20 +132,6 @@ namespace meow
 
     bool BmpUtil::saveBmp(BmpHeader &header, const uint16_t *buff, const char *path_to_bmp)
     {
-        File bmp_file = SD.open(path_to_bmp, "w", true);
-        if (!bmp_file)
-        {
-            log_e("Помилка відкриття файлу: %s", path_to_bmp);
-            return false;
-        }
-
-        if (bmp_file.isDirectory())
-        {
-            bmp_file.close();
-            log_e("Помилка. Файл не може бути каталогом: %s", path_to_bmp);
-            return false;
-        }
-
         header.image_size = header.width * header.height * 2;
         header.file_size = header.data_offset + header.image_size;
         uint32_t buf_size = header.width * header.height;
@@ -158,8 +140,7 @@ namespace meow
         uint8_t *data = (uint8_t *)ps_malloc(header.file_size);
         if (!data)
         {
-            bmp_file.close();
-            log_e("Помилка виділення %lu байт PSRAM памяті", header.file_size);
+            log_e("Помилка виділення %lu байт PSRAM", header.file_size);
             return false;
         }
 
@@ -170,18 +151,12 @@ namespace meow
         uint16_t *data_p16 = reinterpret_cast<uint16_t *>(data + header.data_offset);
         for (int i = 0; i < buf_size; ++i)
             data_p16[i] = __bswap16(buff[i]);
+        //
+        FileManager f_mgr;
+        size_t written_bytes = f_mgr.writeFile(path_to_bmp, data, header.file_size);
 
-        size_t written_bytes = bmp_file.write(data, header.file_size);
-
-        bmp_file.close();
         free(data);
 
-        if (written_bytes != header.file_size)
-        {
-            log_e("Помилка запису файлу: %s", path_to_bmp);
-            return false;
-        }
-        else
-            return true;
+        return written_bytes == header.file_size;
     }
 }

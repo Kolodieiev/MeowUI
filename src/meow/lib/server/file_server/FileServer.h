@@ -43,7 +43,7 @@ namespace meow
         WebServer *_server = nullptr;
         bool _must_work = false;
 
-        FileManager _file_mngr;
+        FileManager _f_mngr;
 
         static void startWebServer(void *params);
         void fileServerTask(void *params);
