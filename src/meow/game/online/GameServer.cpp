@@ -138,9 +138,16 @@ namespace meow
         }
 
         if (_client_mutex)
+        {
             vSemaphoreDelete(_client_mutex);
+            _client_mutex = nullptr;
+        }
+
         if (_udp_mutex)
+        {
             vSemaphoreDelete(_udp_mutex);
+            _udp_mutex = nullptr;
+        }
 
         if (_packet_queue)
         {

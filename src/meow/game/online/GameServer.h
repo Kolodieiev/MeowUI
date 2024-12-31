@@ -59,11 +59,11 @@ namespace meow
         uint8_t _max_connection;
         uint8_t _cur_clients_size{0};
 
-        TaskHandle_t _ping_task_handler = NULL;
-        TaskHandle_t _packet_task_handler = NULL;
+        TaskHandle_t _ping_task_handler{nullptr};
+        TaskHandle_t _packet_task_handler{nullptr};
         static QueueHandle_t _packet_queue;
-        SemaphoreHandle_t _client_mutex;
-        SemaphoreHandle_t _udp_mutex;
+        SemaphoreHandle_t _client_mutex{nullptr};
+        SemaphoreHandle_t _udp_mutex{nullptr};
 
         String _server_name;
         String _server_id;

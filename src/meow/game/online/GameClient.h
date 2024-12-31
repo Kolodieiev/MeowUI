@@ -52,9 +52,9 @@ namespace meow
         IPAddress _server_ip;
         AsyncUDP _client;
         ClientStatus _status{STATUS_DISCONNECTED};
-        TaskHandle_t _check_task_handler = NULL;
-        TaskHandle_t _packet_task_handler = NULL;
-        SemaphoreHandle_t _udp_mutex;
+        TaskHandle_t _check_task_handler{nullptr};
+        TaskHandle_t _packet_task_handler{nullptr};
+        SemaphoreHandle_t _udp_mutex{nullptr};
         static QueueHandle_t _packet_queue;
         //
         unsigned long _last_act_time;

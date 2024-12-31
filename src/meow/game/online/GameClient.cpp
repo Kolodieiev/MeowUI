@@ -4,7 +4,7 @@
 
 namespace meow
 {
-    QueueHandle_t GameClient::_packet_queue;
+    QueueHandle_t GameClient::_packet_queue{nullptr};
 
     GameClient::GameClient()
     {
@@ -119,7 +119,10 @@ namespace meow
         }
 
         if (_udp_mutex)
+        {
             vSemaphoreDelete(_udp_mutex);
+            _udp_mutex = nullptr;
+        }
 
         _is_freed = true;
     }
