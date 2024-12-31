@@ -99,6 +99,38 @@ namespace meow
         return false;
     }
 
+    void FixedMenu::setCurrentFocusPos(uint16_t focus_pos)
+    {
+        if (_widgets.size() < 2 || _cur_focus_pos == focus_pos || focus_pos >= _widgets.size())
+            return;
+
+        xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+        IWidget *item = _widgets[_cur_focus_pos];
+        item->removeFocus();
+
+        _cur_focus_pos = focus_pos;
+
+        uint16_t cycles_count = getCyclesCount();
+
+        uint16_t to_end = _widgets.size() - _cur_focus_pos;
+
+        if (to_end <= cycles_count)
+        {
+            if (_widgets.size() > cycles_count)
+                _first_item_index = _widgets.size() - cycles_count;
+            else
+                _first_item_index = 0;
+        }
+        else
+            _first_item_index = cycles_count;
+
+        item = _widgets[_cur_focus_pos];
+        item->setFocus();
+
+        drawItems(_first_item_index, cycles_count);
+        xSemaphoreGive(_widg_mutex);
+    }
+
     FixedMenu *FixedMenu::clone(uint16_t id) const
     {
         xSemaphoreTake(_widg_mutex, portMAX_DELAY);

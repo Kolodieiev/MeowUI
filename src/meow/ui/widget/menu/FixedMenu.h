@@ -36,6 +36,13 @@ namespace meow
          */
         void setLoopState(bool state) { _is_loop_enbl = state; }
 
+        /**
+         * @brief Встановити фокус за вказаним номером елемента. Якщо елемент на вказаній позиції відсутній, поточний фокус не буде змінено.
+         *
+         * @param focus_pos порядковий номер елемента в цьому меню.
+         */
+        void setCurrentFocusPos(uint16_t focus_pos);
+
     protected:
         bool _is_loop_enbl = false;
     };
