@@ -423,7 +423,7 @@ namespace meow
         String new_n;
         makeFullPath(new_n, new_name);
 
-        return !rename(old_n.c_str(), new_n.c_str());
+        return !::rename(old_n.c_str(), new_n.c_str());
     }
 
     void FileManager::copyFile()
