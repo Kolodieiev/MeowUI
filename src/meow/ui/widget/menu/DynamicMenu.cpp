@@ -8,54 +8,54 @@ namespace meow
 
     bool DynamicMenu::focusUp()
     {
+        if (_widgets.empty())
+            return false;
+
         xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-        if (!_widgets.empty())
+        if (_cur_focus_pos > 0)
         {
-            if (_cur_focus_pos > 0)
+            IWidget *item = _widgets[_cur_focus_pos];
+            item->removeFocus();
+
+            --_cur_focus_pos;
+
+            uint16_t cycles_count = getCyclesCount();
+
+            if (_cur_focus_pos < _first_item_index)
             {
-                IWidget *item = _widgets[_cur_focus_pos];
-                item->removeFocus();
+                --_first_item_index;
+                drawItems(_first_item_index, cycles_count);
+            }
 
-                --_cur_focus_pos;
+            item = _widgets[_cur_focus_pos];
+            item->setFocus();
 
-                uint16_t cycles_count = getCyclesCount();
+            xSemaphoreGive(_widg_mutex);
+            return true;
+        }
+        else if (_prev_items_load_handler)
+        {
+            std::vector<MenuItem *> temp_vec;
+            _prev_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _prev_items_load_arg);
 
-                if (_cur_focus_pos < _first_item_index)
-                {
-                    --_first_item_index;
-                    drawItems(_first_item_index, cycles_count);
-                }
+            if (!temp_vec.empty())
+            {
+                xSemaphoreGive(_widg_mutex);
+                deleteWidgets();
+                xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-                item = _widgets[_cur_focus_pos];
-                item->setFocus();
+                _widgets.reserve(temp_vec.size());
+                for (uint16_t i{0}; i < temp_vec.size(); ++i)
+                    _widgets.push_back(temp_vec[i]);
+
+                drawItems(_first_item_index, getCyclesCount());
+                _cur_focus_pos = _widgets.size() - 1;
+
+                _widgets[_cur_focus_pos]->setFocus();
 
                 xSemaphoreGive(_widg_mutex);
                 return true;
-            }
-            else if (_prev_items_load_handler)
-            {
-                std::vector<MenuItem *> temp_vec;
-                _prev_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _prev_items_load_arg);
-
-                if (!temp_vec.empty())
-                {
-                    xSemaphoreGive(_widg_mutex);
-                    deleteWidgets();
-                    xSemaphoreTake(_widg_mutex, portMAX_DELAY);
-
-                    _widgets.reserve(temp_vec.size());
-                    for (uint16_t i{0}; i < temp_vec.size(); ++i)
-                        _widgets.push_back(temp_vec[i]);
-
-                    drawItems(_first_item_index, getCyclesCount());
-                    _cur_focus_pos = _widgets.size() - 1;
-
-                    _widgets[_cur_focus_pos]->setFocus();
-
-                    xSemaphoreGive(_widg_mutex);
-                    return true;
-                }
             }
         }
 
@@ -65,55 +65,55 @@ namespace meow
 
     bool DynamicMenu::focusDown()
     {
+        if (_widgets.empty())
+            return false;
+
         xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-        if (!_widgets.empty())
+        if (_cur_focus_pos < _widgets.size() - 1)
         {
-            if (_cur_focus_pos < _widgets.size() - 1)
+            IWidget *item = _widgets[_cur_focus_pos];
+            item->removeFocus();
+
+            ++_cur_focus_pos;
+
+            uint16_t cycles_count = getCyclesCount();
+
+            if (_cur_focus_pos > _first_item_index + cycles_count - 1)
             {
-                IWidget *item = _widgets[_cur_focus_pos];
-                item->removeFocus();
+                ++_first_item_index;
 
-                ++_cur_focus_pos;
+                drawItems(_first_item_index, cycles_count);
+            }
 
-                uint16_t cycles_count = getCyclesCount();
+            item = _widgets[_cur_focus_pos];
+            item->setFocus();
 
-                if (_cur_focus_pos > _first_item_index + cycles_count - 1)
-                {
-                    ++_first_item_index;
+            xSemaphoreGive(_widg_mutex);
+            return true;
+        }
+        else if (_next_items_load_handler)
+        {
+            std::vector<MenuItem *> temp_vec;
+            _next_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _next_items_load_arg);
 
-                    drawItems(_first_item_index, cycles_count);
-                }
+            if (!temp_vec.empty())
+            {
+                xSemaphoreGive(_widg_mutex);
+                deleteWidgets();
+                xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-                item = _widgets[_cur_focus_pos];
-                item->setFocus();
+                _widgets.reserve(temp_vec.size());
+                for (uint16_t i{0}; i < temp_vec.size(); ++i)
+                    _widgets.push_back(temp_vec[i]);
+
+                drawItems(_first_item_index, getCyclesCount());
+                _cur_focus_pos = _first_item_index;
+
+                _widgets[_cur_focus_pos]->setFocus();
 
                 xSemaphoreGive(_widg_mutex);
                 return true;
-            }
-            else if (_next_items_load_handler)
-            {
-                std::vector<MenuItem *> temp_vec;
-                _next_items_load_handler(temp_vec, getItemsNumOnScreen(), _widgets[_cur_focus_pos]->getID(), _next_items_load_arg);
-
-                if (!temp_vec.empty())
-                {
-                    xSemaphoreGive(_widg_mutex);
-                    deleteWidgets();
-                    xSemaphoreTake(_widg_mutex, portMAX_DELAY);
-
-                    _widgets.reserve(temp_vec.size());
-                    for (uint16_t i{0}; i < temp_vec.size(); ++i)
-                        _widgets.push_back(temp_vec[i]);
-
-                    drawItems(_first_item_index, getCyclesCount());
-                    _cur_focus_pos = _first_item_index;
-
-                    _widgets[_cur_focus_pos]->setFocus();
-
-                    xSemaphoreGive(_widg_mutex);
-                    return true;
-                }
             }
         }
 

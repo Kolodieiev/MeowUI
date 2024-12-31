@@ -60,40 +60,42 @@ namespace meow
                 for (uint16_t i{_first_item_index}; i < _first_item_index + cycles_count; ++i)
                     _widgets[i]->onDraw();
             }
+
+            xSemaphoreGive(_widg_mutex);
+            return;
         }
-        else
+
+        _is_changed = false;
+
+        if (_visibility == INVISIBLE)
         {
-            _is_changed = false;
-
-            if (_visibility == INVISIBLE)
-            {
-                if (!_is_transparent)
-                    hide();
-                xSemaphoreGive(_widg_mutex);
-                return;
-            }
-
-            if (_widgets.size() == 0)
-            {
-                if (!_is_transparent)
-                    clear();
-                xSemaphoreGive(_widg_mutex);
-                return;
-            }
-
-            uint16_t cyclesCount = getCyclesCount();
-
-            if (_first_item_index >= _widgets.size())
-                _first_item_index = _widgets.size() - 1;
-
-            if (_cur_focus_pos >= _widgets.size())
-                _cur_focus_pos = _widgets.size() - 1;
-
-            IWidget *item = _widgets[_cur_focus_pos];
-            item->setFocus();
-
-            drawItems(_first_item_index, cyclesCount);
+            if (!_is_transparent)
+                hide();
+            xSemaphoreGive(_widg_mutex);
+            return;
         }
+
+        if (_widgets.size() == 0)
+        {
+            if (!_is_transparent)
+                clear();
+            xSemaphoreGive(_widg_mutex);
+            return;
+        }
+
+        uint16_t cyclesCount = getCyclesCount();
+
+        if (_first_item_index >= _widgets.size())
+            _first_item_index = _widgets.size() - 1;
+
+        if (_cur_focus_pos >= _widgets.size())
+            _cur_focus_pos = _widgets.size() - 1;
+
+        IWidget *item = _widgets[_cur_focus_pos];
+        item->setFocus();
+
+        drawItems(_first_item_index, cyclesCount);
+
         xSemaphoreGive(_widg_mutex);
     }
 

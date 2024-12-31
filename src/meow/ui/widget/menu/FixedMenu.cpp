@@ -8,95 +8,88 @@ namespace meow
 
     bool FixedMenu::focusUp()
     {
+        if (_widgets.empty())
+            return false;
+
         xSemaphoreTake(_widg_mutex, portMAX_DELAY);
 
-        if (!_widgets.empty())
+        IWidget *item = _widgets[_cur_focus_pos];
+        item->removeFocus();
+        uint16_t cycles_count = getCyclesCount();
+
+        bool need_redraw = false;
+
+        if (_cur_focus_pos > 0)
         {
-            IWidget *item = _widgets[_cur_focus_pos];
-            item->removeFocus();
-            uint16_t cycles_count = getCyclesCount();
+            --_cur_focus_pos;
 
-            bool need_redraw = false;
-
-            if (_cur_focus_pos > 0)
+            if (_cur_focus_pos < _first_item_index)
             {
-                --_cur_focus_pos;
-
-                if (_cur_focus_pos < _first_item_index)
-                {
-                    --_first_item_index;
-                    need_redraw = true;
-                }
+                --_first_item_index;
+                need_redraw = true;
             }
-            else if (_is_loop_enbl)
+        }
+        else if (_is_loop_enbl)
+        {
+            if (_widgets.size() > cycles_count)
             {
-                if (_widgets.size() > cycles_count)
-                {
-                    need_redraw = true;
-                    _first_item_index = _widgets.size() - cycles_count;
-                }
-                else
-                    _first_item_index = 0;
-
-                _cur_focus_pos = _widgets.size() - 1;
+                need_redraw = true;
+                _first_item_index = _widgets.size() - cycles_count;
             }
+            else
+                _first_item_index = 0;
 
-            item = _widgets[_cur_focus_pos];
-            item->setFocus();
-
-            if (need_redraw)
-                drawItems(_first_item_index, cycles_count);
-
-            xSemaphoreGive(_widg_mutex);
-            return true;
+            _cur_focus_pos = _widgets.size() - 1;
         }
 
+        item = _widgets[_cur_focus_pos];
+        item->setFocus();
+
+        if (need_redraw)
+            drawItems(_first_item_index, cycles_count);
+
         xSemaphoreGive(_widg_mutex);
-        return false;
+        return true;
     }
 
     bool FixedMenu::focusDown()
     {
+        if (_widgets.empty())
+            return false;
+
         xSemaphoreTake(_widg_mutex, portMAX_DELAY);
+        IWidget *item = _widgets[_cur_focus_pos];
+        item->removeFocus();
+        uint16_t cycles_count = getCyclesCount();
 
-        if (!_widgets.empty())
+        bool need_redraw = false;
+
+        if (_cur_focus_pos < _widgets.size() - 1)
         {
-            IWidget *item = _widgets[_cur_focus_pos];
-            item->removeFocus();
-            uint16_t cycles_count = getCyclesCount();
+            ++_cur_focus_pos;
 
-            bool need_redraw = false;
-
-            if (_cur_focus_pos < _widgets.size() - 1)
+            if (_cur_focus_pos > _first_item_index + cycles_count - 1)
             {
-                ++_cur_focus_pos;
-
-                if (_cur_focus_pos > _first_item_index + cycles_count - 1)
-                {
-                    need_redraw = true;
-                    ++_first_item_index;
-                }
+                need_redraw = true;
+                ++_first_item_index;
             }
-            else if (_is_loop_enbl)
-            {
-                _cur_focus_pos = 0;
-                _first_item_index = 0;
+        }
+        else if (_is_loop_enbl)
+        {
+            _cur_focus_pos = 0;
+            _first_item_index = 0;
 
-                need_redraw = _widgets.size() > cycles_count;
-            }
-
-            item = _widgets[_cur_focus_pos];
-            item->setFocus();
-
-            if (need_redraw)
-                drawItems(_first_item_index, cycles_count);
-
-            xSemaphoreGive(_widg_mutex);
-            return true;
+            need_redraw = _widgets.size() > cycles_count;
         }
 
+        item = _widgets[_cur_focus_pos];
+        item->setFocus();
+
+        if (need_redraw)
+            drawItems(_first_item_index, cycles_count);
+
         xSemaphoreGive(_widg_mutex);
-        return false;
+        return true;
     }
 
     void FixedMenu::setCurrentFocusPos(uint16_t focus_pos)
