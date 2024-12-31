@@ -169,7 +169,7 @@ namespace meow
         //
         bool _is_working{false};
         bool _is_canceled{false};
-        TaskHandle_t _task_handler{NULL};
+        TaskHandle_t _task_handler{nullptr};
         //
         TaskDoneHandler _doneHandler{nullptr};
         void *_doneArg{nullptr};
