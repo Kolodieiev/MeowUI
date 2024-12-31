@@ -432,7 +432,7 @@ TFT_eSPI::TFT_eSPI(int16_t w, int16_t h)
   _utf8     = true;     // UTF8 decoding enabled
 
 #if defined (ESP32) && defined (CONFIG_SPIRAM_SUPPORT)
-  if (psramFound()) _psram_enable = true; // Enable the use of PSRAM (if available)
+  if (psramInit()) _psram_enable = true; // Enable the use of PSRAM (if available)
   else
 #endif
   _psram_enable = false;
@@ -4599,7 +4599,7 @@ void TFT_eSPI::setAttribute(uint8_t attr_id, uint8_t param) {
             break;
         case PSRAM_ENABLE:
 #if defined (ESP32) && defined (CONFIG_SPIRAM_SUPPORT)
-            if (psramFound()) _psram_enable = param; // Enable the use of PSRAM (if available)
+            if (psramInit()) _psram_enable = param; // Enable the use of PSRAM (if available)
             else
 #endif
             _psram_enable = false;

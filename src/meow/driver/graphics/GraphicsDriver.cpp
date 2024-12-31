@@ -24,13 +24,11 @@ namespace meow
     {
         _tft.init();
 
-        if (!psramFound())
+        if (!psramInit())
         {
             log_e("Помилка. PSRAM відсутня або не працює");
             esp_restart();
         }
-
-        psramInit();
 
 #if defined(COLOR_16BIT)
         _flick_buf.setColorDepth(16);

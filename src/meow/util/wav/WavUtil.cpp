@@ -19,7 +19,7 @@ namespace meow
             return wav_data;
         }
 
-        if (!psramFound() || !psramInit())
+        if (!psramInit())
         {
             log_e("Помилка ініціалізації PSRAM");
             return wav_data;
