@@ -1,17 +1,18 @@
 #pragma once
 #include <Arduino.h>
 
+#define BMP_HEADER_SIZE 54
+#define BMP_HEADER_MASKS_SIZE 12
+
 namespace meow
 {
-
 #pragma pack(push, 1)
-
     struct BmpHeader
     {
         uint16_t file_type{0x4D42};
         uint32_t file_size{0};
         uint32_t reserved{0};
-        uint32_t data_offset{54 + 12};
+        uint32_t data_offset{BMP_HEADER_SIZE + BMP_HEADER_MASKS_SIZE};
 
         uint32_t info_size{40};
         int32_t width{0};
@@ -29,7 +30,6 @@ namespace meow
         uint32_t green_mask{0x07E0};
         uint32_t blue_mask{0x001F};
     };
-
 #pragma pack(pop)
 
 }
