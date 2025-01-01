@@ -12,7 +12,7 @@
 
 #define TFT_WIDTH 240
 #define TFT_HEIGHT 280
-#define TFT_CUTOUT 40
+#define TFT_CUTOUT 36
 
 #define LOAD_FONT2
 #define LOAD_FONT4
