@@ -166,14 +166,14 @@ namespace meow
             path += "/";
             path += _server->arg(0);
 
-            FILE *file = _f_mngr.getFileDescriptor(path.c_str(), "r");
-            struct stat st;
+            FILE *file = _f_mngr.getFileDescriptor(path.c_str(), "rb");
 
-            if (!file || !_f_mngr.readStat(st, path.c_str()))
+            if (!file || !_f_mngr.fileExist(path.c_str()))
                 handle404();
             else
             {
-                FileStream f_stream(file, _server->arg(0).c_str(), st.st_size); // TODO Тест
+                size_t f_size = _f_mngr.getFileSize(path.c_str());
+                FileStream f_stream(file, _server->arg(0).c_str(), f_size);
 
                 _server->sendHeader("Content-Type", "application/force-download");
                 _server->sendHeader("Content-Disposition", "attachment; filename=\"" + _server->arg(0) + "\"");
@@ -231,20 +231,18 @@ namespace meow
 
             _f_mngr.closeFile(in_file);
 
-            if (_f_mngr.exists(file_name.c_str()))
+            if (_f_mngr.exists(file_name.c_str(), true))
             {
-                String full_p;
-                _f_mngr.makeFullPath(full_p, file_name.c_str());
+                String temp_name = file_name;
+                temp_name += "_copy";
 
-                if (!_f_mngr.rmFile(full_p.c_str()))
-                {
-                    log_e("Не можу видалити файл %s", file_name.c_str());
-                    _server->send(500, "text/html", "");
-                    return;
-                }
+                while (_f_mngr.fileExist(temp_name.c_str(), true))
+                    temp_name += "_copy";
+
+                file_name = temp_name;
             }
 
-            in_file = _f_mngr.getFileDescriptor(file_name.c_str(), "a");
+            in_file = _f_mngr.getFileDescriptor(file_name.c_str(), "ab");
 
             if (!in_file)
             {
@@ -255,7 +253,7 @@ namespace meow
         }
         else if (uploadfile.status == UPLOAD_FILE_WRITE)
         {
-            _f_mngr.writeToFile(in_file, (const char *)uploadfile.buf, uploadfile.currentSize); // TODO
+            _f_mngr.writeToFile(in_file, (const char *)uploadfile.buf, uploadfile.currentSize);
             taskYIELD();
         }
         else if (uploadfile.status == UPLOAD_FILE_END || uploadfile.status == UPLOAD_FILE_ABORTED)
