@@ -47,7 +47,10 @@ namespace meow
 
                 _widgets.reserve(temp_vec.size());
                 for (uint16_t i{0}; i < temp_vec.size(); ++i)
+                {
+                    temp_vec[i]->setParent(this);
                     _widgets.push_back(temp_vec[i]);
+                }
 
                 drawItems(_first_item_index, getCyclesCount());
                 _cur_focus_pos = _widgets.size() - 1;
@@ -105,7 +108,10 @@ namespace meow
 
                 _widgets.reserve(temp_vec.size());
                 for (uint16_t i{0}; i < temp_vec.size(); ++i)
+                {
+                    temp_vec[i]->setParent(this);
                     _widgets.push_back(temp_vec[i]);
+                }
 
                 drawItems(_first_item_index, getCyclesCount());
                 _cur_focus_pos = _first_item_index;
