@@ -1,5 +1,6 @@
-#include "Input.h"
 #pragma GCC optimize("O3")
+
+#include "Input.h"
 
 #ifdef GT911_DRIVER
 #include "./touchscreen_driver/GT911.h"
