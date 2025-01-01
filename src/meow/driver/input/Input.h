@@ -27,6 +27,8 @@ namespace meow
         bool isReleased(KeyID key_id) const { return _buttons.at(key_id)->isReleased(); }
         void lock(KeyID key_id, unsigned long lock_duration) { _buttons.at(key_id)->lock(lock_duration); }
 
+        void printPinMode(KeyID key_id);
+
 #ifdef TOUCHSCREEN_SUPPORT
         bool isHolded() const { return _touchscreen->isHolded(); }
         bool isPressed() const { return _touchscreen->isPressed(); }
