@@ -38,25 +38,25 @@ namespace meow
         KEY_C = 10,
         KEY_B = 6,
 
-        KEY_START = 4,
-        KEY_SELECT = 0,
+        KEY_SAVE = 4, // START
+        KEY_EXIT = 0, // SELECT
     };
 }
 
 // -------------------------------- Макрос з ініціалізацією пінів. Між фігурними дужками потрібно додати ініціалізацію пінів, як показано нижче
 // -------------------------------- Де Pin(uint8_t key_id, bool is_touch)
-#define BUTTONS                                   \
-    {                                             \
-        {KEY_UP, new Pin(KEY_UP, false)},         \
-        {KEY_DOWN, new Pin(KEY_DOWN, false)},     \
-        {KEY_LEFT, new Pin(KEY_LEFT, false)},     \
-        {KEY_RIGHT, new Pin(KEY_RIGHT, false)},   \
-        {KEY_D, new Pin(KEY_D, false)},           \
-        {KEY_A, new Pin(KEY_A, false)},           \
-        {KEY_C, new Pin(KEY_C, false)},           \
-        {KEY_B, new Pin(KEY_B, false)},           \
-        {KEY_START, new Pin(KEY_START, false)},   \
-        {KEY_SELECT, new Pin(KEY_SELECT, false)}, \
+#define BUTTONS                                 \
+    {                                           \
+        {KEY_UP, new Pin(KEY_UP, false)},       \
+        {KEY_DOWN, new Pin(KEY_DOWN, false)},   \
+        {KEY_LEFT, new Pin(KEY_LEFT, false)},   \
+        {KEY_RIGHT, new Pin(KEY_RIGHT, false)}, \
+        {KEY_D, new Pin(KEY_D, false)},         \
+        {KEY_A, new Pin(KEY_A, false)},         \
+        {KEY_C, new Pin(KEY_C, false)},         \
+        {KEY_B, new Pin(KEY_B, false)},         \
+        {KEY_SAVE, new Pin(KEY_SAVE, false)},   \
+        {KEY_EXIT, new Pin(KEY_EXIT, false)},   \
     }
 
 // -------------------------------- Налаштування чутливості сенсорних кнопок
@@ -68,3 +68,7 @@ namespace meow
 
 // -------------------------------- Час, після спливання якого дія вважається утримуваною.
 #define PRESS_DURATION (unsigned long)1500
+
+#define PRESS_LOCK (unsigned long)700
+#define CLICK_LOCK (unsigned long)250
+#define HOLD_LOCK (unsigned long)150
