@@ -10,8 +10,8 @@
 
 namespace meow
 {
-#define DWIDTH _display.width()
-#define DHEIGHT _display.height()
+#define D_WIDTH _display.width()
+#define D_HEIGHT _display.height()
 
     class IScreen
     {
@@ -47,7 +47,7 @@ namespace meow
         void openScreenByID(ScreenID screen_ID);
 
         // Повертає х-координату, на якій віджет буде встановлено по центру відносно екрану.
-        uint16_t getCenterX(IWidget *widget) const { return widget ? (DWIDTH - widget->getWidth()) / 2 : 0; }
+        uint16_t getCenterX(IWidget *widget) const { return widget ? (D_WIDTH - widget->getWidth()) / 2 : 0; }
 
     private:
         const uint8_t UI_UPDATE_DELAY = 25; // затримка між фреймами. 40FPS
