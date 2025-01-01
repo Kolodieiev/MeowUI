@@ -150,7 +150,7 @@ namespace meow
         String full_path;
         makeFullPath(full_path, path);
 
-        FILE *f = fopen(full_path.c_str(), "r");
+        FILE *f = fopen(full_path.c_str(), "rb");
 
         if (!f)
         {
@@ -164,7 +164,7 @@ namespace meow
             return 0;
         }
 
-        uint64_t bytes_read = bytes_read = fread(out_buffer, 1, len, f);
+        uint64_t bytes_read = bytes_read = fread(out_buffer, len, 1, f) * len;
 
         if (bytes_read != len)
             log_e("Прочитано: [ %zu ]  Очікувалося: [ %zu ]", bytes_read, len);
@@ -187,7 +187,7 @@ namespace meow
             return 0;
         }
 
-        size_t bytes_read = fread(out_buffer, 1, len, file);
+        size_t bytes_read = fread(out_buffer, len, 1, file) * len;
 
         if (bytes_read != len)
             log_e("Прочитано: [ %zu ]  Очікувалося: [ %zu ]", bytes_read, len);
@@ -197,10 +197,16 @@ namespace meow
 
     size_t FileManager::writeFile(const char *path, const void *buffer, size_t len)
     {
+        if (!path || !buffer)
+        {
+            log_e("Bad arguments");
+            return 0;
+        }
+
         String full_path;
         makeFullPath(full_path, path);
 
-        FILE *f = fopen(full_path.c_str(), "w");
+        FILE *f = fopen(full_path.c_str(), "wb");
 
         if (!f)
         {
@@ -211,6 +217,12 @@ namespace meow
         if (len == 0)
             len = strlen((const char *)buffer);
 
+        if (len == 0)
+        {
+            fclose(f);
+            return 0;
+        }
+
         size_t written = writeOptimal(f, buffer, len);
 
         fclose(f);
@@ -220,7 +232,7 @@ namespace meow
 
     size_t FileManager::writeToFile(FILE *file, const void *buffer, size_t len)
     {
-        if (!file)
+        if (!file || !buffer || len == 0)
         {
             log_e("Bad arguments");
             return 0;
@@ -231,26 +243,19 @@ namespace meow
 
     size_t FileManager::writeOptimal(FILE *file, const void *buffer, size_t len)
     {
-        if (!file)
-        {
-            log_e("Bad arguments");
-            return 0;
-        }
-
-        size_t opt_size = 4096;
+        size_t opt_size = 256;
         size_t total_written = 0;
 
         size_t full_blocks = len / opt_size;
         size_t remaining_bytes = len % opt_size;
 
-        if (full_blocks > 0)
-        {
-            size_t written = fwrite(buffer, opt_size, full_blocks, file);
-            total_written = written * opt_size;
-        }
+        for (size_t i = 0; i < full_blocks; ++i)
+            total_written += fwrite((uint8_t *)buffer + total_written, opt_size, 1, file) * opt_size;
 
         if (remaining_bytes > 0)
-            total_written += fwrite(static_cast<const char *>(buffer) + total_written, 1, remaining_bytes, file);
+            total_written += fwrite((uint8_t *)buffer + total_written, remaining_bytes, 1, file) * remaining_bytes;
+
+        fflush(file);
 
         if (total_written != len)
             log_e("Записано: [ %zu ]  Очікувалося: [ %zu ]", total_written, len);
@@ -278,6 +283,19 @@ namespace meow
             fclose(file);
             file = nullptr;
         }
+    }
+
+    size_t FileManager::available(size_t size, FILE *file)
+    {
+        if (!file || feof(file))
+            return 0;
+
+        long tell = ftell(file);
+
+        if (size < tell)
+            return 0;
+
+        return size - tell;
     }
 
     void FileManager::rm()
@@ -722,14 +740,14 @@ namespace meow
         if (!_file || feof(_file))
             return 0;
 
-        return 1;
+        return _size - ftell(_file);
     }
 
     size_t FileStream::readBytes(char *buffer, size_t length)
     {
         if (!_file)
             return 0;
-        return fread(buffer, 1, length, _file);
+        return fread(buffer, length, 1, _file) * length;
     }
 
     int FileStream::read()
