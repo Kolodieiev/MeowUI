@@ -142,6 +142,7 @@ namespace meow
         //
         FILE *getFileDescriptor(const char *path, const char *mode);
         void closeFile(FILE *&file);
+        size_t available(size_t size, FILE *file);
 
         uint8_t getCopyProgress() const { return _copy_progress; }
         //
