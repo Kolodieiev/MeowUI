@@ -14,9 +14,9 @@ namespace meow
         {
             SPIClass *spi = new SPIClass(bus_num);
             spi->begin(sclk_pin, miso_pin, mosi_pin);
-            spiDetachSS(spi->bus(), SS);
-            spiSSClear(spi->bus());
             spiSSDisable(spi->bus());
+            spiSSClear(spi->bus());
+
             _spi_map.insert({bus_num, spi});
             return true;
         }
