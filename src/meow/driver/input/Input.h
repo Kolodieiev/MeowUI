@@ -1,6 +1,7 @@
 #pragma once
-#include <Arduino.h>
 #pragma GCC optimize("O3")
+
+#include <Arduino.h>
 
 #include "meowui_setup/input_setup.h"
 
