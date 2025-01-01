@@ -1,6 +1,7 @@
+#pragma GCC optimize("O3")
+
 #include "GT911.h"
 #include <Wire.h>
-#pragma GCC optimize("O3")
 #include "meowui_setup/input_setup.h"
 
 namespace meow
