@@ -393,8 +393,10 @@ void Audio::UTF8toASCII(char* str) {
 }
 // clang-format on
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-bool Audio::connecttoFS(fs::FS &fs, const char *path, int32_t fileStartPos)
+bool Audio::connecttoFS(meow::FileManager &f_mngr, const char *path, int32_t fileStartPos)
 {
+    if (fileStartPos < 10)
+        fileStartPos = 0;
 
     if (!path)
     { // guard
@@ -425,11 +427,11 @@ bool Audio::connecttoFS(fs::FS &fs, const char *path, int32_t fileStartPos)
         strcpy(audioPath + 1, path);
     }
 
-    if (!fs.exists(audioPath))
+    if (!f_mngr.fileExist(audioPath))
     {
         UTF8toASCII(audioPath);
 
-        if (!fs.exists(audioPath))
+        if (!f_mngr.fileExist(audioPath))
         {
             log_e("File doesn't exist");
             xSemaphoreGiveRecursive(mutex_audio);
@@ -438,7 +440,7 @@ bool Audio::connecttoFS(fs::FS &fs, const char *path, int32_t fileStartPos)
         }
     }
 
-    audiofile = fs.open(audioPath);
+    audiofile = f_mngr.getFileDescriptor(audioPath, "r");
 
     if (!audiofile)
     {
@@ -448,29 +450,18 @@ bool Audio::connecttoFS(fs::FS &fs, const char *path, int32_t fileStartPos)
         return false;
     }
 
-    m_fileSize = audiofile.size(); // TEST loop
+    m_fileSize = f_mngr.getFileSize(audioPath);
+    _audio_size = m_fileSize;
 
-    char *afn = NULL; // audioFileName
-    afn = strdup(audiofile.name());
-
-    uint8_t dotPos = lastIndexOf(afn, ".");
-    for (uint8_t i = dotPos + 1; i < strlen(afn); ++i)
-    {
-        afn[i] = toLowerCase(afn[i]);
-    }
-
-    if (afn)
-    {
-        free(afn);
-        afn = NULL;
-    }
     free(audioPath);
+
+    _f_mgr = &f_mngr;
 
     bool ret = initializeDecoder();
     if (ret)
         m_f_running = true;
     else
-        audiofile.close();
+        f_mngr.closeFile(audiofile);
     xSemaphoreGiveRecursive(mutex_audio);
     return ret;
 }
@@ -747,11 +738,10 @@ uint32_t Audio::stopSong()
         m_f_running = false;
         pos = getFilePos() - inBufferFilled();
     }
-    if (audiofile)
-    {
-        // added this before putting 'm_f_localfile = false' in stopSong(); shoulf never occur....
-        audiofile.close();
-    }
+
+    // added this before putting 'm_f_localfile = false' in stopSong(); shoulf never occur....
+    _f_mgr->closeFile(audiofile);
+
     memset(m_outBuff, 0, m_outbuffSize);           // Clear OutputBuffer
     memset(m_filterBuff, 0, sizeof(m_filterBuff)); // Clear FilterBuffer
     m_validSamples = 0;
@@ -914,7 +904,7 @@ void Audio::processLocalFile()
     availableBytes = 256 * 1024; // set some large value
 
     availableBytes = min(availableBytes, (uint32_t)InBuff.writeSpace());
-    availableBytes = min(availableBytes, audiofile.size() - byteCounter);
+    availableBytes = min(availableBytes, _audio_size - byteCounter);
     if (m_contentlength)
     {
         if (m_contentlength > getFilePos())
@@ -925,7 +915,7 @@ void Audio::processLocalFile()
         availableBytes = min(availableBytes, m_audioDataSize + m_audioDataStart - byteCounter);
     }
 
-    int32_t bytesAddedToBuffer = audiofile.read(InBuff.getWritePtr(), availableBytes);
+    int32_t bytesAddedToBuffer = _f_mgr->readFromFile(audiofile, InBuff.getWritePtr(), availableBytes);
     if (bytesAddedToBuffer > 0)
     {
         byteCounter += bytesAddedToBuffer; // Pull request #42
@@ -980,7 +970,7 @@ void Audio::processLocalFile()
         if (m_resumeFilePos == -1)
             goto exit;
 
-        audiofile.seek(m_resumeFilePos);
+        _f_mgr->seekPos(audiofile, m_resumeFilePos);
         InBuff.resetBuffer();
         byteCounter = m_resumeFilePos;
         f_fileDataComplete = false; // #570
@@ -1025,7 +1015,7 @@ void Audio::processLocalFile()
         } // loop
     exit:
         m_f_running = false;
-        audiofile.close();
+        _f_mgr->closeFile(audiofile);
 
         MP3Decoder_FreeBuffers();
 
@@ -1036,7 +1026,7 @@ void Audio::processLocalFile()
 
         return;
     }
-    if (byteCounter == audiofile.size())
+    if (byteCounter == _audio_size)
     {
         f_fileDataComplete = true;
     }
@@ -1327,14 +1317,14 @@ uint32_t Audio::getFileSize()
         }
         return 0;
     }
-    return audiofile.size();
+    return _audio_size;
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 uint32_t Audio::getFilePos()
 {
     if (!audiofile)
         return 0;
-    return audiofile.position();
+    return _f_mgr->getPos(audiofile);
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 uint32_t Audio::getAudioDataStartPos()
@@ -2051,27 +2041,28 @@ int32_t Audio::mp3_correctResumeFilePos(uint32_t resumeFilePos)
         goto exit;
     if (pos < m_audioDataStart)
         pos = m_audioDataStart;
-    audiofile.seek(pos);
+
+    _f_mgr->seekPos(audiofile, pos);
 
     while (!found)
     {
         if (pos + 3 >= maxPos)
             goto exit;
-        byte1a = audiofile.read();
+        _f_mgr->readFromFile(audiofile, &byte1a);
         ++pos;
-        byte2a = audiofile.read();
+        _f_mgr->readFromFile(audiofile, &byte2a);
         ++pos;
         while (true)
         {
             if (byte1a == 0xFF && (byte2a & 0x0E0) == 0xE0)
             {
-                byte3a = audiofile.read();
+                _f_mgr->readFromFile(audiofile, &byte3a);
                 ++pos;
                 pos1 = pos - 3;
                 break;
             }
             byte1a = byte2a;
-            byte2a = audiofile.read();
+            _f_mgr->readFromFile(audiofile, &byte2a);
             ++pos;
             if (pos >= maxPos)
                 goto exit;
@@ -2080,21 +2071,21 @@ int32_t Audio::mp3_correctResumeFilePos(uint32_t resumeFilePos)
 
         if (pos + 3 >= maxPos)
             goto exit;
-        byte1b = audiofile.read();
+        _f_mgr->readFromFile(audiofile, &byte1b);
         ++pos;
-        byte2b = audiofile.read();
+        _f_mgr->readFromFile(audiofile, &byte2b);
         ++pos;
         while (true)
         {
             if (byte1b == 0xFF && (byte2b & 0x0E0) == 0xE0)
             {
-                byte3b = audiofile.read();
+                _f_mgr->readFromFile(audiofile, &byte3b);
                 ++pos;
                 pos2 = pos - 3;
                 break;
             }
             byte1b = byte2b;
-            byte2b = audiofile.read();
+            _f_mgr->readFromFile(audiofile, &byte2b);
             ++pos;
             if (pos >= maxPos)
                 goto exit;
