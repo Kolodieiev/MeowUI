@@ -285,6 +285,27 @@ namespace meow
         }
     }
 
+    bool FileManager::seekPos(FILE *&file, int32_t pos, uint8_t mode)
+    {
+        if (!file)
+            return false;
+
+        if (fseek(file, pos, mode))
+        {
+            log_e("Помилка встановлення позиції [%d]", pos);
+            return false;
+        }
+        return true;
+    }
+
+    size_t FileManager::getPos(FILE *&file)
+    {
+        if (!file)
+            return 0;
+
+        return ftell(file);
+    }
+
     size_t FileManager::available(size_t size, FILE *file)
     {
         if (!file || feof(file))
@@ -322,9 +343,18 @@ namespace meow
         taskDone(result);
     }
 
-    bool FileManager::rmFile(const char *path)
+    bool FileManager::rmFile(const char *path, bool make_full)
     {
-        bool result = !remove(path);
+        bool result;
+
+        if (make_full)
+        {
+            String full_path;
+            makeFullPath(full_path, path);
+            result = !remove(path);
+        }
+        else
+            result = !remove(path);
 
         if (!result)
             log_e("Помилка видалення файлу: %s", path);
