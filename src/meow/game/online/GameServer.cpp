@@ -90,13 +90,13 @@ namespace meow
         xTaskCreatePinnedToCore(pingClientTask, "pingClientTask", (1024 / 2) * 4, this, 10, &_ping_task_handler, 1);
         xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 10, this, 10, &_packet_task_handler, 1);
 
-        if (_ping_task_handler == NULL)
+        if (!_ping_task_handler)
         {
             log_e("Не вдалося запустити pingClientTask");
             esp_restart();
         }
 
-        if (_packet_task_handler == NULL)
+        if (!_packet_task_handler)
         {
             log_e("Не вдалося запустити packetHandlerTask");
             esp_restart();
