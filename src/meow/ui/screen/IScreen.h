@@ -49,6 +49,9 @@ namespace meow
         // Повертає х-координату, на якій віджет буде встановлено по центру відносно екрану.
         uint16_t getCenterX(IWidget *widget) const { return widget ? (D_WIDTH - widget->getWidth()) / 2 : 0; }
 
+        // Повертає y-координату, на якій віджет буде встановлено по центру відносно екрану.
+        uint16_t getCenterY(IWidget *widget) const { return widget ? (D_HEIGHT - widget->getHeight()) / 2 : 0; }
+
     private:
         const uint8_t UI_UPDATE_DELAY = 25; // затримка між фреймами. 40FPS
         IWidgetContainer *_layout;
