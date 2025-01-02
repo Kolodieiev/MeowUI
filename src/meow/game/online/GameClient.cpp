@@ -69,13 +69,13 @@ namespace meow
         xTaskCreatePinnedToCore(checkConnectTask, "checkConnectTask", (1024 / 2) * 4, this, 10, &_check_task_handler, 1);
         xTaskCreatePinnedToCore(packetHandlerTask, "packetHandlerTask", (1024 / 2) * 10, this, 10, &_packet_task_handler, 1);
 
-        if (_check_task_handler == NULL)
+        if (!_check_task_handler)
         {
             log_e("Не вдалося запустити checkConnectTask");
             esp_restart();
         }
 
-        if (_packet_task_handler == NULL)
+        if (!_packet_task_handler)
         {
             log_e("Не вдалося запустити packetHandlerTask");
             esp_restart();
