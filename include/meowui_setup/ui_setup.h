@@ -10,7 +10,6 @@
 #include "screen/menu/MenuScreen.h"
 #include "screen/games/GamesListScreen.h"
 #include "screen/mp3/Mp3Screen.h"
-// #include "screen/calc/CalcScreen.h"
 #include "screen/reader/ReaderScreen.h"
 #include "screen/files/FilesScreen.h"
 #include "screen/preferences/PrefSelectScreen.h"
@@ -18,6 +17,7 @@
 #include "screen/preferences/PrefWatchScreen.h"
 #include "screen/preferences/PrefFileServerScreen.h"
 #include "screen/firmware/FirmwareScreen.h"
+// #include "screen/calc/CalcScreen.h"
 // Ігрові екрани
 #include "screen/games/sokoban/SokobanScreen.h"
 #include "screen/games/test_server/TestServerScreen.h"
@@ -32,14 +32,14 @@
     case ScreenID::ID_SCREEN_MENU:                            \
         screen = new MenuScreen(_display);                    \
         break;                                                \
+    case ScreenID::ID_SCREEN_GAMES:                           \
+        screen = new GamesListScreen(_display);               \
+        break;                                                \
     case ScreenID::ID_SCREEN_MP3:                             \
         screen = new Mp3Screen(_display);                     \
         break;                                                \
     case ScreenID::ID_SCREEN_READER:                          \
         screen = new ReaderScreen(_display);                  \
-        break;                                                \
-    case ScreenID::ID_SCREEN_GAMES:                           \
-        screen = new GamesListScreen(_display);               \
         break;                                                \
     case ScreenID::ID_SCREEN_FILES:                           \
         screen = new FilesScreen(_display);                   \
@@ -65,10 +65,6 @@
     case ScreenID::ID_SCREEN_TEST_SERVER:                     \
         screen = new test_server::TestServerScreen(_display); \
         break;
-
-// case ScreenID::ID_SCREEN_CALC:\
-                //     screen = new CalcScreen(_display);\
-                //     break;\
 
 // -------------------------------- Стартовий екран
 #define START_SCREEN SplashScreen
