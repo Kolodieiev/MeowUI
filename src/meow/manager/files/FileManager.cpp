@@ -351,7 +351,7 @@ namespace meow
         {
             String full_path;
             makeFullPath(full_path, path);
-            result = !remove(path);
+            result = !remove(full_path.c_str());
         }
         else
             result = !remove(path);
