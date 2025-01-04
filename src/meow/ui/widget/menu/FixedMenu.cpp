@@ -102,20 +102,21 @@ namespace meow
         item->removeFocus();
 
         _cur_focus_pos = focus_pos;
-
         uint16_t cycles_count = getCyclesCount();
 
-        uint16_t to_end = _widgets.size() - _cur_focus_pos;
+        uint16_t to_end = _widgets.size() - 1 - _cur_focus_pos;
 
-        if (to_end <= cycles_count)
+        if (to_end >= cycles_count)
         {
-            if (_widgets.size() > cycles_count)
-                _first_item_index = _widgets.size() - cycles_count;
-            else
-                _first_item_index = 0;
+            _first_item_index = _cur_focus_pos;
         }
         else
-            _first_item_index = cycles_count;
+        {
+            if (_widgets.size() <= cycles_count)
+                _first_item_index = 0;
+            else
+                _first_item_index = _widgets.size() - cycles_count;
+        }
 
         item = _widgets[_cur_focus_pos];
         item->setFocus();
