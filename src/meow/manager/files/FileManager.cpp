@@ -374,7 +374,7 @@ namespace meow
 
         errno = 0;
 
-        while (1)
+        while (!_is_canceled)
         {
             dir_entry = readdir(dir);
             if (!dir_entry)
@@ -445,6 +445,7 @@ namespace meow
             return false;
 
         _rm_path = path;
+        _is_canceled = false;
 
         BaseType_t result = xTaskCreatePinnedToCore(rmTask, "rmTask", TASK_SIZE, this, 10, &_task_handler, 1);
 
