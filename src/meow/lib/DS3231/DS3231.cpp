@@ -11,7 +11,10 @@ namespace meow
         uint8_t status_reg = _i2c.readRegister(DS3231_ADDR, DS3231_REG_STATUS);
 
         if (_i2c.hasError())
+        {
+            log_e("Помилка ініціалізації RTC");
             return false;
+        }
 
         // Вимкунути 32kHz пін
         status_reg &= ~_BV(STS_BIT_EN32KHZ);
