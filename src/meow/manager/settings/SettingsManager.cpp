@@ -8,6 +8,12 @@ namespace meow
 
     bool SettingsManager::set(const char *pref_name, const char *value)
     {
+        if (!pref_name || !value)
+        {
+            log_e("Некоректні аргументи");
+            return false;
+        }
+
         String path = getPrefFilePath(pref_name);
 
         if (path.isEmpty())
@@ -18,6 +24,12 @@ namespace meow
 
     String SettingsManager::get(const char *pref_name)
     {
+        if (!pref_name)
+        {
+            log_e("Некоректний аргумент");
+            return "";
+        }
+
         String path = getPrefFilePath(pref_name);
 
         if (path.isEmpty())
@@ -49,6 +61,12 @@ namespace meow
 
     String SettingsManager::getPrefFilePath(const char *pref_name)
     {
+        if (!pref_name)
+        {
+            log_e("Некоректний аргумент");
+            return "";
+        }
+
         if (!dirExist(DATA_ROOT))
             if (!createDir(DATA_ROOT))
             {
