@@ -22,7 +22,40 @@ namespace meow
         //
         bool operator<(const FileInfo &other) const
         {
-            return std::strcmp(_name, other._name) < 0;
+            if (_is_dir != other._is_dir)
+                return _is_dir;
+
+            const char *lhs = _name;
+            const char *rhs = other._name;
+
+            while (*lhs && *rhs)
+            {
+                if (std::isdigit(*lhs) && std::isdigit(*rhs))
+                {
+                    char *end_lhs;
+                    char *end_rhs;
+                    long num_lhs = std::strtol(lhs, &end_lhs, 10);
+                    long num_rhs = std::strtol(rhs, &end_rhs, 10);
+
+                    if (num_lhs != num_rhs)
+                    {
+                        return num_lhs < num_rhs;
+                    }
+                    lhs = end_lhs;
+                    rhs = end_rhs;
+                }
+                else
+                {
+                    if (*lhs != *rhs)
+                    {
+                        return *lhs < *rhs;
+                    }
+                    ++lhs;
+                    ++rhs;
+                }
+            }
+
+            return std::strcmp(lhs, rhs) < 0;
         }
 
         FileInfo(const FileInfo &) = delete;
