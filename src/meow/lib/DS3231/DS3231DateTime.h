@@ -45,6 +45,68 @@ namespace meow
             return day;
         }
 
+        String timeToStr() const
+        {
+            String temp_str;
+
+            if (hour < 10)
+            {
+                temp_str = "0";
+                temp_str += hour;
+                temp_str += ":";
+            }
+            else
+            {
+                temp_str = hour;
+                temp_str += ":";
+            }
+
+            if (minute < 10)
+            {
+                temp_str += "0";
+                temp_str += minute;
+            }
+            else
+            {
+                temp_str += minute;
+            }
+
+            return temp_str;
+        }
+
+        String dateToStr() const
+        {
+            String temp_str;
+
+            if (day_of_month < 10)
+            {
+                temp_str = "0";
+                temp_str += day_of_month;
+                temp_str += ".";
+            }
+            else
+            {
+                temp_str = day_of_month;
+                temp_str += ".";
+            }
+
+            if (month < 10)
+            {
+                temp_str += "0";
+                temp_str += month;
+                temp_str += ".";
+            }
+            else
+            {
+                temp_str += month;
+                temp_str += ".";
+            }
+
+            temp_str += year;
+
+            return temp_str;
+        }
+
     private:
         uint16_t daysPassedSince2000(uint16_t year, uint8_t month, uint8_t day_of_month) const
         {
