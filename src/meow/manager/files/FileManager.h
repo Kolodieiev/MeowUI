@@ -168,7 +168,7 @@ namespace meow
         bool rmDir(const char *path);
         //
         size_t readFile(char *out_buffer, const char *path, size_t len, int32_t seek_pos = 0);
-        size_t readFromFile(FILE *file, void *out_buffer, size_t len = 1, int32_t seek_pos = 0);
+        bool readFromFile(FILE *file, void *out_buffer, size_t len = 1, int32_t seek_pos = 0);
         //
         size_t writeFile(const char *path, const void *buffer, size_t len = 0);
         size_t writeToFile(FILE *file, const void *buffer, size_t len);
@@ -177,7 +177,7 @@ namespace meow
         void closeFile(FILE *&file);
         bool seekPos(FILE *&file, int32_t pos, uint8_t mode = SEEK_SET);
         size_t getPos(FILE *&file);
-        size_t available(size_t size, FILE *file);
+        size_t available(size_t file_size, FILE *file);
 
         uint8_t getCopyProgress() const { return _copy_progress; }
         //

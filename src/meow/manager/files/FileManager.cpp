@@ -164,7 +164,7 @@ namespace meow
             return 0;
         }
 
-        uint64_t bytes_read = bytes_read = fread(out_buffer, len, 1, f) * len;
+        size_t bytes_read = fread(out_buffer, 1, len, f);
 
         if (bytes_read != len)
             log_e("Прочитано: [ %zu ]  Очікувалося: [ %zu ]", bytes_read, len);
@@ -173,26 +173,29 @@ namespace meow
         return bytes_read;
     }
 
-    size_t FileManager::readFromFile(FILE *file, void *out_buffer, size_t len, int32_t seek_pos)
+    bool FileManager::readFromFile(FILE *file, void *out_buffer, size_t len, int32_t seek_pos)
     {
         if (!file)
         {
             log_e("Bad arguments");
-            return 0;
+            return false;
         }
 
         if (seek_pos > 0 && fseek(file, seek_pos, SEEK_SET))
         {
             log_e("Помилка встановлення позиції: %d", seek_pos);
-            return 0;
+            return false;
         }
 
-        size_t bytes_read = fread(out_buffer, len, 1, file) * len;
+        size_t section_read = fread(out_buffer, len, 1, file);
 
-        if (bytes_read != len)
-            log_e("Прочитано: [ %zu ]  Очікувалося: [ %zu ]", bytes_read, len);
+        if (section_read == 0)
+        {
+            log_e("Не вдалося прочитати всі %zu байт", len);
+            return false;
+        }
 
-        return bytes_read;
+        return true;
     }
 
     size_t FileManager::writeFile(const char *path, const void *buffer, size_t len)
@@ -306,17 +309,17 @@ namespace meow
         return ftell(file);
     }
 
-    size_t FileManager::available(size_t size, FILE *file)
+    size_t FileManager::available(size_t file_size, FILE *file)
     {
         if (!file || feof(file))
             return 0;
 
         long tell = ftell(file);
 
-        if (size < tell)
+        if (file_size < tell)
             return 0;
 
-        return size - tell;
+        return file_size - tell;
     }
 
     void FileManager::rm()
@@ -551,10 +554,15 @@ namespace meow
         size_t bytes_read;
 
         uint8_t cycles_counter = 0;
+        size_t byte_aval = 0;
 
-        while (!_is_canceled && !feof(o_f))
+        while (!_is_canceled && (byte_aval = available(file_size, o_f)) > 0)
         {
-            bytes_read = fread(buffer, 1, buf_size, o_f);
+            if (byte_aval < buf_size)
+                bytes_read = fread(buffer, byte_aval, 1, o_f) * byte_aval;
+            else
+                bytes_read = fread(buffer, buf_size, 1, o_f) * buf_size;
+            //
             writed_bytes_counter += writeOptimal(n_f, buffer, bytes_read);
             _copy_progress = ((float)writed_bytes_counter / file_size) * 100;
             if (cycles_counter > 5)
@@ -572,7 +580,7 @@ namespace meow
 
         if (_is_canceled)
         {
-            rmFile(_copy_to_path.c_str());
+            rmFile(to.c_str());
             taskDone(false);
         }
         else
