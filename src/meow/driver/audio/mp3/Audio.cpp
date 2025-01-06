@@ -907,19 +907,19 @@ void Audio::processLocalFile()
     availableBytes = min(availableBytes, _audio_size - byteCounter);
     if (m_contentlength)
     {
-        if (m_contentlength > getFilePos())
-            availableBytes = min(availableBytes, m_contentlength - getFilePos());
+        size_t file_pos = _f_mgr->getPos(audiofile);
+        if (m_contentlength > file_pos)
+            availableBytes = min(availableBytes, m_contentlength - file_pos);
     }
     if (m_audioDataSize)
     {
         availableBytes = min(availableBytes, m_audioDataSize + m_audioDataStart - byteCounter);
     }
 
-    int32_t bytesAddedToBuffer = _f_mgr->readFromFile(audiofile, InBuff.getWritePtr(), availableBytes);
-    if (bytesAddedToBuffer > 0)
+    if (_f_mgr->readFromFile(audiofile, InBuff.getWritePtr(), availableBytes))
     {
-        byteCounter += bytesAddedToBuffer; // Pull request #42
-        InBuff.bytesWritten(bytesAddedToBuffer);
+        byteCounter += availableBytes; // Pull request #42
+        InBuff.bytesWritten(availableBytes);
     }
 
     if (!f_stream)

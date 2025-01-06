@@ -18,7 +18,7 @@ namespace meow
 
         BmpHeader bmp_header;
 
-        size_t read = f_mgr.readFromFile(f, &bmp_header, BMP_HEADER_SIZE);
+        f_mgr.readFromFile(f, &bmp_header, BMP_HEADER_SIZE);
 
         if (!validateHeader(bmp_header))
         {
@@ -50,9 +50,7 @@ namespace meow
             return srcNotFound();
         }
 
-        size_t bytes_read = f_mgr.readFromFile(f, data, data_size, bmp_header.data_offset);
-
-        if (bytes_read != data_size)
+        if (!f_mgr.readFromFile(f, data, data_size, bmp_header.data_offset))
         {
             log_e("Помилка читання файлу: %s", path_to_bmp);
             free(data);
