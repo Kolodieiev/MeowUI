@@ -128,23 +128,6 @@ namespace meow
         return result;
     }
 
-    bool FileManager::createFile(const char *path)
-    {
-        String full_path;
-        makeFullPath(full_path, path);
-
-        FILE *f = fopen(full_path.c_str(), "w");
-
-        if (!f)
-        {
-            log_e("Помилка створення фалйу: %s", path);
-            return false;
-        }
-
-        fclose(f);
-        return true;
-    }
-
     size_t FileManager::readFile(char *out_buffer, const char *path, size_t len, int32_t seek_pos)
     {
         String full_path;
@@ -200,7 +183,7 @@ namespace meow
 
     size_t FileManager::writeFile(const char *path, const void *buffer, size_t len)
     {
-        if (!path || !buffer)
+        if (!path || !buffer || len == 0)
         {
             log_e("Bad arguments");
             return 0;
@@ -214,15 +197,6 @@ namespace meow
         if (!f)
         {
             log_e("Помилка відркиття файлу: %s", path);
-            return 0;
-        }
-
-        if (len == 0)
-            len = strlen((const char *)buffer);
-
-        if (len == 0)
-        {
-            fclose(f);
             return 0;
         }
 
@@ -288,7 +262,7 @@ namespace meow
         }
     }
 
-    bool FileManager::seekPos(FILE *&file, int32_t pos, uint8_t mode)
+    bool FileManager::seekPos(FILE *file, int32_t pos, uint8_t mode)
     {
         if (!file)
             return false;
@@ -301,7 +275,7 @@ namespace meow
         return true;
     }
 
-    size_t FileManager::getPos(FILE *&file)
+    size_t FileManager::getPos(FILE *file)
     {
         if (!file)
             return 0;
@@ -336,12 +310,8 @@ namespace meow
         else
             result = rmDir(full_path.c_str());
 
-        if (!result)
-            log_e("Помилка видалення:");
-        else
-            log_i("Файл успішно видалено:");
-
-        log_i("%s", full_path.c_str());
+        if (result)
+            log_i("Успішно видалено: %s", full_path.c_str());
 
         taskDone(result);
     }
@@ -365,12 +335,23 @@ namespace meow
         return result;
     }
 
-    bool FileManager::rmDir(const char *path)
+    bool FileManager::rmDir(const char *path, bool make_full)
     {
         bool result = false;
 
-        DIR *dir = opendir(path);
         dirent *dir_entry{nullptr};
+        DIR *dir;
+
+        if (make_full)
+        {
+            String full_path;
+            makeFullPath(full_path, path);
+            dir = opendir(full_path.c_str());
+        }
+        else
+        {
+            dir = opendir(path);
+        }
 
         if (!dir)
             goto exit;

@@ -19,7 +19,7 @@ namespace meow
         if (path.isEmpty())
             return false;
 
-        return writeFile(path.c_str(), value);
+        return writeFile(path.c_str(), value, strlen(value));
     }
 
     String SettingsManager::get(const char *pref_name)
