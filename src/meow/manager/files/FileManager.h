@@ -426,7 +426,7 @@ namespace meow
             INDX_MODE_ALL
         };
 
-        const uint32_t TASK_SIZE{(1024 / 2) * 40};
+        const uint32_t TASK_SIZE{(1024 / 2) * 30};
         //
         String _rm_path;
         //
