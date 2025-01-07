@@ -5,7 +5,7 @@
 #include "meowui_setup/context_id.h"
 
 // -------------------------------- Підключи нижче заголовкові файли екранів
-#include "context/splash/SplashScreen.h"
+#include "context/splash/SplashContext.h"
 #include "context/home/HomeContext.h"
 #include "context/menu/MenuContext.h"
 #include "context/games/GamesListContext.h"
@@ -15,7 +15,7 @@
 #include "context/preferences/PrefSelectContext.h"
 #include "context/preferences/PrefBrightContext.h"
 #include "context/preferences/PrefWatchContext.h"
-#include "context/preferences/PrefFileServerScreen.h"
+#include "context/preferences/PrefFileServerContext.h"
 #include "context/firmware/FirmwareContext.h"
 // #include "context/calc/CalcContext.h"
 // Ігрові екрани
@@ -25,47 +25,47 @@
 // -------------------------------- Стартова орієнтація екрану
 #define DISPLAY_ROTATION 3
 // -------------------------------- Додай перемикання екранів
-#define SCREEN_CASES                                          \
+#define SCREEN_CASES                                            \
     case ContextID::ID_CONTEXT_HOME:                            \
         context = new HomeContext(_display);                    \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_MENU:                            \
         context = new MenuContext(_display);                    \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_GAMES:                           \
         context = new GamesListContext(_display);               \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_MP3:                             \
         context = new Mp3Context(_display);                     \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_READER:                          \
         context = new ReaderContext(_display);                  \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_FILES:                           \
         context = new FilesContext(_display);                   \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_PREF_SEL:                        \
         context = new PrefSelectContext(_display);              \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_PREF_BRIGHT:                     \
         context = new PrefBrightContext(_display);              \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_PREF_FILE_SERVER:                \
-        context = new PrefFileServerScreen(_display);          \
-        break;                                                \
+        context = new PrefFileServerContext(_display);          \
+        break;                                                  \
     case ContextID::ID_CONTEXT_PREF_WATCH:                      \
         context = new PrefWatchContext(_display);               \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_FIRMWARE:                        \
         context = new FirmwareContext(_display);                \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_SOKOBAN:                         \
         context = new sokoban::SokobanContext(_display);        \
-        break;                                                \
+        break;                                                  \
     case ContextID::ID_CONTEXT_TEST_SERVER:                     \
         context = new test_server::TestServerContext(_display); \
         break;
 
 // -------------------------------- Стартовий екран
-#define START_CONTEXT SplashScreen
+#define START_CONTEXT SplashContext
 // #define START_CONTEXT test_server::TestServerContext
