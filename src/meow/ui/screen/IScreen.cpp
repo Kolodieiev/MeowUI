@@ -7,7 +7,7 @@ namespace meow
 {
     Input IScreen::_input;
 
-    void IScreen::tick()
+    void IScreen::_tick()
     {
         static unsigned long upd_time = 0;
 
@@ -33,8 +33,6 @@ namespace meow
             }
         }
     }
-
-#pragma region "don't touch this"
 
     IScreen::IScreen(GraphicsDriver &display) : _display{display}
     {
@@ -75,6 +73,4 @@ namespace meow
         _next_screen_ID = screen_ID;
         _is_released = true;
     }
-
-#pragma endregion "don't touch this"
 }
