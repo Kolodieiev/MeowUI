@@ -14,7 +14,7 @@ namespace meow
         _display.setRotation(DISPLAY_ROTATION);
         _display.init();
 
-        IContext *context = new START_SCREEN(_display);
+        IContext *context = new START_CONTEXT(_display);
 
         // Основний цикл GUI.
         while (1)

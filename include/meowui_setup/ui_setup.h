@@ -67,5 +67,5 @@
         break;
 
 // -------------------------------- Стартовий екран
-#define START_SCREEN SplashScreen
-// #define START_SCREEN test_server::TestServerContext
+#define START_CONTEXT SplashScreen
+// #define START_CONTEXT test_server::TestServerContext
