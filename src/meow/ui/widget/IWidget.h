@@ -86,7 +86,7 @@ namespace meow
          * @param  radius
          *         Значення скруглення кутів.
          */
-        void setCornerRadius(const uint8_t radius)
+        void setCornerRadius(uint8_t radius)
         {
             _corner_radius = radius;
             _is_changed = true;
@@ -99,7 +99,7 @@ namespace meow
          * @param  state
          *         Логічне значення стану.
          */
-        void setBorder(const bool state)
+        void setBorder(bool state)
         {
             _has_border = state;
             _is_changed = true;
@@ -140,7 +140,7 @@ namespace meow
          * @param  state
          *       Стан флагу.
          */
-        void setChangingBorder(const bool state)
+        void setChangingBorder(bool state)
         {
             _need_change_border = state;
             _is_changed = true;
@@ -152,7 +152,7 @@ namespace meow
          * @param  state
          *       Стан флагу.
          */
-        void setChangingBack(const bool state)
+        void setChangingBack(bool state)
         {
             _need_change_back = state;
             _is_changed = true;
