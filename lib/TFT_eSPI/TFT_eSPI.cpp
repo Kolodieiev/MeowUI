@@ -2553,20 +2553,19 @@ void TFT_eSPI::drawRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t
   inTransaction = true;
 
   // smarter version
-  drawFastHLine(x + r  , y    , w - r - r, color); // Top
-  drawFastHLine(x + r  , y + h - 1, w - r - r, color); // Bottom
-  drawFastVLine(x    , y + r  , h - r - r, color); // Left
-  drawFastVLine(x + w - 1, y + r  , h - r - r, color); // Right
+  drawFastHLine(x + r, y, w - r - r, color); // Top
+  drawFastHLine(x + r, y + h - 1, w - r - r, color); // Bottom
+  drawFastVLine(x, y + r, h - r - r + 1, color); // Left
+  drawFastVLine(x + w - 1, y + r, h - r - r + 1, color); // Right
   // draw four corners
-  drawCircleHelper(x + r    , y + r    , r, 1, color);
-  drawCircleHelper(x + w - r - 1, y + r    , r, 2, color);
-  drawCircleHelper(x + w - r - 1, y + h - r - 1, r, 4, color);
-  drawCircleHelper(x + r    , y + h - r - 1, r, 8, color);
+  drawCircleHelper(x + r, y + r, r + 1, 1, color);
+  drawCircleHelper(x + w - r - 1, y + r, r + 1, 2, color);
+  drawCircleHelper(x + w - r - 1, y + h - r - 1, r + 1, 4, color);
+  drawCircleHelper(x + r, y + h - r - 1, r + 1, 8, color);
 
   inTransaction = lockTransaction;
   end_tft_write();              // Does nothing if Sprite class uses this function
 }
-
 
 /***************************************************************************************
 ** Function name:           fillRoundRect
@@ -2583,7 +2582,7 @@ void TFT_eSPI::fillRoundRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t
 
   // draw four corners
   fillCircleHelper(x + r, y + h - r - 1, r, 1, w - r - r - 1, color);
-  fillCircleHelper(x + r    , y + r, r, 2, w - r - r - 1, color);
+  fillCircleHelper(x + r, y + r, r, 2, w - r - r - 1, color);
 
   inTransaction = lockTransaction;
   end_tft_write();              // Does nothing if Sprite class uses this function
