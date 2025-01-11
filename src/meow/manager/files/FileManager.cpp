@@ -456,6 +456,14 @@ namespace meow
         String new_n;
         makeFullPath(new_n, new_name);
 
+        if (new_n.length() >= old_n.length() &&
+            (new_n.c_str()[old_n.length()] == '/' || new_n.c_str()[old_n.length()] == '\0') &&
+            strncmp(old_n.c_str(), new_n.c_str(), old_n.length()) == 0)
+        {
+            log_e("Старе і нове ім'я збігаються або спроба переміщення каталогу до самого себе");
+            return false;
+        }
+
         return !::rename(old_n.c_str(), new_n.c_str());
     }
 
