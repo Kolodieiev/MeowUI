@@ -7,6 +7,7 @@
 #include "../../driver/input/Input.h"
 #include "../../driver/graphics/GraphicsDriver.h"
 #include "../widget/IWidgetContainer.h"
+#include "../widget/text/Label.h"
 
 namespace meow
 {
@@ -100,6 +101,15 @@ namespace meow
         void openContextByID(ContextID screen_ID);
 
         /**
+         * @brief Виводить коротке повідомлення-підказку в межах поточного контексту.
+         * Повідомлення буде автоматично видалене, після спливання вказаного часу або в разі припиннення існування контексту, в якому воно було створене.
+         *
+         * @param msg_txt Текст повідомлення.
+         * @param duration Тривалість відображення повідомлення.
+         */
+        void showToast(const char *msg_txt, unsigned long duration = 500);
+
+        /**
          * @brief Повертає х-координату, на якій віджет буде встановлено по центру відносно екрану.
          *
          * @param widget Вказівник на віджет.
@@ -124,6 +134,11 @@ namespace meow
         bool _is_released{false};
         ContextID _next_context_ID;
         //
+        bool _has_toast{false};
+        Label *_toast_label{nullptr};
+        unsigned long _toast_lifetime;
+        unsigned long _toast_birthtime;
+        void removeToast();
     };
 
 }
