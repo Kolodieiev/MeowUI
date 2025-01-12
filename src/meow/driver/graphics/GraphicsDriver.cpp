@@ -79,7 +79,7 @@ namespace meow
     }
 #endif
 
-    void GraphicsDriver::pushBuffer()
+    void GraphicsDriver::_pushBuffer()
     {
         if (_is_buffer_changed)
         {

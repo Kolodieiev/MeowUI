@@ -142,7 +142,7 @@ namespace meow
                 void takeScreenshot();
 #endif
                 // Не викликай цей метод самостійно
-                void pushBuffer();
+                void _pushBuffer();
 #else
                 //
                 //  RAM

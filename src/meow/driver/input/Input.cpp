@@ -26,14 +26,14 @@ namespace meow
 #endif // TOUCHSCREEN_SUPPORT
         }
 
-        void Input::update()
+        void Input::_update()
         {
 #ifdef TOUCHSCREEN_SUPPORT
                 _touchscreen->update();
 #endif
 
                 for (auto &&btn : _buttons)
-                        btn.second->update();
+                        btn.second->_update();
         }
 
         void Input::reset()

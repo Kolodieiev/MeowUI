@@ -48,7 +48,7 @@ namespace meow
         _rotation = rotation;
     }
 
-    void GT911::update()
+    void GT911::_update()
     {
         if (_is_locked)
         {

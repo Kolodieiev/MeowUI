@@ -25,7 +25,7 @@ namespace meow
         _lock_time = millis();
     }
 
-    void Pin::update()
+    void Pin::_update()
     {
         if (!_is_enabled)
             return;

@@ -17,7 +17,7 @@ namespace meow
         {
             upd_time = millis();
 
-            _input.update();
+            _input._update();
 
             update();
 
@@ -36,7 +36,7 @@ namespace meow
                 xSemaphoreGive(_layout_mutex);
 
 #ifdef DOUBLE_BUFFERRING
-                _display.pushBuffer();
+                _display._pushBuffer();
 #endif
             }
         }

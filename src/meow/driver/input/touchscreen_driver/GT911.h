@@ -147,7 +147,7 @@ namespace meow
         bool begin(uint8_t pin_sda, uint8_t pin_scl, uint8_t pin_int, uint8_t pin_rst, uint16_t width, uint16_t height, uint8_t addr = GT911_ADDR1);
         void stop();
         virtual void setRotation(uint8_t rotation);
-        virtual void update();
+        virtual void _update();
 
     private:
         uint8_t _addr;

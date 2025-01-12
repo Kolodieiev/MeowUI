@@ -10,7 +10,7 @@ namespace meow
         Pin(uint8_t pin, bool is_touch);
 
         void lock(unsigned long lock_duration);
-        void update();
+        void _update();
         void reset();
 
         uint8_t getID() const { return _pin_id; }

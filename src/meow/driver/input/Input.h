@@ -16,7 +16,7 @@ namespace meow
     public:
         Input();
         // Оновити стан вводу. Не потрібно викликати метод самостійно
-        void update();
+        void _update();
         // Скинути стан вводу
         void reset();
 
