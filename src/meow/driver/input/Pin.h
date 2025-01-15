@@ -7,6 +7,14 @@ namespace meow
     class Pin
     {
     public:
+        /**
+         * @brief Створює новий об'єкт віртуального піна.
+         * 
+         * @param pin Номер фізичного піна, до якого цей об'єкт буде прив'язано
+         * @param is_touch Вказує спосіб ініціалізації піна. 
+         * Якщо true - пін буде ініціалізовано як сенсорний датчик. 
+         * Якщо false - пін буде ініціалізовано як тактову кнопку.
+         */
         Pin(uint8_t pin, bool is_touch);
 
         void lock(unsigned long lock_duration);
