@@ -19,6 +19,7 @@
 
 // Лілка
 #define USE_HSPI_PORT
+//
 #define TFT_DC 15
 #define TFT_CS 7
 #define TFT_MOSI 17 // sda
