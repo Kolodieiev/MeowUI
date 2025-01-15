@@ -11,7 +11,6 @@ namespace meow
 
     void ContextManager::run()
     {
-        _display.setRotation(DISPLAY_ROTATION);
         _display.init();
 
         IContext *context = new START_CONTEXT(_display);

@@ -22,6 +22,8 @@ namespace meow
 
     void GraphicsDriver::init()
     {
+        _tft.setRotation(DISPLAY_ROTATION);
+
         _tft.init();
 
         if (!psramInit())
@@ -164,6 +166,7 @@ namespace meow
 
     void GraphicsDriver::init()
     {
+        _tft.setRotation(DISPLAY_ROTATION);
         _tft.init();
     }
 

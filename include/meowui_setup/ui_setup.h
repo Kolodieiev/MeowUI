@@ -22,8 +22,6 @@
 #include "context/games/sokoban/SokobanContext.h"
 #include "context/games/test_server/TestServerContext.h"
 
-// -------------------------------- Стартова орієнтація екрану
-#define DISPLAY_ROTATION 3
 // -------------------------------- Додай перемикання контексту за прикладом
 #define SCREEN_CASES                                            \
     case ContextID::ID_CONTEXT_HOME:                            \
