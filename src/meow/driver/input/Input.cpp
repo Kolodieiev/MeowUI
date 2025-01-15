@@ -46,7 +46,7 @@ namespace meow
                         btn.second->reset();
         }
 
-        void Input::printPinMode(KeyID key_id)
+        void Input::_printPinMode(KeyID key_id)
         {
                 if ((gpio_num_t)key_id >= GPIO_NUM_MAX)
                 {
