@@ -4,7 +4,7 @@
 #include "meow/driver/graphics/GraphicsDriver.h"
 #include "meowui_setup/context_id.h"
 
-// -------------------------------- Підключи нижче заголовкові файли екранів
+// -------------------------------- Підключи нижче заголовкові файли контекстів першого рівня
 #include "context/splash/SplashContext.h"
 #include "context/home/HomeContext.h"
 #include "context/menu/MenuContext.h"
@@ -24,7 +24,7 @@
 
 // -------------------------------- Стартова орієнтація екрану
 #define DISPLAY_ROTATION 3
-// -------------------------------- Додай перемикання екранів
+// -------------------------------- Додай перемикання контексту за прикладом
 #define SCREEN_CASES                                            \
     case ContextID::ID_CONTEXT_HOME:                            \
         context = new HomeContext(_display);                    \
@@ -66,6 +66,6 @@
         context = new test_server::TestServerContext(_display); \
         break;
 
-// -------------------------------- Стартовий екран
+// -------------------------------- Стартовий контекст
 #define START_CONTEXT SplashContext
 // #define START_CONTEXT test_server::TestServerContext
