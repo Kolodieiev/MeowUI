@@ -18,7 +18,7 @@
 #include "context/preferences/PrefFileServerContext.h"
 #include "context/firmware/FirmwareContext.h"
 // #include "context/calc/CalcContext.h"
-// Ігрові екрани
+// Ігрові контексти
 #include "context/games/sokoban/SokobanContext.h"
 #include "context/games/test_server/TestServerContext.h"
 
