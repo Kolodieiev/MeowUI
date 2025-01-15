@@ -128,7 +128,7 @@ namespace meow
     private:
         SemaphoreHandle_t _layout_mutex;
 
-        const uint8_t UI_UPDATE_DELAY = 25; // затримка між фреймами. 40FPS
+        const uint8_t UI_UPDATE_DELAY = 20; // затримка між фреймами
         IWidgetContainer *_layout;
         //
         bool _is_released{false};
