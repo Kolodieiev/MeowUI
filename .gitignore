@@ -10,6 +10,7 @@
 !src/
 !src/meow/
 !src/meow/**
+!src/main.cpp
 
 
 !lib/
