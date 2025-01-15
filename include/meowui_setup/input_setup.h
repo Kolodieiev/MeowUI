@@ -1,8 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-// -------------------------------- Увімкнути підтримку сенсорного екрану
-// #define TOUCHSCREEN_SUPPORT
+// #define TOUCHSCREEN_SUPPORT // Увімкнути підтримку сенсорного екрану
 
 #ifdef TOUCHSCREEN_SUPPORT
 #define TOUCH_ROTATION ROTATION_0
@@ -22,7 +21,7 @@
 
 #endif // TOUCHSCREEN_SUPPORT
 
-// -------------------------------- Закріплення назв кнопок до виводів МК
+// -------------------------------- Закріплення віртуальних назв кнопок до виводів МК
 
 namespace meow
 {
@@ -66,8 +65,7 @@ namespace meow
 #define KEY_TOUCH_TRESHOLD 65
 #endif
 
-// -------------------------------- Час, після спливання якого дія вважається утримуваною.
-#define PRESS_DURATION (unsigned long)1500
+#define PRESS_DURATION (unsigned long)1500 // Час, після спливання якого дія вважається утримуваною.
 
 #define PRESS_LOCK (unsigned long)700
 #define CLICK_LOCK (unsigned long)250
