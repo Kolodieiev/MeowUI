@@ -20,3 +20,6 @@
 !include/
 !include/meowui_setup/
 !include/meowui_setup/**
+
+!docs/
+!docs/**

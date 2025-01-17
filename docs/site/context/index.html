@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Контекст - Meowui Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041a\u043e\u043d\u0442\u0435\u043a\u0441\u0442";
+        var mkdocs_page_input_path = "context.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Meowui Docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">Про проєкт</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../features/">Можливості</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../setup/">Налаштування</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Контекст</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Як це працює</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../input/">Обробка вводу</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ui/">Макети UI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../game_engine/">Ігровий рушій</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../support/">Підтримка</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Meowui Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Контекст</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">Контекст</h1>
+<p>Уся логіка прошивки розміщується в спеціальних класах, які повинні наслідуватися від <em>IContext</em>. Ці класи називаються контекстом. Контекст можна уявляти окремим повноцінним модулем прошивки. Для розробника кожен такий модуль це <em>main.cpp</em> на максималках. Кожен контекст має свій власний набір змінних, свій setup, loop, а також update, в якому відбувається обробка вводу та формування кадру для виводу на дисплей. В кожен момент часу активним може бути тільки один модуль. Якщо потрібно виконувати паралельно декілька завдань, рекомендується використання задач FreeRTOS зі зворотніми викликами. Також можливм є використання псевдопаралелізму з мітками часу.</p>
+<h3 id="_2">Як це працює</h3>
+<p>Коли починає виконуватися програма прошивки, створюється <em>задача менеджера контекстів</em>. Його єдина функція це контроль та перемикання контекстів першого рівня. Модулі одного рівня не повинні знати про існування один одного, все що їм потрібно для перемикання це числовий ідентифікатор наступного контексту. Теоретично на одному рівні може одночасно знаходитися до 255 контекстів. Проте додавати всі модулі на один рівень не рекомендується. Краще за все буде об’єднання їх в умовні логічні групи. Це досягається за рахунок того, що кожен модуль може сам виступати менеджером контекстів. Проте тільки розробник вирішує на якому рівні повинен знаходитися кожен із модулів.  </p>
+<p>Розглянемо простий приклад. Маємо <em>контекст домашнього екрану</em>, <em>контекст головного меню</em> та <em>налаштувань</em>. Усі вони знаходяться на першому рівні й керуються менеджером контекстів. Кожен доступний тік, який було виділено UI-задачі, менеджер контекстів викликає тік у поточного активного модуля. Інших модулів на цьому ж рівні не існує фізично в цей момент.  </p>
+<p>Тепер, якщо потрібно додати декілька вікон в <em>налаштування</em>, наприклад, вікно з налаштуванням годинника, вікно з налаштуванням точки доступу, тощо, можна обрати один зі шляхів:  </p>
+<ul>
+<li>Додати перемикання шаблонів GUI та їх стану в середину контексту налаштувань (не рекомендується через заплутування логіки).</li>
+<li>Додати окремо контексти для кожної вкладки налаштувань, та помістити їх на перший рівень глибини (не бажано).</li>
+<li>Створити окремо контексти для кожної вкладки, та організувати їх перемикання в межах контексту головного вікна налаштувань.</li>
+</ul>
+<p>У третьому випадку відбуватиметься наступне:   </p>
+<ul>
+<li><em>Менеджер контекстів</em> викликає <em>tick</em> у головного вікна модуля <em>налаштувань</em>.  </li>
+<li>Поки користувач не натиснув вибір якогось певного пункту налаштувань, головний модуль <em>налаштувань</em> утримує контекст, оброблює натискання і тд.  </li>
+<li>Якщо користувач обирає певну вкладку налаштувань зі списку, головний <em>модуль налаштувань</em> повинен створити відповідний вкладений контекст і <em>передати</em> йому керування.  </li>
+<li>Тепер <em>менеджер контекстів</em> продовжує викликати <em>tick</em> у основного модуля налаштувань, а той віддає увесь свій час <em>одному із вкладених активних контекстів</em>, поки той не буде звільнено. </li>
+</ul>
+<p>Завдяки такому механізму може досягатися “нескінченна” вкладеність глибини контексту. </p>
+<div class="admonition note">
+<p class="admonition-title">Важливо</p>
+<p>Якщо у вас є модуль де використовується метод loop, тоді краще розмістити його на першому рівні. Це позбавить необхідності передавати виклик loop в глибину. </p>
+</div>
+<p>Зміна контексту відбувається дуже просто. Під час виклику спеціального методу, до нього передається числовий ідентифікатор модуля, який повинен бути створений наступним. Після цього поточний контекст підніме прапор, який означатиме, що його потрібно звільнити. Якщо контекст не відкриває інші модулі, достатньо просто підняти прапор, який сигналізує про завершення роботи поточного контексту. Далі все відбувається, як описано вище. Об’єкт, який керує поточним контекстом, прочитає цей прапор, видалить активний модуль і виконає інші дії в залежності від логіки програми.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../setup/" class="btn btn-neutral float-left" title="Налаштування"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../input/" class="btn btn-neutral float-right" title="Обробка вводу">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../setup/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../input/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
