@@ -29,15 +29,14 @@ namespace meow
 
     void WiFiScanner::getScanResult(std::vector<String> &out_vector) const
     {
-        std::vector<String> result_vec;
+        out_vector.clear();
+        
         int16_t scan_result = WiFi.scanComplete();
 
         for (uint16_t i = 0; i < scan_result; ++i)
-            result_vec.emplace_back(WiFi.SSID(i));
+            out_vector.emplace_back(WiFi.SSID(i));
 
         WiFi.scanDelete();
-
-        return result_vec;
     }
 
     void WiFiScanner::setOnDoneHandler(WiFiScanDoneHandler handler, void *args)
