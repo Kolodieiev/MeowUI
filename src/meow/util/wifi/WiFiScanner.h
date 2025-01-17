@@ -6,14 +6,34 @@
 
 namespace meow
 {
-    typedef std::function<void(void *)> WiFiScanDoneHandler;
+    typedef std::function<void(void * arg)> WiFiScanDoneHandler;
 
     class WiFiScanner
     {
     public:
         WiFiScanner();
+
+        /**
+         * @brief Налашттовує WiFi модуль та запускає сканування точок доступу.
+         *
+         * @return true - якщо сканування було запущено.
+         * @return false - якщо сканування не було запущено.
+         */
         bool startScan();
-        std::vector<String> getScanResult() const;
+
+        /**
+         * @brief Наповнює вектор іменами всіх виявлених точок доступу.
+         * Після формування вектора, результат сканування очищується.
+         *
+         */
+        void getScanResult(std::vector<String> &out_vector) const;
+
+        /**
+         * @brief Встановлює обробник події, який буде викликано після завершення сканування.
+         *
+         * @param handler Асинхронний обробник події завершення сканування.
+         * @param args Аргументи, що будуть передані обробнику.
+         */
         void setOnDoneHandler(WiFiScanDoneHandler handler, void *args);
 
     private:

@@ -26,10 +26,10 @@ bool meow::WiFiConnect::tryConnectTo(String ssid, String pwd, int32_t wifi_chan,
     return true;
 }
 
-void meow::WiFiConnect::setOnDoneHandler(WiFiConnectHandler handler, void *args)
+void meow::WiFiConnect::setOnDoneHandler(WiFiConnectHandler handler, void *arg)
 {
     _onConnectHandler = handler;
-    _onConnectHandlerArgs = args;
+    _onConnectHandlerArg = arg;
 }
 
 void meow::WiFiConnect::setWiFiPower(WiFiPowerLevel power_lvl)
@@ -65,7 +65,7 @@ void meow::WiFiConnect::callOnDoneHandler()
     else
     {
         log_i("WiFi.status: %d", WiFi.status());
-        _onConnectHandler(_onConnectHandlerArgs, WiFi.status());
+        _onConnectHandler(_onConnectHandlerArg, WiFi.status());
     }
 }
 
