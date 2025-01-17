@@ -28,9 +28,7 @@ namespace meow
         if (!_is_transparent)
             clear();
 
-        uint8_t img_width{0};
         uint8_t toggle_width{0};
-
         if (_toggle)
         {
             toggle_width = _toggle->getWidth() + ITEM_PADDING;
@@ -39,15 +37,19 @@ namespace meow
             _toggle->onDraw();
         }
 
+        uint8_t img_width{0};
         if (_ico)
         {
+            _ico->setParent(this);
             img_width = _ico->getWidth() + ITEM_PADDING;
             _ico->setPos(ITEM_PADDING, (_height - _ico->getHeight()) * 0.5);
 
-            if (_has_focus)
-                _ico->setFocus();
-            else
-                _ico->removeFocus();
+            uint16_t bk_color = _back_color;
+
+            if (_has_focus && _need_change_back)
+                _ico->setBackColor(_focus_back_color);
+
+            _ico->setBackColor(bk_color);
 
             _ico->onDraw();
         }
