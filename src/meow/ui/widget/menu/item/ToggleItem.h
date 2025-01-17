@@ -17,6 +17,12 @@ namespace meow
         virtual void onDraw() override;
         ToggleItem *clone(uint16_t id) const override;
 
+        /**
+         * @brief Закріпити ToggleSwitch за елементом списку. ToggleSwitch буде видалено автоматично разом з віджетом. 
+         * Для кожного елемента списку повинен використовуватися власний ToggleSwitch.
+         * 
+         * @param toggle Вказівник на ToggleSwitch.
+         */
         void setToggle(ToggleSwitch *toggle);
 
         void on();

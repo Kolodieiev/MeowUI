@@ -16,8 +16,20 @@ namespace meow
         virtual void onDraw() override;
         MenuItem *clone(uint16_t id) const override;
 
-        // Зображення не буде видалено автоматично.
+        /**
+         * @brief Закріпити Image за елементом списку. Зображення не буде видалено автоматично разом з віджетом. 
+         * Одне і те ж зображення може бути закріплене за різними елементами списку.
+         * 
+         * @param img Вказівник на Image.
+         */
         void setIco(Image *img);
+
+        /**
+         * @brief Закріпити Label за елементом списку. Label буде видалено автоматично разом з віджетом. 
+         * Для кожного елемента списку повинен використовуватися власний Label.
+         * 
+         * @param lbl Вказівник на Label.
+         */
         void setLbl(Label *lbl);
         Label *getLabel() const { return _label; }
         Image *getIco() const { return _ico; }
