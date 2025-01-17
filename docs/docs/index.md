@@ -1,7 +1,8 @@
 # Документація проєкту Meowui
 
-### Зміст
+[Код проєкту на GitHub](https://github.com/Kolodieiev/meowui)
 
+### Зміст
 * [Про проєкт](about.md)
 * [Можливості](features.md)
 * [Налаштування](setup.md)
