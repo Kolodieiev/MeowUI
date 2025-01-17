@@ -1,58 +1,62 @@
 #include "WiFiScanner.h"
 
-meow::WiFiScanner *meow::WiFiScanner::_instance;
-
-meow::WiFiScanner::WiFiScanner()
+namespace meow
 {
-    _instance = this;
-}
+    WiFiScanner *WiFiScanner::_instance;
 
-bool meow::WiFiScanner::startScan()
-{
-    WiFi.disconnect();
-    WiFi.mode(WIFI_STA);
-    delay(100);
-    WiFi.onEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
-
-    int16_t result_code = WiFi.scanNetworks(true);
-    if (result_code == WIFI_SCAN_FAILED)
+    WiFiScanner::WiFiScanner()
     {
-        log_e("Помилка запуску сканера Wi-Fi");
-        return false;
+        _instance = this;
     }
 
-    return true;
-}
+    bool WiFiScanner::startScan()
+    {
+        WiFi.disconnect();
+        WiFi.mode(WIFI_STA);
+        delay(100);
 
-std::vector<String> meow::WiFiScanner::getScanResult() const
-{
-    std::vector<String> result_vec;
-    int16_t scan_result = WiFi.scanComplete();
+        WiFi.onEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
 
-    for (uint16_t i = 0; i < scan_result; ++i)
-        result_vec.emplace_back(WiFi.SSID(i));
+        int16_t result_code = WiFi.scanNetworks(true);
+        if (result_code == WIFI_SCAN_FAILED)
+        {
+            log_e("Помилка запуску сканера Wi-Fi");
+            return false;
+        }
 
-    WiFi.scanDelete();
+        return true;
+    }
 
-    return result_vec;
-}
+    void WiFiScanner::getScanResult(std::vector<String> &out_vector) const
+    {
+        std::vector<String> result_vec;
+        int16_t scan_result = WiFi.scanComplete();
 
-void meow::WiFiScanner::setOnDoneHandler(WiFiScanDoneHandler handler, void *args)
-{
-    _onDoneHandler = handler;
-    _onDoneHandlerArgs = args;
-}
+        for (uint16_t i = 0; i < scan_result; ++i)
+            result_vec.emplace_back(WiFi.SSID(i));
 
-void meow::WiFiScanner::callOnDoneHandler()
-{
-    if (_onDoneHandler)
-        _onDoneHandler(_onDoneHandlerArgs);
-    else
         WiFi.scanDelete();
-}
 
-void meow::WiFiScanner::onEvent(WiFiEvent_t event)
-{
-    WiFi.removeEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
-    _instance->callOnDoneHandler();
+        return result_vec;
+    }
+
+    void WiFiScanner::setOnDoneHandler(WiFiScanDoneHandler handler, void *args)
+    {
+        _onDoneHandler = handler;
+        _onDoneHandlerArgs = args;
+    }
+
+    void WiFiScanner::callOnDoneHandler()
+    {
+        if (_onDoneHandler)
+            _onDoneHandler(_onDoneHandlerArgs);
+        else
+            WiFi.scanDelete();
+    }
+
+    void WiFiScanner::onEvent(WiFiEvent_t event)
+    {
+        WiFi.removeEvent(onEvent, ARDUINO_EVENT_WIFI_SCAN_DONE);
+        _instance->callOnDoneHandler();
+    }
 }
