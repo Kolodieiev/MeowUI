@@ -6,9 +6,17 @@ namespace meow
     class IdGen
     {
     public:
-        // Повертає унікальний ID в межах лічильника
+        /**
+         * @brief Повертає унікальний ID в межах лічильника.
+         *
+         * @return uint32_t
+         */
         static uint32_t genID() { return ++_curr_id; }
-        // Скидає лічильник ID
+
+        /**
+         * @brief Скидає лічильник ID.
+         *
+         */
         static void reset() { _curr_id = 0; }
 
     private:

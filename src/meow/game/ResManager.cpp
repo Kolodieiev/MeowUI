@@ -19,7 +19,7 @@ namespace meow
         }
     }
 
-    void ResManager::loadWavs(std::unordered_map<uint16_t, const char *> audio_descr)
+    void ResManager::loadWavs(std::unordered_map<uint16_t, const char *> &audio_descr)
     {
         WavUtil util;
         for (auto it = audio_descr.begin(), last_it = audio_descr.end(); it != last_it; ++it)
@@ -28,7 +28,7 @@ namespace meow
             {
                 if (_wav_data.at(it->first)) // запобігання оптимізації коду
                 {
-                    log_e("ID дублюється: %i", it->first);
+                    log_e("ID дублюється: %u", it->first);
                     continue;
                 }
             }
@@ -68,7 +68,7 @@ namespace meow
         }
         catch (std::out_of_range)
         {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
+            log_e("Спроба звернутися до неіснуючого ключа: %u", id);
         }
     }
 
@@ -80,13 +80,13 @@ namespace meow
         }
         catch (std::out_of_range)
         {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
+            log_e("Спроба звернутися до неіснуючого ключа: %u", id);
             return nullptr;
         }
     }
     //-----------------------------------------------------------------------------------
 
-    void ResManager::loadBmps(std::unordered_map<uint16_t, const char *> bmp_descr)
+    void ResManager::loadBmps(std::unordered_map<uint16_t, const char *> &bmp_descr)
     {
         BmpUtil util;
         for (auto it = bmp_descr.begin(), last_it = bmp_descr.end(); it != last_it; ++it)
@@ -95,7 +95,7 @@ namespace meow
             {
                 if (_bmp_data.at(it->first))
                 {
-                    log_e("ID дублюється: %i", it->first);
+                    log_e("ID дублюється: %u", it->first);
                     continue;
                 }
             }
@@ -136,7 +136,7 @@ namespace meow
         }
         catch (std::out_of_range)
         {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
+            log_e("Спроба звернутися до неіснуючого ключа: %u", id);
         }
     }
 
@@ -148,7 +148,7 @@ namespace meow
         }
         catch (std::out_of_range)
         {
-            log_e("Спроба звернутися до неіснуючого ключа: %i", id);
+            log_e("Спроба звернутися до неіснуючого ключа: %u", id);
             return nullptr;
         }
     }

@@ -5,7 +5,6 @@
 
 namespace meow
 {
-
     class IGameNotification
     {
     public:
@@ -39,5 +38,4 @@ namespace meow
         GraphicsDriver &_display;
         Notification *_notification{nullptr};
     };
-
 }

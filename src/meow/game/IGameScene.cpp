@@ -6,7 +6,7 @@ namespace meow
 {
     IGameScene::IGameScene(GraphicsDriver &display, Input &input, DataStream &stored_objs) : _display{display},
                                                                                              _input{input},
-                                                                                             _game_map{GameMap(display)},
+                                                                                             _terrain{TerrainManager(display)},
                                                                                              _stored_objs{stored_objs}
     {
         _obj_mutex = xSemaphoreCreateMutex();
@@ -37,8 +37,8 @@ namespace meow
 
         takeLock();
 
-        _game_map.setCameraPos(_main_obj->_x_global, _main_obj->_y_global);
-        _game_map.onDraw();
+        _terrain.setCameraPos(_main_obj->_x_global, _main_obj->_y_global);
+        _terrain.onDraw();
 
         std::list<IGameObject *> view_obj;
         IGameObject *obj;
@@ -57,31 +57,28 @@ namespace meow
                     onTrigger(obj->getTriggerID());
                 }
 
-                if (_game_map.isInView(obj->_x_global, obj->_y_global, obj->_sprite.width, obj->_sprite.height))
+                if (_terrain.isInView(obj->_x_global, obj->_y_global, obj->_sprite.width, obj->_sprite.height))
                 {
                     if (obj != _main_obj)
                     {
-                        obj->_x_local = obj->_x_global - _game_map._view_x;
-                        obj->_y_local = obj->_y_global - _game_map._view_y;
+                        obj->_x_local = obj->_x_global - _terrain.getViewX();
+                        obj->_y_local = obj->_y_global - _terrain.getViewY();
                     }
                     else
                     {
-                        uint16_t half_view_w = (float)_game_map.VIEW_W * 0.5;
-                        uint16_t half_view_h = (float)_game_map.VIEW_H * 0.5;
-
-                        if (_main_obj->_x_global < half_view_w)
+                        if (_main_obj->_x_global < _terrain.HALF_VIEW_W)
                             _main_obj->_x_local = _main_obj->_x_global;
-                        else if (_main_obj->_x_global < _game_map._map_w - half_view_w)
-                            _main_obj->_x_local = half_view_w;
+                        else if (_main_obj->_x_global < _terrain.getWidth() - _terrain.HALF_VIEW_W)
+                            _main_obj->_x_local = _terrain.HALF_VIEW_W;
                         else
-                            _main_obj->_x_local = _game_map.VIEW_W + _main_obj->_x_global - _game_map._map_w;
+                            _main_obj->_x_local = _terrain.VIEW_W + _main_obj->_x_global - _terrain.getWidth();
 
-                        if (_main_obj->_y_global < half_view_h)
+                        if (_main_obj->_y_global < _terrain.HALF_VIEW_H)
                             _main_obj->_y_local = _main_obj->_y_global;
-                        else if (_main_obj->_y_global < _game_map._map_h - half_view_h)
-                            _main_obj->_y_local = half_view_h;
+                        else if (_main_obj->_y_global < _terrain.getHeight() - _terrain.HALF_VIEW_H)
+                            _main_obj->_y_local = _terrain.HALF_VIEW_H;
                         else
-                            _main_obj->_y_local = _game_map.VIEW_H + _main_obj->_y_global - _game_map._map_h;
+                            _main_obj->_y_local = _terrain.VIEW_H + _main_obj->_y_global - _terrain.getHeight();
                     }
                     view_obj.push_back(obj);
                 }

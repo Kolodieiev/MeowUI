@@ -7,13 +7,13 @@ namespace meow
   IGameObject::IGameObject(GraphicsDriver &display,
                            ResManager &res,
                            WavManager &audio,
-                           GameMap &game_map,
+                           TerrainManager &terrain,
                            std::unordered_map<uint32_t, IGameObject *> &game_objs)
       : _display{display},
-        _res{res},
+        _res_manager{res},
         _audio{audio},
         _obj_sprite{TFT_eSprite(display.getTFT())},
-        _game_map{game_map},
+        _terrain{terrain},
         _game_objs{game_objs}
   {
     _obj_sprite.setSwapBytes(true);
@@ -46,7 +46,7 @@ namespace meow
   {
     if (_sprite.has_animation)
     {
-      _obj_sprite.pushImage(0, 0, _sprite.width, _sprite.height, _sprite.cur_anim->at(_sprite.anim_pos));
+      _obj_sprite.pushImage(0, 0, _sprite.width, _sprite.height, _sprite.animation_vec->at(_sprite.anim_pos));
 
       if (_sprite.angle == 0)
         _display.pushSprite(_obj_sprite, _x_local, _y_local, _sprite.transp_color);
@@ -61,7 +61,7 @@ namespace meow
       {
         _sprite.anim_pos_counter = 0;
         ++_sprite.anim_pos;
-        if (_sprite.anim_pos == _sprite.cur_anim->size())
+        if (_sprite.anim_pos == _sprite.animation_vec->size())
           _sprite.anim_pos = 0;
       }
     }
@@ -219,9 +219,9 @@ namespace meow
 
   bool IGameObject::hasCollisionWithRect(uint16_t x_start, uint16_t y_start, uint16_t width, uint16_t height)
   {
-    if (_x_global + _body.ofst_w > x_start + width ||
-        x_start > _x_global + _sprite.width - 1 - _body.ofst_w ||
-        _y_global + _body.ofst_h > y_start + height ||
+    if (_x_global + _sprite.ofst_w > x_start + width ||
+        x_start > _x_global + _sprite.width - 1 - _sprite.ofst_w ||
+        _y_global + _sprite.ofst_h > y_start + height ||
         y_start > _y_global + _sprite.height - 1)
       return false;
 
@@ -232,8 +232,8 @@ namespace meow
   {
     ++x;
     ++y;
-    return (x > _x_global + _body.ofst_w && x < _x_global + _sprite.width - _body.ofst_w) &&
-           (y > _y_global + _body.ofst_h && y < _y_global + _sprite.height);
+    return (x > _x_global + _sprite.ofst_w && x < _x_global + _sprite.width - _sprite.ofst_w) &&
+           (y > _y_global + _sprite.ofst_h && y < _y_global + _sprite.height);
   }
 
   bool IGameObject::hasIntersectWithBody(uint16_t x, uint16_t y, MovingDirection direction)
@@ -243,32 +243,32 @@ namespace meow
     {
       obj = it->second;
 
-      if (obj != this && obj->_body.is_rigid)
+      if (obj != this && obj->_sprite.is_rigid)
       {
         if (direction == DIRECTION_UP)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) ||                  // верхній лівий
-              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _body.ofst_h) // верхній правий
+          if (obj->hasIntersectWithPoint(x + _sprite.ofst_w, y + _sprite.ofst_h) ||                  // верхній лівий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _sprite.ofst_w, y + _sprite.ofst_h) // верхній правий
           )
             return true;
         }
         else if (direction == DIRECTION_DOWN)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height - 1) ||                  // нижній лівий
-              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _sprite.height - 1) // нижній правий
+          if (obj->hasIntersectWithPoint(x + _sprite.ofst_w, y + _sprite.height - 1) ||                  // нижній лівий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _sprite.ofst_w, y + _sprite.height - 1) // нижній правий
           )
             return true;
         }
         else if (direction == DIRECTION_LEFT)
         {
-          if (obj->hasIntersectWithPoint(x + _body.ofst_w, y + _body.ofst_h) ||     // верхній лівий
-              obj->hasIntersectWithPoint(x + _body.ofst_w, y + _sprite.height - 1)) // нижній лівий
+          if (obj->hasIntersectWithPoint(x + _sprite.ofst_w, y + _sprite.ofst_h) ||     // верхній лівий
+              obj->hasIntersectWithPoint(x + _sprite.ofst_w, y + _sprite.height - 1)) // нижній лівий
             return true;
         }
         else // RIGHT
         {
-          if (obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _body.ofst_h) ||    // верхній правий
-              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _body.ofst_w, y + _sprite.height - 1) // нижній правий
+          if (obj->hasIntersectWithPoint(x + _sprite.width - 1 - _sprite.ofst_w, y + _sprite.ofst_h) ||    // верхній правий
+              obj->hasIntersectWithPoint(x + _sprite.width - 1 - _sprite.ofst_w, y + _sprite.height - 1) // нижній правий
           )
             return true;
         }
