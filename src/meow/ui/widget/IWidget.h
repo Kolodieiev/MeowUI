@@ -254,7 +254,8 @@ namespace meow
         Visibility _visibility{VISIBLE};
         //
         bool _has_focus{false};
-        bool _old_border_state;
+        bool _old_border_state{false};
+        bool _need_clear_border{false};
 
         bool _need_change_border{false};
         bool _need_change_back{false};
@@ -271,12 +272,12 @@ namespace meow
         /*!
          * @brief  Залити місце розташування віджета фоновим кольором.
          */
-        void clear() const;
+        void clear();
 
         /*!
          * @brief  Приховати елемент. Працює, якщо віджет має батьківський контейнер.
          */
-        void hide() const;
+        void hide();
     };
 
 }

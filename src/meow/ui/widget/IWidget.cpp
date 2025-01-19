@@ -14,7 +14,7 @@ namespace meow
         onDraw();
     }
 
-    void IWidget::clear() const
+    void IWidget::clear()
     {
         uint16_t x_offset{0};
         uint16_t y_offset{0};
@@ -25,21 +25,30 @@ namespace meow
             y_offset = _parent->getYPos();
         }
 
-        if (!_corner_radius)
+        if (_corner_radius == 0)
+        {
             _display.fillRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _back_color);
+
+            if (_has_border)
+                _display.drawRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _border_color);
+        }
         else
+        {
             _display.fillRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, _back_color);
 
-        if (_has_border)
-        {
-            if (!_corner_radius)
-                _display.drawRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _border_color);
-            else
+            if (_has_border)
+            {
                 _display.drawRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, _border_color);
+            }
+            else if (_need_clear_border)
+            {
+                _need_clear_border = false;
+                _display.drawRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, _back_color);
+            }
         }
     }
 
-    void IWidget::hide() const
+    void IWidget::hide()
     {
         uint16_t back_color{0};
         uint16_t x_offset{0};
@@ -52,10 +61,17 @@ namespace meow
             back_color = _parent->getBackColor();
         }
 
-        if (!_corner_radius)
+        if (_corner_radius == 0)
             _display.fillRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, back_color);
         else
+        {
+            if (_has_border || _need_clear_border)
+            {
+                _need_clear_border = false;
+                _display.drawRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, back_color);
+            }
             _display.fillRoundRect(_x_pos + x_offset, _y_pos + y_offset, _width, _height, _corner_radius, back_color);
+        }
     }
 
     uint16_t IWidget::getXPos() const
@@ -108,6 +124,7 @@ namespace meow
 
         if (_need_change_border)
         {
+            _need_clear_border = _has_border;
             _has_border = _old_border_state;
             _border_color = _old_border_color;
         }
